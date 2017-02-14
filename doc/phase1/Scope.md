@@ -1,11 +1,14 @@
 # Top Of The  Heap
+
 ### Members: 
 Alex Yan, Atheed Thameem, Gabrielle Singh Cadieux, Janarthanan Manoharan, Sajid Ahmed, and Siddarth Gautam,  
+
 # Scope
 
 ## Applicant Side
   1. Identify self by logging in with uTORID
-  2. Apply for TA postions: Applicant fills out job application listing their personal information and UofT details:
+  2. Apply for TA postions: Applicant fills out job application listing their personal information
+    and UofT details:
         - Personal Information
             - Family Name
             - Given Name(s)
@@ -28,9 +31,10 @@ Alex Yan, Atheed Thameem, Gabrielle Singh Cadieux, Janarthanan Manoharan, Sajid 
         - This will set the date of application
   6. For the courses chosen, the applicant can choose a preference for each course by rating them from 1 to 5 
 
+
 ## TA Coordinator Side
   1. Call an API (Rosi) for courses for term
-  2. Enter ?additional? requirements and qualifications for each course  [PREPOPULATED]
+  2. Enter 'additional' requirements and qualifications for each course  [PREPOPULATED]
   3. Enter instructor assignment  [WILL BE PREPOPULATED]
   4. Assign set of applicants to course
   5. Enter instructors requests, anti-requests

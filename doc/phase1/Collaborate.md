@@ -1,6 +1,6 @@
 # Competencies and Constraints
 
-Our team has a decent set of skills and experience in application development. Most of us are competent in using latest frameworks and tools, and have worked in web development projects in the past using technologies such NodeJS, React, Express, and Mongo, amongst many others.
+Our team has a decent set of skills and experiences in application development. Most of us are competent in using latest frameworks and tools, and have worked in web development projects in the past using technologies such NodeJS, React, Express, and Mongo, amongst many others.
 
 So far, we have not faced any particular constraints in terms of technical knowledge or scheduling conflicts, and we believe that the combined skills set of our team is fairly balanced.
 
@@ -8,7 +8,7 @@ So far, we have not faced any particular constraints in terms of technical knowl
 
 __Atheed Thameem:__ React, Node, Express, Postgres  
 __Gabrielle Singh Cadieux:__ ??  
-__Guohao Yan:__ ??  
+__Guohao Yan:__ AngularJS, NodeJS, MySQL   
 __Janarthanan Manoharan:__ React, NodeJS, Materialize  
 __Sajid Ahmed:__ NodeJS, Express, jQuery, SQL  
 __Siddarth Gautam:__  NodeJS, AngularJS, MongoDB, Express

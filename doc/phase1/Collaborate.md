@@ -7,7 +7,7 @@ So far, we have not faced any particular constraints in terms of technical knowl
 ## Strengths and Expertise of Individual Members
 
 __Atheed Thameem:__ React, Node, Express, Postgres  
-__Gabrielle Singh Cadieux:__ ??  
+__Gabrielle Singh Cadieux:__ NodeJS, MongoDB  
 __Guohao Yan:__ AngularJS, NodeJS, MySQL   
 __Janarthanan Manoharan:__ React, NodeJS, Materialize  
 __Sajid Ahmed:__ NodeJS, Express, jQuery, SQL  
@@ -34,7 +34,7 @@ __Siddarth Gautam:__  NodeJS, AngularJS, MongoDB, Express
   __Location__: On campus  
   __Attendees__: Everyone  
   __Agenda__: Identify and finalize the set of web APIs that need to be implemented to support our use cases.  
-  __Meeting Notes__: [TODO]()  
+  __Meeting Notes__: [Web APIs doc](https://docs.google.com/document/d/18_IBXyZ6luHr2UgZDC7jzF7PYpHr_ec7PbItAT06CB0/edit)  
   
   
 Our experience meeting so far has been very good. We plan to continue meeting in-person and on a weekly basis. Moreover, as we move forward into the later stages of our project, we may decide to meet more frequenly, if needed.
@@ -55,8 +55,6 @@ We have created two smaller groups within our team, one of which will be focusin
 Tasks will be defined as granuarly as possible. However, what is considered to be "granular", will depend on the nature of the job. For instance, we might be articulating the implementation of a relatively complex API as a set of sub-tasks, while the more straight-forward ones might be listed as individual entries.
 
 Individuals within each group will be assigned to tasks based on their preference, expertise, and their contributions to the team thus far. A task will be regarded as completed only when it has been tested and verified as per our guidlines defined in [Test.md](Test.md).
-
-_Question: CI PERSON? TDD PERSON? REPO MAN? NEEDED??_
 
 ## Source Control Workflow
 Each of our front and back-end teams will be working on their individual forks for day-to-day development work. Moreover, depending on the magnitude of parallel development, teams may choose to create new branches within each fork for working on separate features.

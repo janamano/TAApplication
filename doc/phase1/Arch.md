@@ -1,7 +1,7 @@
 # Top Of The  Heap
 
 ### Members: 
-Alex Yan, Atheed Thameem, Gabrielle Singh Cadieux, Janarthanan Manoharan, Sajid Ahmed, and Siddarth Gautam
+Alex Yan, Atheed Thameem, Gabrielle Singh Cadieux, Janarthanan Manoharan, Sajid Ahmed, and Siddharth Gautam
 
 # Architecture
 

@@ -1,0 +1,62 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: TA Assignment System API
+  description: APIs supporting the Applicant and the TA Coordinator applications.
+  version: "1.0.0"
+# array of all schemes that our API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /openings:
+    get:
+      summary: List of all Openings
+      description: |
+        The Openings endpoint returns a list of all courses along with their descriptions and the number of available positions in each course.
+      tags:
+        - Openings
+      responses:
+        200:
+          description: An array of course info, including the number of available positions in each course.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Course'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Course:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Course code. (ex. CSC108)
+      description:
+        type: string
+        description: Description of tasks
+      requirements:
+        type: string
+        description: Eligibility requirements for TAing this course
+      add_requirements:
+        type: string
+        description: Addtional requirements (i.e. nice-to-haves)
+      num_positions:
+        type: integer
+        description: Number of available positions
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

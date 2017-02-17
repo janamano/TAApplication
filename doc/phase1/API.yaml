@@ -121,7 +121,38 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
+            
+  /{applicant-id}/declineFlag:
+    parameters:
+      - name: applicant-id
+        in: path
+        description: Applicant ID
+        type: integer
+        required: true
+    get:
+      description: |
+        The Decline Flag endpoint returns a boolean to indicate whether or not the applicant
+        with applicant-id has declined an offer
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: boolean
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Set/Unset the flag for the applicant with applicant-id
+      responses:
+        200:
+          description: OK
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Course:
     type: object
@@ -185,12 +216,18 @@ definitions:
     type: object
     description: A person applied to TAship
     properties:
+      aid:
+        description: unique id for the applicant
+        type: integer
       assignment:
         description: An array of Position id
         type: array
         items:
           type: integer
           description: The unique pid corresponds to a Position
+      declineFlag:
+        type: boolean
+        description: True iff applicant has declined an offer before
         
   Position:
     type: object

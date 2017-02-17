@@ -31,6 +31,22 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /unassigned/positions:
+    get:
+      summary: Unassigned TA posiitions
+      description: |
+        The Unassigned Positions endpoint returns a list of all positions that doesn't have an assignee yet.
+      responses:
+        200:
+          description: An array of Positions, each has descriptions about its belonging course.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Position'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Course:
     type: object
@@ -50,6 +66,38 @@ definitions:
       num_positions:
         type: integer
         description: Number of available positions
+      positions:
+        description: An array of Position id
+        type: array
+        items:
+          type: integer
+          description: The unique pid corresponds to a Position
+     
+  Applicant:
+    type: object
+    description: A person applied to TAship
+    properties:
+      assignment:
+        description: An array of Position id
+        type: array
+        items:
+          type: integer
+          description: The unique pid corresponds to a Position
+        
+  Position:
+    type: object
+    properties:
+      pid:
+        type: integer
+        description: The unique Position id for this Position.
+      occupied:
+        type: boolean
+        description: True iff this position has an ansignee.
+      course:
+        $ref: "#/definitions/Course"
+      assignee: 
+        $ref: '#/definitions/Applicant'
+
   Error:
     type: object
     properties:

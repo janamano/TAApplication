@@ -41,4 +41,9 @@ Primarily, this will allow us to perform some minimal testing by shallow
 rendering. 
 
 ### Continuous Integration
-*TODO*
+For continuous integration and delivery, we plan to use [Travis CI]
+(https://travis-ci.org/), one of the most widely-used and streamlined 
+CI systems. It has a robust free tier and can be tightly integrated with
+GitHub, making it an ideal solution. Using Travis, we will be able to minimise
+the overhead of testing and adding new code to the codebase, while maximising
+the stability of the project.

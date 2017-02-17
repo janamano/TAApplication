@@ -31,6 +31,80 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /profile:
+    get:
+      summary: Applicant Profile
+      description: |
+        Returns a the profile of a given applicant.
+      parameters:
+        - name: applicant_id
+          in: query
+          description: Applicant ID
+          required: true
+          type: number
+          format: integer
+      tags:
+        - Profile
+      responses:
+        200:
+          description: An Applicant object.
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /profile/update:
+    post:
+      summary: Update Applicant Profile
+      description: |
+        Updates the profile of a given applicant.
+      parameters:
+        - name: profile
+          in: body
+          description: Applicant Profile
+          required: true
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+      tags:
+        - Upate
+      responses:
+        200:
+          description: Profile successfully updated
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /profile/submit:
+    post:
+      summary: Update Applicant Profile
+      description: |
+        Submit application
+      parameters:
+        - name: profile
+          in: body
+          description: Applicant Profile
+          required: true
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+      tags:
+        - Submit
+      responses:
+        200:
+          description: Application successfully submitted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
   /unassigned/positions:
     get:
       summary: Unassigned TA posiitions
@@ -43,6 +117,38 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Position'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /{applicant-id}/declineFlag:
+    parameters:
+      - name: applicant-id
+        in: path
+        description: Applicant ID
+        type: integer
+        required: true
+    get:
+      description: |
+        The Decline Flag endpoint returns a boolean to indicate whether or not the applicant
+        with applicant-id has declined an offer
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: boolean
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Set/Unset the flag for the applicant with applicant-id
+      responses:
+        200:
+          description: OK
         default:
           description: Unexpected error
           schema:
@@ -72,17 +178,56 @@ definitions:
         items:
           type: integer
           description: The unique pid corresponds to a Position
+          
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Applicant ID
+      first_name:
+        type: string
+        description: First name of the applicant
+      last_name:
+        type: string
+        description: Last name of the applicant
+      courses_taed_before:
+        type: array
+        items:
+          type: string
+        description: Array of course codes of the courses the applicant has TAed before
+      preferences:
+        type: array
+        items:
+          $ref: '#/definitions/Preferences'
+        description: yoyo
+      summary:
+        type: string
+        description: Short bio of applicant.
+        
+  Preferences:
+    type: object
+    properties:
+      ^CSC[0-9]{3}$:
+        type: integer
+        description: Applicant's preference to TA the given course
      
   Applicant:
     type: object
     description: A person applied to TAship
     properties:
+      aid:
+        description: unique id for the applicant
+        type: integer
       assignment:
         description: An array of Position id
         type: array
         items:
           type: integer
           description: The unique pid corresponds to a Position
+      declineFlag:
+        type: boolean
+        description: True iff applicant has declined an offer before
         
   Position:
     type: object

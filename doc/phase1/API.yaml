@@ -105,6 +105,50 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /applicant/assign:
+    post:
+      summary: Assign Applicant
+      description: Assign the given applicant to the given course.
+      parameters:
+        - name: assignments
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+      tags:
+        - Assign
+      responses:
+        200:
+          description: Applicant(s) successfully assigned.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /applicant/unassign:
+    post:
+      summary: Unassign Applicant
+      description: Assign the given applicant to the given course.
+      parameters:
+        - name: unassignments
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+      tags:
+        - Unassign
+      responses:
+        200:
+          description: Applicant(s) successfully unassigned.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
   /unassigned/positions:
     get:
       summary: Unassigned TA posiitions
@@ -211,6 +255,19 @@ definitions:
       ^CSC[0-9]{3}$:
         type: integer
         description: Applicant's preference to TA the given course
+
+  Assignment:
+    type: object
+    description: Key-value mapping of applicant id to course codes
+    properties:
+      applicant_id:
+        description: Applicant ID
+        type: integer
+      assignments:
+        type: array
+        items:
+          type: string
+          description: Course code of the courses the given applicant has been assigned to
      
   Applicant:
     type: object

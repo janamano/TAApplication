@@ -1,0 +1,20 @@
+Precedure for testing DB
+
+Open a terminal and navigate to services directory
+
+npm install mongoose
+
+Run mongod(on a seperate terminal)
+
+Node test.js
+
+mongo
+
+show dbs
+
+use serverDB
+
+db.applicants.find()  
+
+You should see the test applicant
+

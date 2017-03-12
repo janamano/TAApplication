@@ -9,18 +9,11 @@ export default class App extends Component {
     }
  
     render() {
-        /*
         return (
             <div>
-                <Nav />
+                <Nav heading="TA Application System"/>
                 <Login />
             </div>
         );
-        */
-        return (
-            <div>
-                <Profile />
-            </div>
-        )
     }
 }

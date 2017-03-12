@@ -8,7 +8,11 @@ export default class Nav extends Component {
     
     render() {
         return (
-            <Navbar brand='TA Applicant System' right></Navbar>
+            <Navbar brand={this.props.heading} right></Navbar>
         );
     }
 }
+
+Nav.propTypes = {
+    heading: React.PropTypes.string
+};

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem } from 'react-materialize';
 
-
-class Nav extends Component {
+export default class Nav extends Component {
     constructor() {
         super();
     }
@@ -13,5 +12,3 @@ class Nav extends Component {
         );
     }
 }
-
-export default Nav;

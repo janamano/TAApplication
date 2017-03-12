@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import Login from './Login';
+import Nav from './Nav';
 
 class App extends Component {
     constructor() {
@@ -9,10 +10,12 @@ class App extends Component {
     render() {
         return (
             <div>
-                Placeholder
+                <Nav />
+                <Login />
             </div>
         );
     }
 }
+
 
 export default App;

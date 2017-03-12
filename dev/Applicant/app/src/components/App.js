@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Login from './Login';
 import Nav from './Nav';
+import Profile from './Profile';
 
-class App extends Component {
+export default class App extends Component {
     constructor() {
         super();
     }
@@ -10,12 +11,9 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Nav />
+                <Nav heading="TA Application System"/>
                 <Login />
             </div>
         );
     }
 }
-
-
-export default App;

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
 
-
-class Login extends Component {
+export default class Login extends Component {
     constructor() {
         super();
     }
@@ -19,5 +18,3 @@ class Login extends Component {
 
     }
 }
-
-export default Login;

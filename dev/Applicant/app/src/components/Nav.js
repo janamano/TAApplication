@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Navbar, NavItem } from 'react-materialize';
 
-
-class Nav extends Component {
+export default class Nav extends Component {
     constructor() {
         super();
     }
     
     render() {
         return (
-            <Navbar brand='TA Applicant System' right></Navbar>
+            <Navbar brand={this.props.heading} right></Navbar>
         );
     }
 }
 
-export default Nav;
+Nav.propTypes = {
+    heading: React.PropTypes.string
+};

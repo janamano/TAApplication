@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Navbar, NavItem } from 'react-materialize';
 
 export default class Nav extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
     }
     
     render() {

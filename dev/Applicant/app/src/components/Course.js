@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
+import CourseInfo from './CourseInfo';
 
 export default class Course extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ export default class Course extends Component {
     componentDidMount() {
         var t = this;
         /* 
-        TODO: once courses API is built, implement this  fetch() 
+        TODO: once courses API is built, implement this fetch() 
 
         fetch('/all-courses', { method: 'GET' })
             .then(json)
@@ -85,11 +86,18 @@ export default class Course extends Component {
         
         return (
             <div className="course">
-                {hide} {'  '}
-                {this.props.code}
-                {cart}
+                {courseHeader}
+                { this.state.expanded ? <CourseInfo code={code}/>: null }
                 <br/>
             </div>
         );
     }
 }
+
+Course.propTypes = {
+    code: React.PropTypes.string,           // course code
+    title: React.PropTypes.string,          // title (in words) of the course
+    addToCart: React.PropTypes.func,        // function to add course (in parent component) for saving info
+    removeFromCart: React.PropTypes.func,   // function to remove course (in parent component) for saving info
+    inCart: React.PropTypes.bool            // boolean representing if this course is already in the cart
+};

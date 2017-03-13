@@ -17,17 +17,20 @@ export default class CourseSelection extends Component {
     }
 
     addToCart(course) {
-        console.log("Add " + course);
+        coursesinCart.push(course)
     }
 
     removeFromCart(course) {
-        console.log("Remove " + course);
+        var delIdx = coursesinCart.indexOf(course);
+        if (delIdx > -1) {
+            coursesinCart.splice(delIdx, 1);
+        }
     }
 
     componentDidMount() {
         var t = this;
         /* 
-        TODO: once courses API is built, implement this  fetch() 
+        TODO: once courses API is built, implement this fetch() 
 
         fetch('/all-courses', { method: 'GET' })
             .then(json)
@@ -46,10 +49,10 @@ export default class CourseSelection extends Component {
         // Until then...
         t.setState({
             courses: [
-                {code: "CSC108", title: "108 Title", inCart: true},
-                {code: "CSC148", title: "148 Title", inCart: true},
-                {code: "CSC165", title: "165 Title", inCart: true},
-                {code: "CSC207", title: "207 Title", inCart: true},
+                {code: "CSC108", title: "Introduction to Computer Programming", inCart: false},
+                {code: "CSC148", title: "Introduction to Computer Science", inCart: false},
+                {code: "CSC165", title: "Mathematical Expression and Reasoning for Computer Science", inCart: false},
+                {code: "CSC207", title: "Software Design", inCart: false},
             ]
         });
     }

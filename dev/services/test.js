@@ -17,7 +17,7 @@ console.log('Applicant population in progress');
 	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
 	    year: 2,
 	    programName: 'CSC458',    /* E.g Computer Science */
-	    workStatus: true,    /* True=Eligible, False= Not eligible to work */
+	    workStatus: "Legally Entitled",    /* True=Eligible, False= Not eligible to work */
 	    studenStatus: true,  /* True=Enrolled, False= Not Enrolled*/
 	    academicHistory: [{
 	    	courseCode : 'CSC410',

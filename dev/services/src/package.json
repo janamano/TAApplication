@@ -1,0 +1,26 @@
+{
+  "name": "TAAS",
+  "version": "1.0.0",
+  "description": "TA Application and Assignment System",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/csc302-2017-spring/proj-TopOfTheHeap"
+  },
+  "engines": {
+    "node": "4.4.6"
+  },
+  "scripts": {
+    "start": "node main.js"
+  },
+  "homepage": "https://github.com/csc302-2017-spring/proj-TopOfTheHeap",
+  "dependencies": {
+    "bcryptjs": "2.3.0",
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "express-validator": "2.20.8",
+    "helmet": "2.1.1",
+    "request": "2.74.0",
+    "super-request": "1.1.0"
+  }
+}

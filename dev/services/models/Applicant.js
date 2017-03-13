@@ -18,7 +18,7 @@ var applicantSchema = new mongoose.Schema({
     programLevel: String,   /* Undergraduate, Masters, PhD */
     year: Number,
     programName: String,    /* E.g Computer Science */
-    workStatus: Boolean,    /* True=Eligible, False= Not eligible to work */
+    workStatus: String,    /* Options: "Legally Entitled" and "Student Visa"*/
     studenStatus: Boolean,  /* True=Enrolled, False= Not Enrolled*/
     academicHistory: [{
     courseCode : String,

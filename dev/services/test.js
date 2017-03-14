@@ -9,7 +9,7 @@ console.log('Applicant population in progress');
   var applicant = new Applicant({
     studentNumber: 1000192911,
 	  lastName: 'Bond',
-	  firstName: 'James', 
+	  firstName: 'James',
 	  phoneNumber: '+16471119111',
 	  email: '007@gmail.com',
 
@@ -33,19 +33,28 @@ console.log('Applicant population in progress');
 
 	 var course1 = new Course({
     	code: 'CSC108',
-	  	title: 'Introduction to Computer Programming'
+	  	title: 'Introduction to Computer Programming',
+        instructor: 'Jennifer Campbell',
+        numberOfTAs: 40,
+        qualificants: 'Exellent OO programming skills, Python is an asset.'
 	  });
 	  course1.save();
 
 		var course2 = new Course({
     	code: 'CSC148',
-	  	title: 'Introduction to Computer Science'
+	  	title: 'Introduction to Computer Science',
+        instructor: 'Pit Franc',
+        numberOfTAs: 20,
+        qualificants: 'Obtained at least A in CSC108 and CSC148'
 	  });
 	  course2.save();
 
 		var course3 = new Course({
     	code: 'CSC165',
-	  	title: 'Mathematical Expression and Reasoning for Computer Science'
+	  	title: 'Mathematical Expression and Reasoning for Computer Science',
+        instructor: 'David Liu',
+        numberOfTAs: 5,
+        qualificants: 'Must be good at reasoning and logic'
 	  });
 	  course3.save();
 

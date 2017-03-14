@@ -2,14 +2,39 @@ import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
 import AutosuggestBox from './AutosuggestBox';
 
+var utils = require('../utils.js');
+var json = utils.json;
+
 let coursesTAd = [];
 
 export default class ApplicantHistory extends Component {
     constructor() {
         super();
 
+        this.state = {
+            courses: [],
+        }
+
+        this.componentWillMount = this.componentWillMount.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.updateCoursesTAdList = this.updateCoursesTAdList.bind(this);
+    }
+
+    componentWillMount() {
+        var t = this;
+        fetch('/all-courses', { method: 'GET' })
+            .then(json)
+            .then(function(data) {
+                const courses = data.data;
+                t.setState({
+                    courses: courses.map(function(obj){
+                        return {value: obj.code, label: obj.code}
+                    })
+                });
+            })
+            .catch(function(err) {
+                throw err;
+            });
     }
 
     handleSubmit(event) {
@@ -46,22 +71,12 @@ export default class ApplicantHistory extends Component {
     updateCoursesTAdList(selected) {
         if (selected != "") {
             coursesTAd = selected.split(",");
+        } else {
+            coursesTAd = [];
         }
-        console.log(coursesTAd);
     }
  
     render() {
-        // TODO: once courses API is built, get the courses from there
-        let courses = [
-            { value: 'CSC108', label: 'CSC108' },
-            { value: 'CSC148', label: 'CSC148' },
-            { value: 'CSC165', label: 'CSC165' },
-            { value: 'CSC207', label: 'CSC207' },
-            { value: 'CSC209', label: 'CSC209' },
-            { value: 'CSC236', label: 'CSC236' },
-            { value: 'CSC263', label: 'CSC263' }
-        ];
-
         var style = {
             zIndex: -1
         };
@@ -76,7 +91,7 @@ export default class ApplicantHistory extends Component {
                             style={style}
                             onSelectOption={this.updateCoursesTAdList}
                             selected={""}
-                            options={courses}
+                            options={this.state.courses}
                             placeholder={"Search courses"}
                         />
                         <br />

@@ -32,21 +32,21 @@ console.log('Applicant population in progress');
 	  applicant.save();
 
 	 var course1 = new Course({
-    code: 'CSC108',
-	  title: 'Introduction to Computer Programming'
+    	code: 'CSC108',
+	  	title: 'Introduction to Computer Programming'
 	  });
 	  course1.save();
 
 		var course2 = new Course({
-    code: 'CSC148',
-	  title: 'Introduction to Computer Science'
+    	code: 'CSC148',
+	  	title: 'Introduction to Computer Science'
 	  });
 	  course2.save();
 
 		var course3 = new Course({
-    code: 'CSC165',
-	  title: 'Mathematical Expression and Reasoning for Computer Science'
+    	code: 'CSC165',
+	  	title: 'Mathematical Expression and Reasoning for Computer Science'
 	  });
-	  course2.save();
+	  course3.save();
 
   console.log('Process Complete!');

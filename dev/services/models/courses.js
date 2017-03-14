@@ -4,8 +4,12 @@ var mongoose = require('mongoose');
  * Courses DB schema
  */
 var coursesSchema = new mongoose.Schema({
-    code: String,
-    title: String, 
+    code: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    title: String
 });
 
 module.exports = mongoose.model('Courses', coursesSchema);

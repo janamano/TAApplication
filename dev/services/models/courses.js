@@ -9,7 +9,10 @@ var coursesSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    title: String
+    title: String,
+    instructor: String,
+    numberOfTAs: Number,
+    qualificants: String
 });
 
 module.exports = mongoose.model('Courses', coursesSchema);

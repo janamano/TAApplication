@@ -36,7 +36,7 @@ console.log('Applicant population in progress');
 	  	title: 'Introduction to Computer Programming',
         instructor: 'Jennifer Campbell',
         numberOfTAs: 40,
-        qualificants: 'Exellent OO programming skills, Python is an asset.'
+        qualifications: 'Exellent OO programming skills, Python is an asset.'
 	  });
 	  course1.save();
 
@@ -45,7 +45,7 @@ console.log('Applicant population in progress');
 	  	title: 'Introduction to Computer Science',
         instructor: 'Pit Franc',
         numberOfTAs: 20,
-        qualificants: 'Obtained at least A in CSC108 and CSC148'
+        qualifications: 'Obtained at least A in CSC108 and CSC148'
 	  });
 	  course2.save();
 
@@ -54,7 +54,7 @@ console.log('Applicant population in progress');
 	  	title: 'Mathematical Expression and Reasoning for Computer Science',
         instructor: 'David Liu',
         numberOfTAs: 5,
-        qualificants: 'Must be good at reasoning and logic'
+        qualifications: 'Must be good at reasoning and logic'
 	  });
 	  course3.save();
 

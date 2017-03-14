@@ -9,6 +9,7 @@ var applicantSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  UTORid: String,
   lastName: String,
   firstName: String, 
   phoneNumber: String,

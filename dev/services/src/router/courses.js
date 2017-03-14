@@ -20,8 +20,19 @@ module.exports = function(app) {
         CourseList.find({code: course}, function(err, responseCourse) {
             if (err) {
                 res.status(400).send(err);
-            } else{
+            } else {
                 res.status(200).json(responseCourse);
+            }
+        });
+    });
+
+    // return a list of courses that has open TA positions
+    app.get('/getOpenings', function(req, res) {
+        CourseList.find({remainingPosition: {$ne: 0}}, function(err, openCourse) {
+            if (err) {
+                res.status(400).send(err);
+            } else {
+                res.status(200).json(openCourse);
             }
         });
     });

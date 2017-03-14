@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
 
 let coursesinCart = [];
@@ -17,7 +18,7 @@ export default class CourseSelection extends Component {
     }
 
     addToCart(course) {
-        coursesinCart.push(course)
+        coursesinCart.push(course);
     }
 
     removeFromCart(course) {
@@ -61,18 +62,18 @@ export default class CourseSelection extends Component {
         return (
             <div>
                 <p> Course Selection </p>
-                <ul>
+                <Collapsible>
                     {this.state.courses.map(course =>
-                        <Course key={course.code} 
-                                code={course.code} 
-                                title={course.title}
-                                addToCart={this.addToCart}
-                                removeFromCart={this.removeFromCart}
-                                inCart={course.inCart}
-                        />
+                            <Course key={course.code} 
+                                    code={course.code} 
+                                    title={course.title}
+                                    addToCart={this.addToCart}
+                                    removeFromCart={this.removeFromCart}
+                                    inCart={course.inCart}
+                            />
                         )
                     }
-                </ul>
+                </Collapsible>
             </div>
         );
     }

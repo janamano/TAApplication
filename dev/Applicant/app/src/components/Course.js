@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button } from "react-materialize";
+import { Row, Button, CollapsibleItem } from "react-materialize";
 import CourseInfo from './CourseInfo';
 
 export default class Course extends Component {
@@ -12,6 +12,7 @@ export default class Course extends Component {
         }
 
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.cartEvent = this.cartEvent.bind(this);
         this.add = this.add.bind(this);
         this.remove = this.remove.bind(this);
     }
@@ -39,11 +40,33 @@ export default class Course extends Component {
         
     }
 
+    /* 
+    Function that handles when the "Add to Cart" or "Remove from Cart" buttons are clicked.
+    handler is either add() (if "Add to Cart" is clicked), or remove() (if "Remove from
+    Cart" is clicked)
+    */
+    cartEvent(event, code, handler) {
+        event.stopPropagation();
+        handler(code);
+    }
+
+    /*
+    Function responsible for adding a course on to the cart, and setting the state which will
+    allow the button's text to change to "Remove from Cart".
+    Also responsible for calling the parent's component addToCart handler, which will add this
+    course on to the cart for form submission.
+    */
     add(code) {
         this.setState({inCart: ! this.state.inCart});
         this.props.addToCart(code);
     }
-
+    
+    /*
+    Function responsible for removing a course from the cart, and setting the state which will
+    allow the button's text to change to "Add to Cart".
+    Also responsible for calling the parent's component addToCart handler, which will add this
+    course on to the cart for form submission.
+    */
     remove(code) {
         this.setState({inCart: ! this.state.inCart});
         this.props.removeFromCart(code);
@@ -51,44 +74,38 @@ export default class Course extends Component {
  
     render() {
         const { code, title } = this.props;
-        let cart, hide;
+        let cart;
         if (this.state.inCart) {
             cart =
-                <Button waves='light' onClick={this.remove.bind(this, code)}>
+                <Button waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         } else {
             cart =
-                <Button waves='light' onClick={this.add.bind(this, code)}>
+                <Button waves='light' onClick={(evt) => this.cartEvent(evt, code, this.add)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         }
         
-        if (this.state.expanded) {
-            hide =
-                <Button waves='light' onClick={() => this.setState({expanded: ! this.state.expanded})}>
-                    {this.state.expanded ? "Hide details" : "Show details"}
-                </Button>
-        } else {
-            hide =
-                <Button waves='light' onClick={() => this.setState({expanded: ! this.state.expanded})}>
-                    {this.state.expanded ? "Hide details" : "Show details"}
-                </Button>
-        }
-        
-        let courseHeader =
-            <div className="course-header">
-                <span className="course-code">{this.props.code}: </span><span className="course-title">{this.props.title}</span>
-                <br /><br/>
-                {hide}{'  '}
-                {cart}
-            </div>;
-        
+        let heading = 
+            <span>
+                <span className="course-code">
+                    {code}
+                </span>
+                {": "}
+                <span className="course-title">
+                    {title}
+                </span>
+                <span>
+                    {cart}
+                </span>
+            </span>;
+
         return (
             <div className="course">
-                {courseHeader}
-                { this.state.expanded ? <CourseInfo code={code}/>: null }
-                <br/>
+                <CollapsibleItem header={heading} icon='view_agenda' >
+                    <CourseInfo code={code} />
+                </CollapsibleItem>
             </div>
         );
     }

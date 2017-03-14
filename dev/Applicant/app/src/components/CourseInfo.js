@@ -48,7 +48,6 @@ export default class CourseInfo extends Component {
 
         return (
             <div className="course-info">
-                <br />
                 <div>
                 <span className="course-info-span">Instructor:</span> {instructor}
                 </div>

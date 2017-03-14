@@ -8,6 +8,7 @@ var Course = require('./models/Courses');
 console.log('Applicant population in progress');
   var applicant = new Applicant({
     studentNumber: 1000192911,
+		UTORid: "Bondj",
 	  lastName: 'Bond',
 	  firstName: 'James',
 	  phoneNumber: '+16471119111',

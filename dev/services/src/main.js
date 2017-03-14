@@ -25,10 +25,9 @@ var hostname = 'localhost';
 var port = 8080;
 
 var applicantsRoute = require('./router/applicant')(app);
-
+var coursesRoute = require('./router/courses')(app);
 
 // Start listening for requests
 server.listen(process.env.PORT || port, function () {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
-

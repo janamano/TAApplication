@@ -2,6 +2,7 @@ const express = require('express');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
+const request = require('request-promise');
 const app = express();
 
 const compiler = webpack(webpackConfig);
@@ -18,6 +19,42 @@ app.use(webpackDevMiddleware(compiler, {
     historyApiFallback: true,
 }));
 
+var makeGetRequest = function (route, qParams, req, res) {
+    var options = {
+        uri: 'http://localhost:8080' + route,
+        method: 'GET',
+        qs: qParams
+    }
+
+    request(options)  
+    .then(function (dataRecvd) {
+        // Request was successful
+        res.status(200).
+        json({
+            status: 'success',
+            data: JSON.parse(dataRecvd),
+            message: 'Retrieved courses info'
+        });
+    })
+    .catch(function (err) {
+        // An error occurred
+        res.status(400).
+        json({
+            status: 'error',
+            data: {},
+            message: 'An error occurred'
+        });
+    })
+}
+
+app.get('/all-courses', function(req, res) {
+    makeGetRequest('/getCourseList', {}, req, res);
+});
+
+app.get('/course-info', function(req, res) {
+    //console.log(req.query);
+    makeGetRequest('/getCourseInfo', req.query, req, res);
+});
 
 /* 
 TODO: 

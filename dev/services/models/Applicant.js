@@ -4,15 +4,18 @@ var mongoose = require('mongoose');
  * Applicant schema
  */
 var applicantSchema = new mongoose.Schema({
-    studentNumber: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
-    lastName: String,
-    firstName: String,
-    phoneNumber: String,
-    email: String,
+
+  studentNumber: {               
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  UTORid: String,
+  lastName: String,
+  firstName: String, 
+  phoneNumber: String,
+  email: String,
+
 
     studentInformation: {
         programLevel: String,

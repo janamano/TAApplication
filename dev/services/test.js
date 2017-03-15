@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('localhost', 'serverDB');
@@ -6,7 +5,7 @@ mongoose.connect('localhost', 'serverDB');
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
 console.log('Applicant population in progress');
-  var applicant = new Applicant({
+var applicant = new Applicant({
     studentNumber: 1000192911,
 		UTORid: "bondj",
 	  lastName: 'Bond',
@@ -56,3 +55,4 @@ console.log('Applicant population in progress');
 	  course3.save();
 
   console.log('Process Complete!');
+

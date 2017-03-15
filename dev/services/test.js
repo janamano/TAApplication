@@ -19,10 +19,6 @@ var applicant = new Applicant({
 	    programName: 'CSC458',    /* E.g Computer Science */
 	    workStatus: "Legally Entitled",    /* True=Eligible, False= Not eligible to work */
 	    studenStatus: true,  /* True=Enrolled, False= Not Enrolled*/
-	    academicHistory: [{
-	    	courseCode : 'CSC410',
-	    	grade : 100          /* Grade out of 100 */
-	     }],
 	    TAHistory: [{
 	      courseCode: 'CSC108',    /* Courses TA'd in the past*/
 	      timesTAd: 10

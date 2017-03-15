@@ -16,7 +16,7 @@ export default class Courses extends Component {
      componentDidMount() {
         var t = this;
          //get all the courses
-         fetch('/getCourseList', {method: 'GET'})
+         fetch('localhost:8080/getCourseList', {method: 'GET'})
              .then(json)
              .then(function(data) {
                  // store this in the state courses to create course objects

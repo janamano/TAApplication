@@ -51,6 +51,11 @@ app.get('/all-courses', function(req, res) {
     makeGetRequest('/getCourseList', {}, req, res);
 });
 
+app.get('/course-info', function(req, res) {
+    //console.log(req.query);
+    makeGetRequest('/getCourseInfo', req.query, req, res);
+});
+
 /* 
 TODO: 
 remove this comment once everyone has a solid feel for the structure 

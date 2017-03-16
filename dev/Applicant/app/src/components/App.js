@@ -13,6 +13,7 @@ import Nav from './Nav';
 import Profile from './Profile';
 import CourseSelection from './CourseSelection';
 import ApplicantHistory from './ApplicantHistory';
+import Cart from './Cart';
 
 export default class App extends Component {
     constructor() {
@@ -26,6 +27,7 @@ export default class App extends Component {
                 <Route path='/profile' component={Profile}/>
                 <Route path='/history' component={ApplicantHistory} />
                 <Route path='/courseselection' component={CourseSelection} />
+                <Route path='/cart' component={Cart} />
             </Router>
         );
     }

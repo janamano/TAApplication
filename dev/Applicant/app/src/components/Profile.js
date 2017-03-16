@@ -8,7 +8,7 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
 
-        const student = this.props.location.state.data;
+        const student = props.location.state.data;
 
         this.state = {
             UTORid: student.UTORid,

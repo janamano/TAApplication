@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
 
+import Nav from './Nav';
+import RankGroup from './RankGroup';
+
 export default class Cart extends Component {
     constructor(props) {
         super(props);
@@ -10,7 +13,16 @@ export default class Cart extends Component {
             coursesInCart: this.props.coursesinCart, */
 
             // Until then...
-            coursesInCart: ["CSC108", "CSC165"],
+            coursesInCart: [
+                {
+                    code: "CSC108",
+                    title: "Introduction to Computer Programming"
+                },
+                {
+                    code: "CSC165",
+                    title: "Mathematical Expression and Reasoning for Computer Science"
+                }
+            ],
             rankings: {
                 1: [],
                 2: [],
@@ -22,6 +34,7 @@ export default class Cart extends Component {
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.refreshRankGroups = this.refreshRankGroups.bind(this);
     }
 
     componentWillMount() {
@@ -62,15 +75,23 @@ export default class Cart extends Component {
         });
     }
 
+    refreshRankGroups() {
+
+    }
+
     render() {
+        const rankings = this.state.rankings;
         return (
-            <div className="cart">
-                <PrefGroup rank={1} courses={rankings[1]} refreshRanks={this.refreshRankGroups}/>
-                <RankGroup rank={2} courses={rankings[2]} refreshRanks={this.refreshRankGroups}/>
-                <RankGroup rank={3} courses={rankings[3]} refreshRanks={this.refreshRankGroups}/>
-                <RankGroup rank={4} courses={rankings[4]} refreshRanks={this.refreshRankGroups}/>
-                <RankGroup rank={5} courses={rankings[5]} refreshRanks={this.refreshRankGroups}/>
-                <RankGroup rank={0} courses={rankings[0]} refreshRanks={this.refreshRankGroups}/>
+            <div>
+                <Nav heading={"Course Cart"} />
+                <div className="cart">
+                    <RankGroup rank={1} courses={rankings[1]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={2} courses={rankings[2]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={3} courses={rankings[3]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={4} courses={rankings[4]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={5} courses={rankings[5]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={0} courses={rankings[0]} refreshRanks={this.refreshRankGroups}/>
+                </div>
             </div>
         );
     }

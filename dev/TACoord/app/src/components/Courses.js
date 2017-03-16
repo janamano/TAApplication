@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Row, Button, Collapsible } from "react-materialize";
 import Course from './Course';
 
+let utils = require('../utils.js');
+let json = utils.json;
+let courseCompare = utils.courseCompare; 
+
 export default class Courses extends Component {
      constructor() {
         super();
@@ -10,20 +14,24 @@ export default class Courses extends Component {
             courses: []
         };
 
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentWillMount = this.componentWillMount.bind(this);
      }
 
-     componentDidMount() {
+     componentWillMount() {
         var t = this;
-        //  //get all the courses
-        //  fetch('localhost:8080/getCourseList', {method: 'GET'})
+         //get all the courses
+        //  fetch('/getCourses', {method: 'GET'})
         //      .then(json)
         //      .then(function(data) {
         //          // store this in the state courses to create course objects
         //          const courses = data.data;
-
         //          t.setState({
-        //              courses: courses
+        //              courses: courses.map(function(course) {
+        //                  return {code: course.code,
+        //                         title: course.title,
+        //                         numberOfTAs: course.numberOfTAs,
+        //                         qualifications: course.qualifications}
+        //              })
         //          });
         //      })
         //      .catch(function(err) {
@@ -31,7 +39,6 @@ export default class Courses extends Component {
         //         throw err;
         //     });
 
-        // Until then...
        t.setState({
            courses: [
                {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
@@ -40,11 +47,11 @@ export default class Courses extends Component {
                {code: "CSC207", title: "Software Design",numberOfTAs: 40, qualifications: "CSC207"},
            ]
        });
-    }
-   
+     } 
+
     courseList() {
       this.state.courses.map(function(course) {
-        return <Course code={course.code} title={course.title}  numberOfTAs={course.numberOfTAs}
+        return <Course key={course.code} code={course.code} title={course.title}  numberOfTAs={course.numberOfTAs}
                             qualifications={course.qualifications}/>
       });
     }
@@ -55,9 +62,9 @@ export default class Courses extends Component {
                 {this.state.courses.map(course =>
                     <Course key={course.code}
                             code={course.code}
-                            title={course.title}
-                            numberOfTAs={course.numberOfTAs}
-                            qualifications={course.qualifications}
+                             title={course.title}
+                             numberOfTAs={course.numberOfTAs}
+                             qualifications={course.qualifications}
                     />
                     )
                 }

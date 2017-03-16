@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('localhost', 'serverDB');
@@ -6,7 +5,7 @@ mongoose.connect('localhost', 'serverDB');
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
 console.log('Applicant population in progress');
-  var applicant = new Applicant({
+var applicant = new Applicant({
     studentNumber: 1000192911,
 		UTORid: "bondj",
 	  lastName: 'Bond',
@@ -18,12 +17,8 @@ console.log('Applicant population in progress');
 	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
 	    year: 2,
 	    programName: 'CSC458',    /* E.g Computer Science */
-	    workStatus: "Legally Entitled",    /* True=Eligible, False= Not eligible to work */
-	    studenStatus: true,  /* True=Enrolled, False= Not Enrolled*/
-	    academicHistory: [{
-	    	courseCode : 'CSC410',
-	    	grade : 100          /* Grade out of 100 */
-	     }],
+	    workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
+	    studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
 	    TAHistory: [{
 	      courseCode: 'CSC108',    /* Courses TA'd in the past*/
 	      timesTAd: 10
@@ -31,6 +26,11 @@ console.log('Applicant population in progress');
 	  }
 	  });
 	  applicant.save();
+
+var applicant2 = new Applicant({
+    studentNumber: 1000123456,
+	  });
+	  applicant2.save();
 
 	 var course1 = new Course({
     	code: 'CSC108',
@@ -60,3 +60,4 @@ console.log('Applicant population in progress');
 	  course3.save();
 
   console.log('Process Complete!');
+

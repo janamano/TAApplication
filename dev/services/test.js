@@ -17,8 +17,8 @@ var applicant = new Applicant({
 	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
 	    year: 2,
 	    programName: 'CSC458',    /* E.g Computer Science */
-	    workStatus: "Legally Entitled",    /* True=Eligible, False= Not eligible to work */
-	    studenStatus: true,  /* True=Enrolled, False= Not Enrolled*/
+	    workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
+	    studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
 	    TAHistory: [{
 	      courseCode: 'CSC108',    /* Courses TA'd in the past*/
 	      timesTAd: 10
@@ -26,6 +26,11 @@ var applicant = new Applicant({
 	  }
 	  });
 	  applicant.save();
+
+var applicant2 = new Applicant({
+    studentNumber: 1000123456,
+	  });
+	  applicant2.save();
 
 	 var course1 = new Course({
     	code: 'CSC108',

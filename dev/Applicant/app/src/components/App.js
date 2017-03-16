@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import Login from './Login';
 import Nav from './Nav';
+import Profile from './Profile';
+import CourseSelection from './CourseSelection';
+import {
+    Router,
+    Route,
+    Link,
+    IndexRoute,
+    hashHistory,
+    browserHistory
+} from 'react-router';
 
 export default class App extends Component {
     constructor() {
@@ -9,10 +19,11 @@ export default class App extends Component {
  
     render() {
         return (
-            <div>
-                <Nav heading="TA Application System"/>
-                <Login />
-            </div>
+            <Router history={hashHistory}>
+                <Route path='/' component={Login}/>
+                <Route path='/profile' component={Profile}/>
+                <Route path='/courseselection' component={CourseSelection} />
+            </Router>
         );
     }
 }

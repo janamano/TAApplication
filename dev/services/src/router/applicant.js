@@ -42,4 +42,18 @@ module.exports = function(app) {
             }
         });
     });
+     /*Test Call: http://localhost:8080/getApplicantTAHist?studentNum=1000192911 */
+    app.get('/getApplicantTAHist/', function(req, res) {
+        var studNum = req.query.studentNum;
+        console.log(req.query);
+        ApplicantList.find({studentNumber: studNum}, function(err, appTAProf){
+            if(err){
+                res.send(err);
+            }else{
+                console.log("Sending resp");
+                var appl = appTAProf[0];
+                res.send(appl.studentInformation.TAHistory);   
+            }
+        });
+    });
 }

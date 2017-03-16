@@ -21,7 +21,7 @@ var applicantSchema = new mongoose.Schema({
     year: Number,
     programName: String,    /* E.g Computer Science */
     workStatus: String,    /* Options: "Legally Entitled" and "Student Visa"*/
-    studenStatus: Boolean,  /* True=Enrolled, False= Not Enrolled*/
+    studentStatus: String,  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
     TAHistory: [{
         courseCode: String,    /* Courses TA'd in the past*/
         timesTAd: Number

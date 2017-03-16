@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
 
+var utils = require('../utils.js');
+var json = utils.json;
+
 let coursesinCart = [];
 
 export default class CourseSelection extends Component {
@@ -12,7 +15,7 @@ export default class CourseSelection extends Component {
             courses: [],
         };
 
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentWillMount = this.componentWillMount.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);
     }
@@ -28,34 +31,21 @@ export default class CourseSelection extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         var t = this;
-        /* 
-        TODO: once courses API is built, implement this fetch() 
-
         fetch('/all-courses', { method: 'GET' })
             .then(json)
             .then(function(data) {
                 const courses = data.data;
                 t.setState({
-                    courses: courses
+                    courses: courses.map(function(obj){
+                        return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart
+                    })
                 });
             })
             .catch(function(err) {
-                // Error :(
                 throw err;
             });
-        */
-
-        // Until then...
-        t.setState({
-            courses: [
-                {code: "CSC108", title: "Introduction to Computer Programming", inCart: false},
-                {code: "CSC148", title: "Introduction to Computer Science", inCart: false},
-                {code: "CSC165", title: "Mathematical Expression and Reasoning for Computer Science", inCart: false},
-                {code: "CSC207", title: "Software Design", inCart: false},
-            ]
-        });
     }
  
     render() {

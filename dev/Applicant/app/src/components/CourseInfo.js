@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
 
+var utils = require('../utils.js');
+var json = utils.json;
+
 export default class CourseInfo extends Component {
     constructor() {
         super();
@@ -11,36 +14,26 @@ export default class CourseInfo extends Component {
             qualifications: null,
         }
 
-        this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentWillMount = this.componentWillMount.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         var t = this;
 
-        /* 
-        TODO: once course-info API is built, implement this fetch() 
         fetch('/course-info?course=' + this.props.code, { method: 'GET' })
             .then(json)
             .then(function(data) {
-                const courses = data.data;
+                const course = data.data[0];
                 t.setState({
-                    instructor: courses.instructor,
-                    numberOfTAs: courses.numberoftas,
-                    qualifications: courses.qualifications,
+                    instructor: course.instructor,
+                    numberOfTAs: course.numberOfTAs,
+                    qualifications: course.qualifications,
                 });
             })
             .catch(function(err) {
                 // Error :(
                 throw err;
             });
-        */
-
-        // Until then...
-        t.setState({
-            instructor: "Danny Heap",
-            numberOfTAs: 50,
-            qualifications: "Proficiency in Python and object-oriented programming",
-        });
     }
 
     render() {

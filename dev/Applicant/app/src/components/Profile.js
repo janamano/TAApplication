@@ -35,7 +35,6 @@ export default class Profile extends Component {
         return (
             <div>
                 <Nav heading={"Student Profile"} />
-                {console.log(this.state)}
                 <form id="profileForm">
                     <Row>
                         <Input s={6} 

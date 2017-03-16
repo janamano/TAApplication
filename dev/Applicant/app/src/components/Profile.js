@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Row, Input, Icon, Button } from "react-materialize";
+import { hashHistory } from 'react-router';
+
 import Nav from './Nav';
 
 export default class Profile extends Component {
@@ -14,6 +16,7 @@ export default class Profile extends Component {
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -31,15 +34,32 @@ export default class Profile extends Component {
         }
     }
 
-    handleClick(event) {
+    handleSubmit(event) {
         event.preventDefault();
+
+        /*
+        TODO: once the backend API to save info is done, then build the actual
+              fetch() request.
+        */
+        
+        // Until then...
+        hashHistory.push({
+            pathname: `/history`,
+            state: { 
+                studentNumber: this.state.studentNumber,
+                TAHistory: (typeof this.state.studentInformation != 'undefined' && 
+                                typeof this.state.studentInformation.TAHistory != 'undefined') 
+                                ? 
+                            this.state.studentInformation.TAHistory : []
+            }
+        })
     }
 
     render() {
         return (
             <div>
                 <Nav heading={"Student Profile"} />
-                <form id="profileForm">
+                <form id="profileForm" onSubmit={this.handleSubmit}>
                     <Row>
                         <Input s={6} 
                             label="First Name" 
@@ -61,8 +81,8 @@ export default class Profile extends Component {
                         <Input s={12} 
                             label="Telephone" 
                             type="tel" 
-                            pattern="[\d]{10}" 
-                            title="Must be 10 numeric values" 
+                            pattern="([\+]?[\d]{1,3})?[\d]{10}" 
+                            title="Please enter a valid, 10-digit phone number (with optional '+' and country code)" 
                             required 
                             defaultValue={(typeof this.state.phoneNumber != 'undefined') ? this.state.phoneNumber : ""}
                         />

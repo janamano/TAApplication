@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
+import Courses from './Courses'
 
 export default class App extends Component {
     constructor() {
@@ -8,7 +10,8 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                Placeholder
+                <Nav heading="TA Coordinator System"/>
+                <Courses />
             </div>
         );
     }

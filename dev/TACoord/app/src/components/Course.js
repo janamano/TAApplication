@@ -76,8 +76,10 @@ export default class Course extends Component {
     
 
     render() {
+        let head = this.props.code + ": " + this.props.title;
         return (
-            <CollapsibleItem header={this.props.title}>
+
+        <CollapsibleItem header={ head }>
                 <p>Course Code: {this.props.code}
                    Number of TAs: {this.props.numberOfTAs}
                    Qualifications: {this.props.qualifications}</p>

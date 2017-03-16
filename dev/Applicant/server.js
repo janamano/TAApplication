@@ -66,19 +66,9 @@ app.get('/course-info', function(req, res) {
     makeGetRequest('/getCourseInfo', req.query, req, res);
 });
 
-/* 
-TODO: 
-remove this comment once everyone has a solid feel for the structure 
-of this project, and how the servers will interact.
-
-Here (or in separate files, if we feel like being more modular) we will be 
-adding handlers/routes that will call our main back-end server (via a URLs like
-"localhost:8080/handler"). 
-
-So, this React app (the Applicant client), will call these handlers here, which
-in turn will call the routes/handlers in the main back-end server.
-*/ 
-
+app.get('/login', function(req, res) {
+    makeGetRequest('/login', req.query, req, res);
+});
 
 const server = app.listen(3000, function() {
     const host = server.address().address;

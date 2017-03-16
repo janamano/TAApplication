@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
+import Nav from './Nav';
 
 let utils = require('../utils.js');
 let json = utils.json;
@@ -9,13 +10,17 @@ let courseCompare = utils.courseCompare;
 let coursesinCart = [];
 
 export default class CourseSelection extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
+        const studentNumber = this.props.location.state.studentNumber;
         this.state = {
+            studentNumber: studentNumber,
             courses: [],
         };
 
+        console.log("wowoow");
+        console.log(studentNumber);
         this.componentWillMount = this.componentWillMount.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);
@@ -53,7 +58,7 @@ export default class CourseSelection extends Component {
     render() {
         return (
             <div>
-                <p> Course Selection </p>
+                <Nav heading={"Course Selection"} />
                 <Collapsible>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 

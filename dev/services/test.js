@@ -16,7 +16,7 @@ var applicant = new Applicant({
 	  studentInformation: {
 	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
 	    year: 2,
-	    programName: 'CSC458',    /* E.g Computer Science */
+	    programName: 'Computer Science',    /* E.g Computer Science */
 	    workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
 	    studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
 	    TAHistory: [{
@@ -32,7 +32,9 @@ var applicant = new Applicant({
 	  applicant.save();
 
 var applicant2 = new Applicant({
+
     studentNumber: 1000123456,
+    UTORid: "utori11",
     positionAssigment: [{
       courseCode: 'CSC165',
       numberOfHours: 40,

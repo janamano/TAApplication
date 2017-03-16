@@ -81,9 +81,8 @@ export default class Course extends Component {
 
         <CollapsibleItem header={ head }>
                 <p>Course Code: {this.props.code}
-                   Number of TAs: {this.props.numberOfTAs}
-                   Qualifications: {this.props.qualifications}</p>
-                
+                   
+                   </p>
                 <Collapsible>
                     <Button class='red' waves="light">View Applicants</Button>
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
+import Nav from './Nav';
 
 let utils = require('../utils.js');
 let json = utils.json;
@@ -53,7 +54,7 @@ export default class CourseSelection extends Component {
     render() {
         return (
             <div>
-                <p> Course Selection </p>
+                <Nav heading={"Course Selection"} />
                 <Collapsible>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 

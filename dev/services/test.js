@@ -23,12 +23,20 @@ var applicant = new Applicant({
 	      courseCode: 'CSC108',    /* Courses TA'd in the past*/
 	      timesTAd: 10
 	    }]
-	  }
+    },
+    positionAssigment: [{
+      courseCode: 'CSC165',
+      numberOfHours: 40,
+    }]
 	  });
 	  applicant.save();
 
 var applicant2 = new Applicant({
     studentNumber: 1000123456,
+    positionAssigment: [{
+      courseCode: 'CSC165',
+      numberOfHours: 40,
+    }]
 	  });
 	  applicant2.save();
 
@@ -37,6 +45,8 @@ var applicant2 = new Applicant({
 	  	title: 'Introduction to Computer Programming',
         instructor: 'Jennifer Campbell',
         numberOfTAs: 40,
+        TAsAssigned: 0,
+        remainingPosition: 40,
         qualifications: 'Exellent OO programming skills, Python is an asset.'
 	  });
 	  course1.save();
@@ -46,6 +56,8 @@ var applicant2 = new Applicant({
 	  	title: 'Introduction to Computer Science',
         instructor: 'Pit Franc',
         numberOfTAs: 20,
+        TAsAssigned: 0,
+        remainingPosition: 20,
         qualifications: 'Obtained at least A in CSC108 and CSC148'
 	  });
 	  course2.save();
@@ -55,9 +67,11 @@ var applicant2 = new Applicant({
 	  	title: 'Mathematical Expression and Reasoning for Computer Science',
         instructor: 'David Liu',
         numberOfTAs: 5,
-        qualifications: 'Must be good at reasoning and logic'
+        TAsAssigned: 2,
+        remainingPosition: 3,
+        qualifications: 'Must be good at reasoning and logic',
+        assignedTA: [1000192911, 1000123456]
 	  });
 	  course3.save();
 
   console.log('Process Complete!');
-

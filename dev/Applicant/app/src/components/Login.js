@@ -38,7 +38,6 @@ export default class Login extends Component {
                 .then(function(data) {
                     if (data.status === "success") {
                         const student = data.data[0];
-                        //hashHistory.push('/profile');
                         hashHistory.push({
                             pathname: `/profile`,
                             state: { data: student }
@@ -46,14 +45,6 @@ export default class Login extends Component {
                     } else {
                         Materialize.toast('Your UTORid and Student Number do not match', 2000);
                     }
-
-                    /*
-                    t.setState({
-                        instructor: course.instructor,
-                        numberOfTAs: course.numberOfTAs,
-                        qualifications: course.qualifications,
-                    });
-                    */
                 })
                 .catch(function(err) {
                     throw err;

@@ -10,13 +10,17 @@ let courseCompare = utils.courseCompare;
 let coursesinCart = [];
 
 export default class CourseSelection extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
+        const studentNumber = this.props.location.state.studentNumber;
         this.state = {
+            studentNumber: studentNumber,
             courses: [],
         };
 
+        console.log("wowoow");
+        console.log(studentNumber);
         this.componentWillMount = this.componentWillMount.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);

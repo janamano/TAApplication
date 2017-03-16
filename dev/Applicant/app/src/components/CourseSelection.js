@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
 
-var utils = require('../utils.js');
-var json = utils.json;
+let utils = require('../utils.js');
+let json = utils.json;
+let courseCompare = utils.courseCompare; 
 
 let coursesinCart = [];
 
@@ -37,6 +38,7 @@ export default class CourseSelection extends Component {
             .then(json)
             .then(function(data) {
                 const courses = data.data;
+                courses.sort(courseCompare);
                 t.setState({
                     courses: courses.map(function(obj){
                         return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart

@@ -20,7 +20,6 @@ export default class Login extends Component {
           Materialize.toast('Enter a valid Student Number', 2000);
         }
 
-        // hook to back end
     }
 
     render() {

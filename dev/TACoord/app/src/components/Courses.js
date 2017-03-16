@@ -23,7 +23,7 @@ export default class Courses extends Component {
              .then(json)
              .then(function(data) {
                  // store this in the state courses to create course objects
-                 const courses = data.data;
+                 const courses = data.data[0];
                  t.setState({
                      courses: courses.map(function(course) {
                          return {code: course.code, title: course.title}
@@ -34,7 +34,6 @@ export default class Courses extends Component {
                 // fetch didnt work
                 throw err;
             });
-    }
 
             // Until then...
     //    t.setState({
@@ -45,7 +44,7 @@ export default class Courses extends Component {
     //            {code: "CSC207", title: "Software Design",numberOfTAs: 40, qualifications: "CSC207"},
     //        ]
     //    });
-   
+     }   
     courseList() {
       this.state.courses.map(function(course) {
         return <Course key={course.code} code={course.code} title={course.title}  numberOfTAs={course.numberOfTAs}
@@ -59,9 +58,9 @@ export default class Courses extends Component {
                 {this.state.courses.map(course =>
                     <Course key={course.code}
                             code={course.code}
-                            // title={course.title}
-                            // numberOfTAs={course.numberOfTAs}
-                            // qualifications={course.qualifications}
+                             title={course.title}
+                             numberOfTAs={course.numberOfTAs}
+                             qualifications={course.qualifications}
                     />
                     )
                 }

@@ -31,7 +31,6 @@ export default class CourseInfo extends Component {
                 });
             })
             .catch(function(err) {
-                // Error :(
                 throw err;
             });
     }

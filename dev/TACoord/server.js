@@ -58,7 +58,6 @@ var makeGetRequest = function (route, qParams, req, res) {
         });
 }
 
-
 app.get('/getCourses', function(req, res) {
     makeGetRequest('/getCourseList', {}, req, res);
 });

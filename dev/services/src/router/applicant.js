@@ -1,8 +1,8 @@
 
-var ApplicantList = require('../../models/Applicant')
+var ApplicantList = require('../../models/Applicant');
 
 module.exports = function(app) {
- 
+
     app.get('/getApplicantsList', function(req, res) {
         ApplicantList.find({}, function(err, appList){
         	if (err) {
@@ -83,7 +83,7 @@ module.exports = function(app) {
                             data: {},
                             message: "No student with these credential was found"
                         });
-                }  
+                }
             }
         });
     });
@@ -111,4 +111,26 @@ module.exports = function(app) {
             }
         });
     });
-}
+    /* Get a list of applicants assigned to a given course code
+    Test Call http://localhost:8080/getApplicantsByCourse?course=CSC165*/
+    app.get('/getApplicantsByCourse/', function(req, res) {
+        var course = req.query.course;
+        ApplicantList.find({'positionAssigment.courseCode': course}, function(err, applicants) {
+            if (err) {
+                        res.status(400)
+                            .json({
+                                status: 'error',
+                                data: {},
+                                message: err
+                            });
+            } else {
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: applicants,
+                        message: "found"
+                    });
+            }
+        });
+    });
+};

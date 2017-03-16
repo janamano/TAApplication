@@ -31,6 +31,10 @@ export default class Profile extends Component {
         }
     }
 
+    handleClick(event) {
+        event.preventDefault();
+    }
+
     render() {
         return (
             <div>

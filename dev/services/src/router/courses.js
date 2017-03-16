@@ -46,7 +46,8 @@ module.exports = function(app) {
         });
     });
 
-    // return a list of courses that has open TA positions
+    /* return a list of courses that has open TA positions
+    Test Call: http://localhost:8080/getOpenings*/
     app.get('/getOpenings', function(req, res) {
         CourseList.find({remainingPosition: {$ne: 0}}, function(err, openCourse) {
             if (err) {

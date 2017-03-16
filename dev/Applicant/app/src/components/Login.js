@@ -27,8 +27,8 @@ export default class Login extends Component {
         return (
             <form>
             <Row>
-                <Input id="utorid" class='validate' pattern='[a-zA-Z0-9].{5,}' label="UtorID" s={6} required/>
-                <Input id="studentnum" class='validate' pattern='[0-9].{10}' label="Student Number" s={6} required/>
+                <Input id="utorid" className='validate' pattern='[a-zA-Z0-9].{5,}' label="UtorID" s={6} required/>
+                <Input id="studentnum" className='validate' pattern='[0-9].{10}' label="Student Number" s={6} required/>
                 
                 <Button waves='light' onClick={this.handleClick} type="submit">Login</Button>
             </Row>

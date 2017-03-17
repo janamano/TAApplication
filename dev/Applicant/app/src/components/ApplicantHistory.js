@@ -15,7 +15,7 @@ export default class ApplicantHistory extends Component {
     constructor(props) {
         super(props);
 
-        const studentNumber = this.props.location.state.studentNumber;
+        const studentNumber = props.location.state.studentNumber;
         this.state = {
             studentNumber: studentNumber,
             allCourses: [],

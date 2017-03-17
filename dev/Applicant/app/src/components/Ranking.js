@@ -11,15 +11,16 @@ export default class Ranking extends Component {
     }
  
     render() {
+        var style = {
+            margin: 10
+        };
         return (
-            <div>
-                <Input s={1} type='select' defaultValue='1'>
-                    <option value='1'>Rank 1</option>
-                    <option value='2'>Rank 2</option>
-                    <option value='3'>Rank 3</option>
-                    <option value='4'>Rank 4</option>
-                    <option value='5'>Rank 5</option>
-                </Input>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                <Input name='rank' type='radio' value='1' label='Rank 1' className='with-gap'/>&emsp;&emsp;&emsp;
+                <Input name='rank' type='radio' value='2' label='Rank 2' className='with-gap'/>&emsp;&emsp;&emsp;
+                <Input name='rank' type='radio' value='3' label='Rank 3' className='with-gap'/>&emsp;&emsp;&emsp;
+                <Input name='rank' type='radio' value='4' label='Rank 4' className='with-gap'/>&emsp;&emsp;&emsp;
+                <Input name='rank' type='radio' value='5' label='Rank 5' className='with-gap'/>
             </div>
         );
     }

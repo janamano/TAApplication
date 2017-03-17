@@ -12,6 +12,14 @@ export default class RankGroup extends Component {
             rank: props.rank,
             courses: props.courses,
         };
+
+        this.helperHandleRemove = this.helperHandleRemove.bind(this);
+    }
+
+    helperHandleRemove(event, rankToRefresh, code) {
+        this.forceUpdate();
+        this.props.handleRemove(event, rankToRefresh, code);
+        this.forceUpdate();
     }
  
     render() {
@@ -27,6 +35,7 @@ export default class RankGroup extends Component {
                                     inCart={true}
                                     rank={this.state.rank}
                                     refreshRanks={this.props.refreshRanks}
+                                    handleRemove={this.helperHandleRemove}
                             />
                         </div>
                         )

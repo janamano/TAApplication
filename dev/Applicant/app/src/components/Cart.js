@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button } from "react-materialize";
+import { Row, Button, Input } from "react-materialize";
 
 import Nav from './Nav';
 import RankGroup from './RankGroup';
@@ -34,6 +34,7 @@ export default class Cart extends Component {
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
         this.refreshRankGroups = this.refreshRankGroups.bind(this);
     }
 
@@ -75,22 +76,67 @@ export default class Cart extends Component {
         });
     }
 
-    refreshRankGroups() {
+    refreshRankGroups(oldRank, newRank, code) {
+        // index of course being moved
+        const index = this.state.rankings[oldRank].findIndex(item => item.code === code);
 
+        // course being moved
+        const course = this.state.rankings[oldRank][index];
+
+        // remove course from old rank group
+        let oldRankCourses = this.state.rankings[oldRank].slice();
+        oldRankCourses.splice(index, 1);
+
+        // replace old rank group with new version
+        let newRankings = this.state.rankings;
+        newRankings[oldRank] = oldRankCourses;
+
+        // if the course has actually been deleted, we call newRank as -1. in this 
+        // case, we just set rankings to be the rankings without the old course (without
+        // adding it back in to a new rank group)
+        if (newRank === -1) {
+            this.setState({
+                rankings: newRankings
+            });
+        } else {
+            // add course to new rank group
+            let newRankCourses = this.state.rankings[newRank].slice();
+            newRankCourses.push(course);
+
+            // replace new rank group with new version
+            newRankings[newRank] = newRankCourses
+            this.setState({
+                rankings: newRankings
+            });
+        }
+
+        this.forceUpdate();
+    }
+
+    handleRemove(event, rankToRefresh, code) {
+        event.stopPropagation();
+        const index = this.state.coursesInCart.findIndex(item => item.code === code);
+        let courses = this.state.coursesInCart.slice();
+        courses.splice(index, 1);
+        this.setState({
+            coursesInCart: courses
+        });
+
+        this.refreshRankGroups(rankToRefresh, -1, code);
+        this.forceUpdate();
     }
 
     render() {
-        const rankings = this.state.rankings;
         return (
             <div>
                 <Nav heading={"Course Cart"} />
                 <div className="cart">
-                    <RankGroup rank={1} courses={rankings[1]} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={2} courses={rankings[2]} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={3} courses={rankings[3]} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={4} courses={rankings[4]} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={5} courses={rankings[5]} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={0} courses={rankings[0]} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={1} courses={this.state.rankings[1]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={2} courses={this.state.rankings[2]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={3} courses={this.state.rankings[3]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={4} courses={this.state.rankings[4]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={5} courses={this.state.rankings[5]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={0} courses={this.state.rankings[0]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                 </div>
             </div>
         );

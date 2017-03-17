@@ -11,12 +11,13 @@ export default class CartCourse extends Component {
         this.state = {
             code: props.code,
             title: props.title,
+            rank: props.rank
         };
     }
  
     render() {
         let cart = 
-                <Button waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
+                <Button waves='light' onClick={(evt) => this.props.handleRemove(evt, this.state.rank, this.state.code)}>
                     Remove From Cart
                 </Button>;
 

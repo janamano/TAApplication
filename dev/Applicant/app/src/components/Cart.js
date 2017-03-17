@@ -109,6 +109,8 @@ export default class Cart extends Component {
                 rankings: newRankings
             });
         }
+
+        console.log(this.state.rankings)
     }
 
     handleRemove(event, rankToRefresh, code) {

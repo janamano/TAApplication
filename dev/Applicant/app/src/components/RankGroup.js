@@ -13,7 +13,24 @@ export default class RankGroup extends Component {
             courses: props.courses,
         };
 
+        this.helperRefreshRanks = this.helperRefreshRanks.bind(this);
         this.helperHandleRemove = this.helperHandleRemove.bind(this);
+    }
+
+    helperRefreshRanks(oldRank, newRank, code) {
+        // index of course being moved
+        const index = this.state.courses.findIndex(item => item.code === code);
+
+        // remove course from old rank group
+        let courses = this.state.courses.slice();
+        courses.splice(index, 1);
+
+        // reset state and, thus, re-render
+        this.setState({
+            courses: courses
+        });
+        
+        this.props.refreshRanks(oldRank, newRank, code)
     }
 
     helperHandleRemove(event, rankToRefresh, code) {
@@ -45,7 +62,7 @@ export default class RankGroup extends Component {
                                     title={course.title}
                                     inCart={true}
                                     rank={this.state.rank}
-                                    refreshRanks={this.props.refreshRanks}
+                                    refreshRanks={this.helperRefreshRanks}
                                     handleRemove={this.helperHandleRemove}
                             />
                         </div>

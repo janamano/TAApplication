@@ -17,9 +17,20 @@ export default class RankGroup extends Component {
     }
 
     helperHandleRemove(event, rankToRefresh, code) {
-        this.forceUpdate();
+        // index of course being moved
+        const index = this.state.courses.findIndex(item => item.code === code);
+
+        // remove course from old rank group
+        let courses = this.state.courses.slice();
+        courses.splice(index, 1);
+
+        // reset state and, thus, re-render
+        this.setState({
+            courses: courses
+        });
+
+        // remove course from parent component's data
         this.props.handleRemove(event, rankToRefresh, code);
-        this.forceUpdate();
     }
  
     render() {

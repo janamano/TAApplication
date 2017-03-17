@@ -109,21 +109,23 @@ export default class Cart extends Component {
                 rankings: newRankings
             });
         }
-
-        this.forceUpdate();
     }
 
     handleRemove(event, rankToRefresh, code) {
         event.stopPropagation();
+
+        // index of course being removed
         const index = this.state.coursesInCart.findIndex(item => item.code === code);
+
+        // delete the course, and reset state
         let courses = this.state.coursesInCart.slice();
         courses.splice(index, 1);
         this.setState({
             coursesInCart: courses
         });
 
+        // refresh groups to not include this course
         this.refreshRankGroups(rankToRefresh, -1, code);
-        this.forceUpdate();
     }
 
     render() {

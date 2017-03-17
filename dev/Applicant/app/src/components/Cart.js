@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Input } from "react-materialize";
+import { Row, Button } from "react-materialize";
 
 import Nav from './Nav';
 import RankGroup from './RankGroup';
@@ -109,8 +109,6 @@ export default class Cart extends Component {
                 rankings: newRankings
             });
         }
-
-        console.log(this.state.rankings)
     }
 
     handleRemove(event, rankToRefresh, code) {

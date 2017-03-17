@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, CollapsibleItem } from "react-materialize";
+import { Button, CollapsibleItem } from "react-materialize";
 
 import CourseInfo from './CourseInfo';
 import Ranking from './Ranking';

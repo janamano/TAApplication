@@ -13,14 +13,12 @@ export default class CourseSelection extends Component {
     constructor(props) {
         super(props);
 
-        const studentNumber = this.props.location.state.studentNumber;
+        const studentNumber = props.location.state.studentNumber;
         this.state = {
             studentNumber: studentNumber,
             courses: [],
         };
 
-        console.log("wowoow");
-        console.log(studentNumber);
         this.componentWillMount = this.componentWillMount.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);

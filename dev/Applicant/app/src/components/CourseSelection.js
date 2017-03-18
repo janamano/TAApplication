@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
+import 'whatwg-fetch';
+
 import Course from './Course';
 import Nav from './Nav';
 

@@ -16,19 +16,29 @@ var applicant = new Applicant({
 	  studentInformation: {
 	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
 	    year: 2,
-	    programName: 'CSC458',    /* E.g Computer Science */
+	    programName: 'Computer Science',    /* E.g Computer Science */
 	    workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
 	    studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
 	    TAHistory: [{
 	      courseCode: 'CSC108',    /* Courses TA'd in the past*/
 	      timesTAd: 10
 	    }]
-	  }
+    },
+    positionAssigment: [{
+      courseCode: 'CSC165',
+      numberOfHours: 40,
+    }]
 	  });
 	  applicant.save();
 
 var applicant2 = new Applicant({
+
     studentNumber: 1000123456,
+    UTORid: "utori11",
+    positionAssigment: [{
+      courseCode: 'CSC165',
+      numberOfHours: 40,
+    }]
 	  });
 	  applicant2.save();
 
@@ -37,6 +47,8 @@ var applicant2 = new Applicant({
 	  	title: 'Introduction to Computer Programming',
         instructor: 'Jennifer Campbell',
         numberOfTAs: 40,
+        TAsAssigned: 0,
+        remainingPosition: 40,
         qualifications: 'Exellent OO programming skills, Python is an asset.'
 	  });
 	  course1.save();
@@ -46,6 +58,8 @@ var applicant2 = new Applicant({
 	  	title: 'Introduction to Computer Science',
         instructor: 'Pit Franc',
         numberOfTAs: 20,
+        TAsAssigned: 0,
+        remainingPosition: 20,
         qualifications: 'Obtained at least A in CSC108 and CSC148'
 	  });
 	  course2.save();
@@ -55,9 +69,11 @@ var applicant2 = new Applicant({
 	  	title: 'Mathematical Expression and Reasoning for Computer Science',
         instructor: 'David Liu',
         numberOfTAs: 5,
-        qualifications: 'Must be good at reasoning and logic'
+        TAsAssigned: 2,
+        remainingPosition: 3,
+        qualifications: 'Must be good at reasoning and logic',
+        assignedTA: [1000192911, 1000123456]
 	  });
 	  course3.save();
 
   console.log('Process Complete!');
-

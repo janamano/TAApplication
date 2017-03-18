@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
 import Course from './Course';
+import Nav from './Nav';
 
-var utils = require('../utils.js');
-var json = utils.json;
+let utils = require('../utils.js');
+let json = utils.json;
+let courseCompare = utils.courseCompare; 
 
 let coursesinCart = [];
 
 export default class CourseSelection extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
+        const studentNumber = props.location.state.studentNumber;
         this.state = {
+            studentNumber: studentNumber,
             courses: [],
         };
 
@@ -37,6 +41,7 @@ export default class CourseSelection extends Component {
             .then(json)
             .then(function(data) {
                 const courses = data.data;
+                courses.sort(courseCompare);
                 t.setState({
                     courses: courses.map(function(obj){
                         return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart
@@ -51,7 +56,7 @@ export default class CourseSelection extends Component {
     render() {
         return (
             <div>
-                <p> Course Selection </p>
+                <Nav heading={"Course Selection"} />
                 <Collapsible>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 

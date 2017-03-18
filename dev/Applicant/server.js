@@ -27,24 +27,35 @@ var makeGetRequest = function (route, qParams, req, res) {
     }
 
     request(options)  
-    .then(function (dataRecvd) {
-        // Request was successful
-        res.status(200).
-        json({
-            status: 'success',
-            data: JSON.parse(dataRecvd),
-            message: 'Retrieved courses info'
+        .then(function (dataRecvd) {
+            dataRecvd = JSON.parse(dataRecvd);
+            
+            // Request was successful
+            if (dataRecvd.status === "success") {
+                res.status(200)
+                    .json({
+                        status: dataRecvd.status,
+                        data: dataRecvd["data"],
+                        message: dataRecvd.message
+                    });
+            } else {
+                res.status(400)
+                    .json({
+                        status: dataRecvd.status,
+                        data: dataRecvd["data"],
+                        message: dataRecvd.message
+                    });
+            }
+        })
+        .catch(function (err) {
+            // An error occurred
+            res.status(400).
+            json({
+                status: 'error',
+                data: {},
+                message: 'An error occurred'
+            });
         });
-    })
-    .catch(function (err) {
-        // An error occurred
-        res.status(400).
-        json({
-            status: 'error',
-            data: {},
-            message: 'An error occurred'
-        });
-    })
 }
 
 app.get('/all-courses', function(req, res) {
@@ -52,23 +63,12 @@ app.get('/all-courses', function(req, res) {
 });
 
 app.get('/course-info', function(req, res) {
-    //console.log(req.query);
     makeGetRequest('/getCourseInfo', req.query, req, res);
 });
 
-/* 
-TODO: 
-remove this comment once everyone has a solid feel for the structure 
-of this project, and how the servers will interact.
-
-Here (or in separate files, if we feel like being more modular) we will be 
-adding handlers/routes that will call our main back-end server (via a URLs like
-"localhost:8080/handler"). 
-
-So, this React app (the Applicant client), will call these handlers here, which
-in turn will call the routes/handlers in the main back-end server.
-*/ 
-
+app.get('/login', function(req, res) {
+    makeGetRequest('/login', req.query, req, res);
+});
 
 const server = app.listen(3000, function() {
     const host = server.address().address;

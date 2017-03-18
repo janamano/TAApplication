@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
+import 'whatwg-fetch';
 
 var utils = require('../utils.js');
 var json = utils.json;

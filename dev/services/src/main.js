@@ -24,10 +24,11 @@ mongoose.connect("mongodb://localhost:27017/serverDB", function(err, db) {
 var hostname = 'localhost';
 var port = 8080;
 
+var applicationRoute = require('./router/application')(app);
 var applicantsRoute = require('./router/applicant')(app);
 var coursesRoute = require('./router/courses')(app);
 var assignmentRoute = require('./router/assignment')(app);
-var applicationRoute = require('./router/applicant')(app);
+
 
 // Start listening for requests
 server.listen(process.env.PORT || port, function () {

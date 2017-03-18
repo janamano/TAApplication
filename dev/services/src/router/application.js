@@ -3,6 +3,7 @@ var applications = require('../../models/Application');
 module.exports = function(app) {
      /*Test Call: http://localhost:8080/getApplicantion?utorid=bondj */
     app.get('/getApplicantion/', function(req, res) {
+        console.log("Reached");
         var utorId = req.query.utorid;
         applications.find({UTORid: utorId}, function(err, application){
         	if (err) {

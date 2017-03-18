@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 /**
- * Courses DB schema
+ * Application schema
  */
 var applicationSchema = new mongoose.Schema({
     UTORid: {

@@ -3,6 +3,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const request = require('request-promise');
+const bodyParser = require('body-parser')
 const app = express();
 
 const compiler = webpack(webpackConfig);
@@ -18,6 +19,11 @@ app.use(webpackDevMiddleware(compiler, {
     },
     historyApiFallback: true,
 }));
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 var makeGetRequest = function (route, qParams, req, res) {
     var options = {

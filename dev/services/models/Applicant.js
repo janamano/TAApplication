@@ -5,14 +5,14 @@ var mongoose = require('mongoose');
  */
 var applicantSchema = new mongoose.Schema({
 
-  studentNumber: {               
+  studentNumber: {
     type: Number,
     required: true,
     unique: true,
   },
   UTORid: String,
   lastName: String,
-  firstName: String, 
+  firstName: String,
   phoneNumber: String,
   email: String,
 
@@ -26,11 +26,7 @@ var applicantSchema = new mongoose.Schema({
         courseCode: String,    /* Courses TA'd in the past*/
         timesTAd: Number
       }]
-    },
-    positionAssigment: [{
-      courseCode: String,
-      numberOfHours: Number,
-    }]
+    }
 });
 
 module.exports = mongoose.model('Applicant', applicantSchema);

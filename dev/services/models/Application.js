@@ -14,7 +14,7 @@ var applicationSchema = new mongoose.Schema({
         courseCode: String,
         rank: Number
     }],
-    status: boolean         //True: Submitted, False: Not Submitted
+    status: Boolean         //True: Submitted, False: Not Submitted
 });
 /*
 * Makes sure the UTORid, session combination is unique.
@@ -22,4 +22,4 @@ var applicationSchema = new mongoose.Schema({
 */
 applicationSchema.index({ UTORid: 1, session: 1 }, {unique: true});
 
-module.exports = mongoose.model('Courses', coursesSchema);
+module.exports = mongoose.model('Application', applicationSchema);

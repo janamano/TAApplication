@@ -26,7 +26,7 @@ var port = 8080;
 
 var applicantsRoute = require('./router/applicant')(app);
 var coursesRoute = require('./router/courses')(app);
-var applicationRoute = require('./router/application')(app);
+var assignmentRoute = require('./router/assignment')(app);
 
 // Start listening for requests
 server.listen(process.env.PORT || port, function () {

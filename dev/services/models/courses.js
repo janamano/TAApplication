@@ -12,10 +12,7 @@ var coursesSchema = new mongoose.Schema({
     title: String,
     instructor: String,
     numberOfTAs: Number,
-    TAsAssigned: Number,
-    remainingPosition: Number,
     qualifications: String,
-    assignedTA: [Number]
 });
 
 module.exports = mongoose.model('Courses', coursesSchema);

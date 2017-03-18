@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
 import { hashHistory } from 'react-router';
+import 'whatwg-fetch';
 
 import AutosuggestBox from './AutosuggestBox';
 import Nav from './Nav';

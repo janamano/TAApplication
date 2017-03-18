@@ -56,12 +56,29 @@ module.exports = function(app) {
                     });
             } else {
                 // 2. find the list of assigned applicants
-                res.status(200)
-                    .json({
-                        status: 'success',
-                        data: assignments,
-                        message: "found"
-                    });
+                var listOfApplicants = [];
+                for (var i = 0; i < assignments.length; i++) {
+                    listOfApplicants.push(assignments[i].assignedApplicant);
+                }
+
+                // 3. Query the applicants info
+                ApplicantList.find({studentNumber: listOfApplicants}, function(err, applicants) {
+                    if (err) {
+                        res.status(400)
+                            .json({
+                                status: 'error',
+                                data: {},
+                                message: err
+                            });
+                    } else {
+                        res.status(200)
+                            .json({
+                                status: 'success',
+                                data: applicants,
+                                message: "found the applicants"
+                            });
+                    }
+                });
             }
         });
     });

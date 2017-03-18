@@ -13,7 +13,8 @@ var applicationSchema = new mongoose.Schema({
     coursePref: [{
         courseCode: String,
         rank: Number
-    }]
+    }],
+    status: boolean         //True: Submitted, False: Not Submitted
 });
 /*
 * Makes sure the UTORid, session combination is unique.

@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
+import {
+    Router,
+    Route,
+    Link,
+    IndexRoute,
+    hashHistory,
+    browserHistory
+} from 'react-router';
+
 import Login from './Login';
 import Nav from './Nav';
+import Profile from './Profile';
+import CourseSelection from './CourseSelection';
+import ApplicantHistory from './ApplicantHistory';
+import Cart from './Cart';
 
 export default class App extends Component {
     constructor() {
@@ -9,10 +22,13 @@ export default class App extends Component {
  
     render() {
         return (
-            <div>
-                <Nav heading="TA Application System"/>
-                <Login />
-            </div>
+            <Router history={hashHistory}>
+                <Route path='/' component={Login}/>
+                <Route path='/profile' component={Profile}/>
+                <Route path='/history' component={ApplicantHistory} />
+                <Route path='/courseselection' component={CourseSelection} />
+                <Route path='/cart' component={Cart} />
+            </Router>
         );
     }
 }

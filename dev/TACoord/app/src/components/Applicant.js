@@ -3,11 +3,12 @@ import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-material
 
 
 export default class Applicant extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            prompt: ""
+            prompt: "",
+            numberOfTAs: props.numTAs
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
@@ -29,6 +30,7 @@ export default class Applicant extends Component {
 
         if (stat === "REJECT") {
             stat = "ACCEPT";
+
         } else {
             stat = "REJECT";
         }
@@ -42,18 +44,30 @@ export default class Applicant extends Component {
             this.props.toggleFunction(this.props.applicantInfo.UTORid)
         }
 
-
+        //
         // CANT TEST BACKEND IS NOT WORKING FOR ME
-        // var query = "";
-        // if (stat === "ACCEPT") {
-        //     // this means that this applicant was just rejected
-        //     query = "/rejectApplicant";
-        // } else {
-        //     query = "/acceptApplicant";
-            
-        // }
-        // // update this applicant's status in the database
-        // fetch(query, {
+        var applicantQuery = "";
+        var numTAsQuery = ""
+        if (stat === "ACCEPT") {
+            // this means that this applicant was just rejected
+            applicantQuery = "/rejectApplicant";
+            // one more spot opened update
+            numTAsQuery = "inc";
+            this.props.numTAFunction(1);
+            var newVal = this.state.numberOfTAs + 1;
+        } else {
+            applicantQuery = "/acceptApplicant";
+            numTAsQuery = "dec"
+            this.props.numTAFunction(-1);
+            var newVal = this.state.numberOfTAs + 1;            
+        }
+
+        this.setState({
+            numberOfTAs: newVal
+        })
+
+        // update this applicant's status in the database
+        // fetch(applicantQuery, {
         //     method: 'POST',
         //     credentials: 'include',
         //     headers: {
@@ -72,6 +86,26 @@ export default class Applicant extends Component {
         // .catch(function(error) {
         //     throw error;
         // });
+        // // increment or decrement the number of tas needed
+        // fetch('/API', {
+        //     method: 'POST',
+        //     credentials: 'include',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         name: numTAsQuery
+        //     })
+        // })
+        // .then(json)
+        // .then(function(data) {
+        //     //TODO
+        // })
+        // .catch(function(error) {
+        //     throw error;
+        // });
+        
     }
 
 
@@ -98,21 +132,9 @@ export default class Applicant extends Component {
                   {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am tooltip" onClick={this.toggleCart}>{this.state.prompt}</Button>
+                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>
             </Modal> 
         )
     }
 }
-
-// not working, working on it
-
-// <h4 className="thin">Academic History</h4>
-//                   <ul>
-//                     {this.props.academicHistory.map(entry =>
-//                         <li> Course: {entry.courseCode}, Grade: {entry.grade}</li>
-//                         )
-//                     }
-//                   </ul>
-//                   <h4 className="thin">TA History</h4>
-//                   <p>{this.props.TAHistory}</p>

@@ -4,12 +4,13 @@ import Applicant from './Applicant';
 import Filter from './Filter';
 
 export default class Course extends Component {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        console.log(props.numberOfTAs)
         this.state = {
             applicants: [],
-            applicantsCart: []
+            applicantsCart: [],
+            numTAs: props.numberOfTAs
         };
 
 
@@ -139,6 +140,13 @@ export default class Course extends Component {
         }
     }
 
+    incTAs(value) {
+        var current = this.props.numberOfTAs;
+        current += value;
+        this.setState({
+            numTAs: current
+        });
+    } 
     render() {
         let head = this.props.code + ": " + this.props.title;
         return (
@@ -146,7 +154,7 @@ export default class Course extends Component {
         <CollapsibleItem header={ head }>
                 <p>Course Code: {this.props.code}
                    Title: {this.props.title}
-                   Number of TAs: {this.props.numberOfTAs}
+                   Number of TAs: {this.state.numTAs}
                    Qualifications: {this.props.qualifications}
                    </p>
                 <Collapsible>
@@ -159,8 +167,9 @@ export default class Course extends Component {
                                        prompt={this.isAssigned.bind(this)}
                                        courseUnderConsideration={this.props.code}
                                        toggleFunction={this.toggleCart.bind(this)}
-                                       // TODO: disable accept when numTAs reached
-                                       numTAs={this.props.numberOfTAs} />
+                                       
+                                       numTAFunction={this.incTAs.bind(this)}
+                                       numTAs={this.state.numTAs} />
                         )}
                     </CollapsibleItem>
                 </Collapsible>

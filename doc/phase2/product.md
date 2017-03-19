@@ -68,5 +68,7 @@ We met on a weekly basis to discuss progress and set targets for the coming week
 ## Rate of Progress
 As reflected from the timestamps in our [GitHub Issues]() and the [commit history](), we did not get started with development work from day one of this phase. We took a bit of time and got started with development work a week later. However, as it can be seen from the number of *closed* issues and the product that we will be demoing, we did make very quick and steady progress over the past couple of weeks and have reached a state where we consider that most of the implementation work has been completed.
 
-## Plan for Next Phase
-BEING WORKED ON..
+## Areas of Improvement and Plans for Next Phase
+Although our way of working and collaboration worked out pretty well for the most part, we do think there are areas of improvement, particularly in planning and work allocation. Firstly, we haven't referred much to the API document we created in phase 1. This has led to some reiteration and duplication of work, and has consumed some valueable time resource. Secondly, we think we should have been more specific and granular when assigning targets to team members. We consider that we were a bit too general when assigning work, and as a result there was a lesser scope of accountability.
+
+Going forward into the final phase, we will consider making tasks more granular and specific. However, as we judge based on our initial [scope document]() and the above list pending tasks, there isn't much development work left to reach a state where will be comfortable taking our product for a test-drive.

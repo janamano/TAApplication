@@ -11,7 +11,8 @@ export default class Courses extends Component {
         super();
         // initialize the list of courses
         this.state = {
-            courses: []
+            courses: [],
+            applicantsUnderConsideration: []
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -19,25 +20,27 @@ export default class Courses extends Component {
 
      componentWillMount() {
         var t = this;
-         //get all the courses
-        //  fetch('/getCourses', {method: 'GET'})
-        //      .then(json)
-        //      .then(function(data) {
-        //          // store this in the state courses to create course objects
-        //          const courses = data.data;
-        //          t.setState({
-        //              courses: courses.map(function(course) {
-        //                  return {code: course.code,
-        //                         title: course.title,
-        //                         numberOfTAs: course.numberOfTAs,
-        //                         qualifications: course.qualifications}
-        //              })
-        //          });
-        //      })
-        //      .catch(function(err) {
-        //         // fetch didnt work
-        //         throw err;
-        //     });
+        //get all the courses
+        // fetch('/getOpenCourses', {method: 'GET'})
+        //     .then(json)
+        //     .then(function(data) {
+        //         // store this in the state courses to create course objects
+        //         const courses = data.data;
+        //         t.setState({
+        //             courses: courses.map(function(course) {
+        //                 return {code: course.code,
+        //                     title: course.title,
+        //                     numberOfTAs: course.numberOfTAs,
+        //                     qualifications: course.qualifications}
+        //             })
+        //         });
+        //     })
+        //     .catch(function(err) {
+        //     // fetch didnt work
+        //     throw err;
+        // });
+
+        var i
 
        t.setState({
            courses: [
@@ -58,17 +61,20 @@ export default class Courses extends Component {
 
     render() {
         return (
-            <Collapsible>
-                {this.state.courses.map(course =>
-                    <Course key={course.code}
-                            code={course.code}
-                             title={course.title}
-                             numberOfTAs={course.numberOfTAs}
-                             qualifications={course.qualifications}
-                    />
-                    )
-                }
-           </Collapsible>
+            <div>
+                <Button>Review</Button>
+                <Collapsible>
+                    {this.state.courses.map(course =>
+                        <Course key={course.code}
+                                code={course.code}
+                                title={course.title}
+                                numberOfTAs={course.numberOfTAs}
+                                qualifications={course.qualifications}
+                        />
+                        )
+                    }
+                </Collapsible>
+            </div>
         )    
     }
 }

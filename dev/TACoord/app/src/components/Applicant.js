@@ -15,9 +15,16 @@ export default class Applicant extends Component {
     }
     
     toggleCart() {
+        // change the button
         this.setState({
             status: "REJECT"
         });
+
+        if (typeof this.props.toggleFunction === 'function') {
+            this.props.toggleFunction(this.props.UTORid)
+        }
+
+
     }
     render() {
        // let applicant = this.state.applicant;
@@ -31,13 +38,17 @@ export default class Applicant extends Component {
                            }>
                   <h4 className="thin">Basic Info</h4>
                   <p>Name: {this.props.firstName} {this.props.lastName}</p>
+                  <p>UTORid: {this.props.UTORid}</p>                  
                   <p>Student Number: {this.props.studentNumber}</p>
                   <p>Contact Information: Email: {this.props.email}, Phone Number: {this.props.phoneNumber}</p>
                   <h4 className="thin">Student Info</h4>
                   <p>Program: {this.props.programName}, {this.props.programLevel}</p>
                   <p>Year: {this.props.year}</p>
                   <p>Work Status: {this.props.workStatus}</p>
-                  <div className="modal-footed">
+                  <h4 className="thin">Student History</h4>
+                  {this.props.TAHistory.map(entry =>
+                      <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
+                  <div className="modal-footer">
                   <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.status}</Button>
                   </div>
             </Modal> 

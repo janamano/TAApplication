@@ -30,7 +30,7 @@ export default class Applicant extends Component {
 
         // add or remove this user from the list of accepted applicants (for review)
         if (typeof this.props.toggleFunction === 'function') {
-            this.props.toggleFunction(this.props.UTORid)
+            this.props.toggleFunction(this.props.applicantInfo.UTORid)
         }
 
 
@@ -67,9 +67,9 @@ export default class Applicant extends Component {
 
 
     render() {
-       // let applicant = this.state.applicant;
-        let head = this.props.firstName + " " + this.props.lastName;
-        var app = this.props;
+        let app = this.props.applicantInfo;
+
+        let head = this.props.applicantInfo.firstName + " " + this.props.applicantInfo.lastName;
 
         return (
             <Modal header={ head }
@@ -77,16 +77,16 @@ export default class Applicant extends Component {
                             <ul><li>{ head }</li></ul>
                            }>
                   <h4 className="thin">Basic Info</h4>
-                  <p>Name: {this.props.firstName} {this.props.lastName}</p>
-                  <p>UTORid: {this.props.UTORid}</p>                  
-                  <p>Student Number: {this.props.studentNumber}</p>
-                  <p>Contact Information: Email: {this.props.email}, Phone Number: {this.props.phoneNumber}</p>
+                  <p>Name: {app.firstName} {app.lastName}</p>
+                  <p>UTORid: {app.UTORid}</p>                  
+                  <p>Student Number: {app.studentNumber}</p>
+                  <p>Contact Information: Email: {app.email}, Phone Number: {app.phoneNumber}</p>
                   <h4 className="thin">Student Info</h4>
-                  <p>Program: {this.props.programName}, {this.props.programLevel}</p>
-                  <p>Year: {this.props.year}</p>
-                  <p>Work Status: {this.props.workStatus}</p>
+                  <p>Program: {app.studentInformation.programName}, {app.studentInformation.programLevel}</p>
+                  <p>Year: {app.studentInformation.year}</p>
+                  <p>Work Status: {app.studentInformation.workStatus}</p>
                   <h4 className="thin">Student History</h4>
-                  {this.props.TAHistory.map(entry =>
+                  {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
                   <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.status}</Button>

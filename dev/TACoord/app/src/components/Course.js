@@ -57,13 +57,15 @@ export default class Course extends Component {
         var cart = this.state.applicantsCart;
         var index = cart.indexOf(student);
 
-        if (index > -1) {
-            // if the student is in the cart, remove them
-            cart.splice(index, 1);
-        } else {
-            // otherwise add the student to cart
-            cart.push(student);
-        }
+        // add the student to the course's cart if accepted, otherwise remove from cart
+        this.props.onChange(this.props.code, student);
+        // if (index > -1) {
+        //     // if the student is in the cart, remove them
+        //     cart.splice(index, 1);
+        // } else {
+        //     // otherwise add the student to cart
+        //     cart.push(student);
+        // }
 
 
         this.setState({
@@ -86,21 +88,11 @@ export default class Course extends Component {
                         {this.state.applicants.map(applicant =>
                             // TODO pass in a single prop for the applicant info
                             <Applicant key={applicant.studentNumber}
-                                       firstName={applicant.firstName}
-                                       lastName={applicant.lastName}
-                                       UTORid={applicant.UTORid}
-                                       studentNumber={applicant.studentNumber}
-                                       phoneNumber={applicant.phoneNumber}
-                                       email={applicant.email}
-                                       programLevel={applicant.studentInformation.programLevel}
-                                       programName={applicant.studentInformation.programName}
-                                       year={applicant.studentInformation.year}
-                                       workStatus={applicant.studentInformation.workStatus}
-                                       TAHistory={applicant.studentInformation.TAHistory}
+                                       applicantInfo={applicant}
                                        courseUnderConsideration={this.props.code}
+                                       toggleFunction={this.toggleCart.bind(this)}
                                        // TODO: disable accept when numTAs reached
-                                       numTAs={this.props.numberOfTAs}
-                                       toggleFunction={this.toggleCart.bind(this)} />
+                                       numTAs={this.props.numberOfTAs} />
                         )}
                     </CollapsibleItem>
                 </Collapsible>

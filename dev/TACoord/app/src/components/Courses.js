@@ -12,7 +12,7 @@ export default class Courses extends Component {
         // initialize the list of courses
         this.state = {
             courses: [],
-            applicantsUnderConsideration: []
+            courseCarts: []
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -62,7 +62,7 @@ export default class Courses extends Component {
         //         }
 
         //         t.setState({
-        //             applicantsUnderConsideration: cart
+        //             courseCarts: cart
         //         });
         //     })
         //     .catch(function(error) {
@@ -76,7 +76,7 @@ export default class Courses extends Component {
                {code: "CSC207", title: "Software Design",numberOfTAs: 12, qualifications: "CSC207"},
                {code: "CSC343", title: "Introduction To Databases",numberOfTAs: 1, qualifications: "CSC207"},        
            ],
-           applicantsUnderConsideration: [
+           courseCarts: [
                {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
                {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
            ]
@@ -95,6 +95,45 @@ export default class Courses extends Component {
         }
         return false;
     }
+
+    // get the index of given student
+    getIndex(list, student) {
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            if (item.UTORid === student) {
+                return i;
+            }
+        }   
+        return -1;
+    }
+    // adds/removes students from the course (code) cart 
+    toggleCart(code, student) {
+        var carts = this.state.courseCarts;
+        // if the course is not in the list of carts, then this student is accepted
+        if (! this.contains(code, carts)) {
+            carts.push({code: code, applicants: [{UTORid:student}] });
+        } else {
+            // find out if the student is already in the cart for this course
+            // if they are, that means they just got rejected
+            var currentCart = carts[this.index(code, carts)];
+
+            var index = this.getIndex(currentCart.applicants, student);
+            if (index > -1) {
+                currentCart.applicants.splice(index, 1);
+            } else {
+                // this student is not in the cart, so add them
+                currentCart.applicants.push({UTORid: student});
+            }
+
+            carts[this.index(code, carts)] = currentCart;
+        }
+
+        this.setState({
+           courseCarts: carts 
+        });
+    }
+
+
     // to check if a course is already in the list
     index(code, cart) {
         for (var i = 0; i < cart.length; i++) {
@@ -115,7 +154,6 @@ export default class Courses extends Component {
     render() {
         return (
             <div>
-                <Button>Review</Button>
                 <Collapsible>
                     {this.state.courses.map(course =>
                         <Course key={course.code}
@@ -123,10 +161,20 @@ export default class Courses extends Component {
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
                                 qualifications={course.qualifications}
+                                onChange={this.toggleCart.bind(this)}
                         />
                         )
                     }
                 </Collapsible>
+                <div>
+                    {this.state.courseCarts.map(cart =>
+                        <div key={cart.code}>
+                            <h3>{cart.code}</h3>
+                            {cart.applicants.map(applicant =>
+                            <p key={applicant.UTORid}>{applicant.UTORid}</p>
+                            )}
+                        </div>)}
+                </div>
             </div>
         )    
     }

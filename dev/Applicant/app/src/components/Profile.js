@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Row, Input, Icon, Button } from "react-materialize";
 import { hashHistory } from 'react-router';
+import 'whatwg-fetch';
 
 import Nav from './Nav';
 
@@ -46,6 +47,7 @@ export default class Profile extends Component {
         hashHistory.push({
             pathname: `/history`,
             state: { 
+                UTORid: this.state.UTORid,
                 studentNumber: this.state.studentNumber,
                 TAHistory: (typeof this.state.studentInformation != 'undefined' && 
                                 typeof this.state.studentInformation.TAHistory != 'undefined') 

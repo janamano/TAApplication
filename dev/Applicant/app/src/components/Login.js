@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Input, Button } from 'react-materialize';
 import { hashHistory } from 'react-router';
+import 'whatwg-fetch';
 
 import Nav from './Nav';
 

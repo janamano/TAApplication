@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
 import { hashHistory } from 'react-router';
+import 'whatwg-fetch';
 
 import AutosuggestBox from './AutosuggestBox';
 import Nav from './Nav';
@@ -16,7 +17,9 @@ export default class ApplicantHistory extends Component {
         super(props);
 
         const studentNumber = props.location.state.studentNumber;
+        const UTORid = props.location.state.UTORid;
         this.state = {
+            UTORid: UTORid,
             studentNumber: studentNumber,
             allCourses: [],
         }
@@ -83,6 +86,7 @@ export default class ApplicantHistory extends Component {
         hashHistory.push({
             pathname: `/courseselection`,
             state: { 
+                UTORid: this.state.UTORid,
                 studentNumber: this.state.studentNumber,
             }
         });

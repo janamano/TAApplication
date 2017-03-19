@@ -111,4 +111,52 @@ module.exports = function(app) {
         });
     });
 
+        /*
+        Filter applicants by combination of querys.
+        Possible query value: grad, takenPreq, TAed
+        Test calls: http//localhost:8080/filterApplicants?query=grad;takenPreq;TAed=CSC108
+        */
+        app.get('/filterApplicants/', function(req, res) {
+
+            var grad = req.query.query.includes('grad');
+            //var takenPreq = req.query.query.includes('takenPreq');
+            var TAed = req.query.query.includes('TAed');
+            var index = req.query.query.indexOf('TAed') + 5;  // 5 = length of 'TAed='
+            var course = req.query.query.substring(index, index + 6);  // 6 = length of CourseCode: CSC108
+            console.log(course);
+            var callbackFunc =  function(err, applicants) {
+                if (err) {
+                    res.status(400)
+                        .json({
+                            status: 'error',
+                            data: {},
+                            message: err
+                        });
+                } else {
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: applicants,
+                            message: "Successfully filtered applicants"
+                        });
+                }
+            };
+            if (grad && TAed) {
+                ApplicantList.find(
+                    {$and: [
+                        {'studentInformation.programLevel': {$ne: 'Undergraduate'}},
+                        {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}}]},
+                        callbackFunc);
+
+            } else if (grad) {
+                ApplicantList.find(
+                        {'studentInformation.programLevel': {$ne: 'Undergraduate'}},
+                        callbackFunc);
+            } else if (TAed) {
+                ApplicantList.find(
+                        {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}},
+                        callbackFunc);
+            }
+
+        });
 };

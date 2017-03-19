@@ -68,6 +68,22 @@ app.get('/getApplicants', function(req, res) {
     makeGetRequest('/getApplicantsByCourse', {}, req, res);
 });
 
+/*
+* TODO
+app.get('/getAcceptedAssignments', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/acceptApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/rejectApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+*/
+
 
 /* 
 TODO: 

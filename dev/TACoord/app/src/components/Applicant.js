@@ -10,16 +10,13 @@ export default class Applicant extends Component {
             prompt: ""
         };
 
-      //  console.log(this.props.academicHistory);
       this.componentWillMount = this.componentWillMount.bind(this);
-
       this.toggleCart = this.toggleCart.bind(this);
       
     }
     
     componentWillMount() {
         var prompt = this.props.prompt(this.props.applicantInfo.UTORid);
-        console.log(prompt);
         this.setState({
             prompt: prompt
         });
@@ -101,7 +98,7 @@ export default class Applicant extends Component {
                   {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
+                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="I am tooltip" onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>
             </Modal> 
         )

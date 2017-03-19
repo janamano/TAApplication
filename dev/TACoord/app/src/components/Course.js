@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-materialize";
 import Applicant from './Applicant';
-
+import Filter from './Filter';
 
 export default class Course extends Component {
     constructor() {
@@ -102,6 +102,11 @@ export default class Course extends Component {
         }
     }
 
+    setFilter(grad, taed) {
+        console.log(grad + " " + taed);
+        return true;
+    }
+
     render() {
         let head = this.props.code + ": " + this.props.title;
         return (
@@ -114,6 +119,7 @@ export default class Course extends Component {
                    </p>
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
+                        <Filter onChange={this.setFilter.bind(this)}/>
                         {this.state.applicants.map(applicant =>
                             
                             <Applicant key={applicant.studentNumber}

@@ -55,5 +55,18 @@ Moreover, in order to decouple the implementation logic and to be consistent wit
 ??????? interesting bugs, challenges, lessons learned, observations, etc ????
 
 # Teamork and Process
-BEING WORKED ON...
+We deviated quite a bit from initial plan of following Kanban as our development process. We adapted a more agile and less strict workflow, where we primarily collaborated through GitHub Issues and through online communication. Tasks, such as the implementation of features and APIs, were articulated as GitHub Issues and assigned to team members based on their expertise and / or the nature of work they were already involved with in this project.
 
+## Source Code Managment
+Although, the code bases for all the three components of our app was hosted within the same repository, we partitioned them neatly in separate directories, such that they still remained as self-contained entities without any direct dependencies within each other.
+
+Since this is not an extremely large project and there aren't too many developers working on each component, we did not use pull requests or branching very extensively. However, each member made sure that the code they committed / pushed was stable and error-free. This was largely done through manual testing __??__and our continuous integration tests.__??__
+
+## Meetings
+We met on a weekly basis to discuss progress and set targets for the coming week. However, most of our communication and important discussions took place through online messaging. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
+
+## Rate of Progress
+As reflected from the timestamps in our [GitHub Issues]() and the [commit history](), we did not get started with development work from day one of this phase. We took a bit of time and got started with development work a week later. However, as it can be seen from the number of *closed* issues and the product that we will be demoing, we did make very quick and steady progress over the past couple of weeks and have reached a state where we consider that most of the implementation work has been completed.
+
+## Plan for Next Phase
+BEING WORKED ON..

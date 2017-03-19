@@ -57,6 +57,8 @@ Moreover, in order to decouple the implementation logic and to be consistent wit
 ???????
 
 # Technical Highlights
+* Directly typcasting a String to a Boolean will always result in true
+* Learned that in React functions can be passed in as props
 ??????? interesting bugs, challenges, lessons learned, observations, etc ????
 
 # Teamork and Process

@@ -103,8 +103,13 @@ export default class Course extends Component {
     }
 
     setFilter(grad, taed) {
-        console.log(grad + " " + taed);
-        return true;
+        var constructQuery = "query=";
+        //query=grad;takenPreq;TAed=CSC108
+        if (grad && taed) {
+            constructQuery += "grad;TAed=" + this.props.code;
+        } else if (grad) {
+            constructQuery += "grad;";            
+        }
     }
 
     render() {
@@ -119,7 +124,7 @@ export default class Course extends Component {
                    </p>
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
-                        <Filter onChange={this.setFilter.bind(this)}/>
+                        <Filter setFilter={this.setFilter.bind(this)}/>
                         {this.state.applicants.map(applicant =>
                             
                             <Applicant key={applicant.studentNumber}

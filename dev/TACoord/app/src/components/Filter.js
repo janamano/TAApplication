@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Button, Input } from "react-materialize";
 
 
-export default class Applicant extends Component {
+export default class Filter extends Component {
     constructor() {
         super();
     
@@ -12,6 +12,7 @@ export default class Applicant extends Component {
     });
 
     this.toggle = this.toggle.bind(this);
+    this.setFilter = this.setFilter.bind(this);
     }
 
     toggle(event) {
@@ -29,6 +30,7 @@ export default class Applicant extends Component {
                  taed: newVal
             });
         }
+
     }
     
     setFilter() {
@@ -40,8 +42,8 @@ export default class Applicant extends Component {
             <div>
                 <h6 className="thin">Filter Applicants</h6>
                 <Row>
-                    <Input onChange={this.toggle} name='grad' type='checkbox' value={true} label='Grad Students'/>
-                    <Input onChange={this.toggle} name='ta' type='checkbox' value={false} label='Previously TAd'/>
+                    <Input onChange={this.toggle} name='grad' type='checkbox' value={this.state.grad} label='Grad Students'/>
+                    <Input onChange={this.toggle} name='ta' type='checkbox' value={this.state.taed} label='Previously TAd'/>
                     <Button type='submit'  onClick={this.setFilter} >Apply Filter</Button>
                 </Row>
             </div>

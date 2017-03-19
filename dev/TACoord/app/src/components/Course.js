@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-materialize";
 import Applicant from './Applicant';
 
-let applicantsCart = [];
 
 export default class Course extends Component {
     constructor() {
@@ -72,6 +71,36 @@ export default class Course extends Component {
                  applicantsCart: cart
         });
     }
+    
+    // get the index of given student
+    getIndex(list, student) {
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            if (item.UTORid === student) {
+                return i;
+            }
+        }   
+        return -1;
+    }
+
+    // to check if an applicat is currently assigned to this course
+    isAssigned(applicant) {
+        var carts = this.props.currentlyAssigned;
+        if (! carts) {
+            
+            // not assigned
+            return "ACCEPT" // "ACCEPT"
+        } else {
+            // there is a cart for this course
+            var cart = carts.applicants;
+        
+            if (this.getIndex(cart, applicant) > -1) {
+                return "REJECT"; // REJECT
+            } else {
+                return "ACCEPT";
+            }
+        }
+    }
 
     render() {
         let head = this.props.code + ": " + this.props.title;
@@ -86,9 +115,10 @@ export default class Course extends Component {
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
                         {this.state.applicants.map(applicant =>
-                            // TODO pass in a single prop for the applicant info
+                            
                             <Applicant key={applicant.studentNumber}
                                        applicantInfo={applicant}
+                                       prompt={this.isAssigned.bind(this)}
                                        courseUnderConsideration={this.props.code}
                                        toggleFunction={this.toggleCart.bind(this)}
                                        // TODO: disable accept when numTAs reached

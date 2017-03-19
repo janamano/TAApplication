@@ -96,16 +96,6 @@ export default class Courses extends Component {
         return false;
     }
 
-    // get the index of given student
-    getIndex(list, student) {
-        for (var i = 0; i < list.length; i++) {
-            var item = list[i];
-            if (item.UTORid === student) {
-                return i;
-            }
-        }   
-        return -1;
-    }
     // adds/removes students from the course (code) cart 
     toggleCart(code, student) {
         var carts = this.state.courseCarts;
@@ -133,6 +123,16 @@ export default class Courses extends Component {
         });
     }
 
+    // get the index of given student
+    getIndex(list, student) {
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            if (item.UTORid === student) {
+                return i;
+            }
+        }   
+        return -1;
+    }
 
     // to check if a course is already in the list
     index(code, cart) {
@@ -161,6 +161,7 @@ export default class Courses extends Component {
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
                                 qualifications={course.qualifications}
+                                currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}
                         />
                         )

@@ -97,6 +97,7 @@ export default class Course extends Component {
                                        year={applicant.studentInformation.year}
                                        workStatus={applicant.studentInformation.workStatus}
                                        TAHistory={applicant.studentInformation.TAHistory}
+                                       courseUnderConsideration={this.props.code}
                                        // TODO: disable accept when numTAs reached
                                        numTAs={this.props.numberOfTAs}
                                        toggleFunction={this.toggleCart.bind(this)} />

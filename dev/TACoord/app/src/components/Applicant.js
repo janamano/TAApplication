@@ -16,16 +16,56 @@ export default class Applicant extends Component {
     
     toggleCart() {
         // change the button
+        var stat = this.state.status;
+
+        if (stat === "REJECT") {
+            stat = "ACCEPT";
+        } else {
+            stat = "REJECT";
+        }
+
         this.setState({
-            status: "REJECT"
+            status: stat
         });
 
+        // add or remove this user from the list of accepted applicants (for review)
         if (typeof this.props.toggleFunction === 'function') {
             this.props.toggleFunction(this.props.UTORid)
         }
 
 
+        // CANT TEST BACKEND IS NOT WORKING FOR ME
+        // var query = "";
+        // if (stat === "ACCEPT") {
+        //     // this means that this applicant was just rejected
+        //     query = "/rejectApplicant";
+        // } else {
+        //     query = "/acceptApplicant";
+            
+        // }
+        // // update this applicant's status in the database
+        // fetch(query, {
+        //     method: 'POST',
+        //     credentials: 'include',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         courseCode: this.props.courseUnderConsideration,
+        //         UTORid: this.props.UTORid                   
+        //     })
+        // })
+        // .then(json)
+        // .then(function(data) {
+        //     //TODO
+        // })
+        // .catch(function(error) {
+        //     throw error;
+        // });
     }
+
+
     render() {
        // let applicant = this.state.applicant;
         let head = this.props.firstName + " " + this.props.lastName;

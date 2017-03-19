@@ -22,12 +22,12 @@ export default class Applicant extends Component {
         
         if (name === 'grad') {
             this.setState({
-                grad: new_val
+                 grad: newVal
             });
         } else {
             this.setState({
-                    taed: new_val
-            });            
+                 taed: newVal
+            });
         }
     }
     

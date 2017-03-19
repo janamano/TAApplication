@@ -8,24 +8,24 @@ Phase 2 was planned as our core developement phase. During this cycle, we planne
 A significant portion of our entire application has been implemented during this phase. Apart from setting up the basic structures of the different components, we were able to implement the following set of features into our app:
 
 * Applicant client:
- * User authentication
- * View list of courses with open TA positions
- * Mark courses interested in TAing, and rank them based on level of interest / preference
- * Ability to enter personal and academic information
- * Ability to add courses to a virtual cart, and revisit them with ease at a later time
- * Ability to save an incomplete application and resume editing at a later time
+    * User authentication
+    * View list of courses with open TA positions
+    * Mark courses interested in TAing, and rank them based on level of interest / preference
+    * Ability to enter personal and academic information
+    * Ability to add courses to a virtual cart, and revisit them with ease at a later time
+    * Ability to save an incomplete application and resume editing at a later time
 
 * TA Coordinator client:
- * View list of courses with open TA positions
- * View a list of applicants that applied to each course by clicking each course
- * Filter applicants based on their program level(Graduate Studies or Undergraduate)
- * Filter applicants based on whether they have TA'ed the course under consideration before
- * Ability to view an applicant's information such as their contact information, work status and work history
- * Ability to review all the assignments that have been made for each course
+    * View list of courses with open TA positions
+    * View a list of applicants that applied to each course by clicking each course
+    * Filter applicants based on their program level(Graduate Studies or Undergraduate)
+    * Filter applicants based on whether they have TA'ed the course under consideration before
+    * Ability to view an applicant's information such as their contact information, work status and work history
+    * Ability to review all the assignments that have been made for each course
 
 * Applicant System Backend:
- * [Design and implementation of database schema](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/22)
- * Following web APIs to support the above features of the Applicant and the TA Coordinator client:
+    * [Design and implementation of database schema](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/22)
+    * Following web APIs to support the above features of the Applicant and the TA Coordinator client:
    
      [Applicant Login](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/21), [GetAllApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/23), [GetCourses](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/30), [GetCourseInfo](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/31), [GetUnassignedPositions](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/38), [GetApplicantsByCourse](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/39), [GetApplicantProfile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/53), [AssignApplicant](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/68)
      

@@ -103,12 +103,39 @@ export default class Course extends Component {
     }
 
     setFilter(grad, taed) {
-        var constructQuery = "query=";
+        var constructQuery = "?query=";
         //query=grad;takenPreq;TAed=CSC108
         if (grad && taed) {
             constructQuery += "grad;TAed=" + this.props.code;
         } else if (grad) {
-            constructQuery += "grad;";            
+            constructQuery += "grad";            
+        } else if (taed) {
+            constructQuery += "TAed=" + this.props.code;                        
+        }
+        
+        if (constructQuery != "query=") {
+            // make fetch call
+            fetch('/filter' + "?" + constructQuery, {method: 'GET'})
+                .then(json)
+                .then(function(data) {
+                    // store this in the state courses to create course objects
+                    const applicants = data.data;
+                    t.setState({
+                        applicants: applicants.map(function(applicant) {
+                            return {UTORid: applicant.UTORid,
+                                    studentNumber: applicant.studentNumber,
+                                    lastName: applicant.lastName,
+                                    firstName: applicant.firstName,
+                                    phoneNumber: applicant.phoneNumber,
+                                    email: applicant.email,
+                                    studentInformation: applicant.studentInformation}
+                        })
+                    });
+                })
+                .catch(function(err) {
+                // fetch didnt work
+                throw err;
+            });
         }
     }
 

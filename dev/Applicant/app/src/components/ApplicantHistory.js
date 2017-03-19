@@ -77,15 +77,14 @@ export default class ApplicantHistory extends Component {
             })
             .then(json)
             .then(function(data) {
-                if (data.status == "success") {
-                    hashHistory.push({
-                        pathname: `/courseselection`,
-                        state: { 
-                            UTORid: this.state.UTORid,
-                            studentNumber: this.state.studentNumber,
-                        }
-                    });
-                }
+                // TODO: later, check for success first
+                hashHistory.push({
+                    pathname: `/courseselection`,
+                    state: { 
+                        UTORid: t.state.UTORid,
+                        studentNumber: t.state.studentNumber,
+                    }
+                })
             })
             .catch(function(err) {
                 throw err;
@@ -93,11 +92,35 @@ export default class ApplicantHistory extends Component {
     }
 
     updateCoursesTAdList(selected) {
+        var t = this;
+
+        let newCoursesState = [];
         if (selected != "") {
-            coursesTAd = selected.split(",");
-        } else {
-            coursesTAd = [];
+            newCoursesState = selected.split(",");
         }
+
+        t.setState({
+            TAHistory: []
+        })
+
+        let newHistory = [];
+
+        newCoursesState.map(function(obj) {
+            let newCourse = {};
+
+            coursesTAd.push({
+                value: obj,
+                label: obj
+            });
+            newHistory.push({
+                courseCode: obj,
+                timesTAd: 1
+            });
+        });
+
+        t.setState({
+            TAHistory: newHistory
+        })
     }
  
     render() {

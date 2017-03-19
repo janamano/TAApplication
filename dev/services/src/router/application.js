@@ -54,13 +54,10 @@ module.exports = function(app) {
         });
        newapplication.save();
        res.status(200)
-                    .json({
-                        status: 'success',
-                        data: {},
-                        message: "assignment saved"
-                    });
-       
-        });   
-    };
-   
-
+            .json({
+                status: 'success',
+                data: {},
+                message: "assignment saved"
+            });
+    });
+};

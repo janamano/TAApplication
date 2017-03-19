@@ -41,7 +41,7 @@ export default class Courses extends Component {
         // });
 
         // fetch all the assignments for that are considered for employment
-        // fetch('/getApi?status=True', {method: 'GET'})
+        // fetch('/getAcceptedAssignments', {method: 'GET'})
         //     .then(json)
         //     .then(function(data) {
         //         // store all the assignments in a variable

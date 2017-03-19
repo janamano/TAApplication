@@ -18,9 +18,9 @@ A significant portion of our entire application has been implemented during this
 * TA Coordinator client:
  * View list of courses with open TA positions
  * View a list of applicants that applied to each course by clicking each course
- * Filter applicants based on their program level(Graduate Studies)
+ * Filter applicants based on their program level(Graduate Studies or Undergraduate)
  * Filter applicants based on whether they have TA'ed the course under consideration before
- * Ability to view an applicant's information such as their contact information, adn work status and history
+ * Ability to view an applicant's information such as their contact information, work status and work history
  * Ability to review all the assignments that have been made for each course
 
 * Applicant System Backend:

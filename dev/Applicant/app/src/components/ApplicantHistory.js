@@ -93,11 +93,35 @@ export default class ApplicantHistory extends Component {
     }
 
     updateCoursesTAdList(selected) {
+        var t = this;
+
+        let newCoursesState = [];
         if (selected != "") {
-            coursesTAd = selected.split(",");
-        } else {
-            coursesTAd = [];
+            newCoursesState = selected.split(",");
         }
+
+        t.setState({
+            TAHistory: []
+        })
+
+        let newHistory = [];
+
+        newCoursesState.map(function(obj) {
+            let newCourse = {};
+
+            coursesTAd.push({
+                value: obj,
+                label: obj
+            });
+            newHistory.push({
+                courseCode: obj,
+                timesTAd: 1
+            });
+        });
+
+        t.setState({
+            TAHistory: newHistory
+        })
     }
  
     render() {

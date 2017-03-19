@@ -22,6 +22,7 @@ export default class ApplicantHistory extends Component {
             UTORid: UTORid,
             studentNumber: studentNumber,
             allCourses: [],
+            TAHistory: []
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -31,6 +32,15 @@ export default class ApplicantHistory extends Component {
 
     componentWillMount() {
         var t = this;
+
+        const history = this.props.location.state.TAHistory;
+        coursesTAd = history.map(function(obj){
+            return {value: obj.courseCode, label: obj.courseCode}
+        });
+        t.setState({
+            TAHistory: history
+        })
+
         fetch('/all-courses', { method: 'GET' })
             .then(json)
             .then(function(data) {
@@ -45,51 +55,41 @@ export default class ApplicantHistory extends Component {
             .catch(function(err) {
                 throw err;
             });
-
-        const history = this.props.location.state.TAHistory;
-        coursesTAd = history.map(function(obj){
-            return {value: obj.courseCode, label: obj.courseCode}
-        });
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
-        /*
-        TODO: Once submit back-end route is complete, implement this fetch() call
-              fully 
+        var t = this;
 
         // make form submit (POST) request
-        fetch("/API", {
+        fetch("/save-TA-history", {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    CoursesTAd: coursesTAd
+                    studentNumber: t.state.studentNumber,
+                    UTORid: t.state.UTORid,
+                    TAHistory: t.state.TAHistory
                 })
             })
             .then(json)
             .then(function(data) {
-                if (data.status == "success")
-                    hashHistory.push('/NEWPAGE');
+                if (data.status == "success") {
+                    hashHistory.push({
+                        pathname: `/courseselection`,
+                        state: { 
+                            UTORid: this.state.UTORid,
+                            studentNumber: this.state.studentNumber,
+                        }
+                    });
+                }
             })
             .catch(function(err) {
-                console.log(err);
                 throw err;
             });
-        */
-
-        // Until then...
-        hashHistory.push({
-            pathname: `/courseselection`,
-            state: { 
-                UTORid: this.state.UTORid,
-                studentNumber: this.state.studentNumber,
-            }
-        });
     }
 
     updateCoursesTAdList(selected) {

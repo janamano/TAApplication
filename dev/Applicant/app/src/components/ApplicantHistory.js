@@ -77,15 +77,14 @@ export default class ApplicantHistory extends Component {
             })
             .then(json)
             .then(function(data) {
-                if (data.status == "success") {
-                    hashHistory.push({
-                        pathname: `/courseselection`,
-                        state: { 
-                            UTORid: this.state.UTORid,
-                            studentNumber: this.state.studentNumber,
-                        }
-                    });
-                }
+                // TODO: later, check for success first
+                hashHistory.push({
+                    pathname: `/courseselection`,
+                    state: { 
+                        UTORid: t.state.UTORid,
+                        studentNumber: t.state.studentNumber,
+                    }
+                })
             })
             .catch(function(err) {
                 throw err;

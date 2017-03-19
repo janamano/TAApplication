@@ -29,7 +29,7 @@ module.exports = function(app) {
         var session = req.body.session;
         var status = req.body.status;
         var rankings = req.body.rankings;
-        console.log(rankings);
+        console.log(JSON.stringify(rankings_.stringify));
         res.send("RECVD");
         /*
         rankings: {

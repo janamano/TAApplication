@@ -32,10 +32,9 @@ A significant portion of our entire application has been implemented during this
 ## Pending / Incomplete Tasks
 Although we made significant inroads towards our final product, there are still outstanding features and some integration work left which we would have liked to complete within this phase. These are as follows:
 
-* [API for saving applicant profile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/52)
-* [Prepopulate applicant info with saved data](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/61)
+* [API for saving applicant profile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/52). This is only relevant for the non-academic information such as students' emails, degree status, etc, and their past history of TAing. This is *distinct* from the actual application for courses for TAing.
 * [Apply consistent and usable design to all UI layouts](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/36)
-* [Ability to submit an application](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/75)
+* [Ability to mark an application as 'submitted'](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/75)
 
 ## Task(s) Not Part of Initial Scope
 There is a particular enhancement that we added to our feature list, as we think this will add value to the user experience and will make the application process more comfortable and seemless.

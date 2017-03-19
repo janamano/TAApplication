@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
 import { Row, Button } from "react-materialize";
+import 'whatwg-fetch';
 
 import Nav from './Nav';
 import RankGroup from './RankGroup';
+
+let utils = require('../utils.js');
+let json = utils.json;
+let courseCompare = utils.courseCompare; 
 
 export default class Cart extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            /* TODO: make this proper once calls and program flow are built fully
-            coursesInCart: this.props.coursesinCart, */
+        const studentNumber = props.location.state.studentNumber;
+        const UTORid = props.location.state.UTORid;
 
-            // Until then...
-            coursesInCart: [
-                {
-                    code: "CSC108",
-                    title: "Introduction to Computer Programming"
-                },
-                {
-                    code: "CSC165",
-                    title: "Mathematical Expression and Reasoning for Computer Science"
-                }
-            ],
+        this.state = {
+            studentNumber: studentNumber,
+            UTORid: UTORid,
+            coursesInCart: [],
             rankings: {
                 1: [],
                 2: [],
@@ -30,50 +27,84 @@ export default class Cart extends Component {
                 4: [],
                 5: [],
                 0: []
-            }
+            },
+            allCourses: []
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.refreshRankGroups = this.refreshRankGroups.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     componentWillMount() {
         var t = this;
 
-        /*
-        TODO: once courses API is built, implement this fetch() 
-        fetch('/courses-in-cart', { method: 'GET' })
+        let coursePrefs = [];
+
+        fetch('/all-courses', { method: 'GET' })
             .then(json)
             .then(function(data) {
-                const rankings = data.data.rankings;
+                const courses = data.data;
                 t.setState({
-                    rankings: {
-                        1: rankings['1'],
-                        2: rankings['2'],
-                        3: rankings['3'],
-                        4: rankings['4'],
-                        5: rankings['5'],
-                        0: rankings['0']
-                    }
+                    allCourses: courses.map(function(obj) {
+                        return {code: obj.code, title: obj.title}
+                    })
                 });
+
+                fetch('/get-rankings?utorid=' + t.state.UTORid, { method: 'GET' })
+                    .then(json)
+                    .then(function(data) {
+                        coursePrefs = data.data;
+
+                        // copy of state rankings
+                        let rankings = JSON.parse(JSON.stringify(t.state.rankings));
+
+                        // copy of state coursesInCart
+                        let coursesInCart = t.state.coursesInCart.slice();
+
+                        if (typeof coursePrefs !== 'undefined' && coursePrefs.length == 0) {
+                            return;
+                        } else {
+                            coursePrefs = coursePrefs[0].coursePref;
+
+                            // examine every course-preference and update accordingly
+                            coursePrefs.map(function(course) {
+                                // index of course in allCourses list
+                                const index = t.state.allCourses.findIndex(item => item.code === course.courseCode);
+
+                                // update coursesInCart to have all the courses in the cart, and their associated titles
+                                coursesInCart.push({
+                                    code: course.courseCode, 
+                                    title: t.state.allCourses[index].title
+                                });
+
+                                // update rankings to have all the courses in the cart (at the correct position based
+                                // on rank), and their titles
+                                rankings[String(course.rank)].push({
+                                    code: course.courseCode, 
+                                    title: t.state.allCourses[index].title
+                                });
+                            });
+
+                            // sort courses alphabetically for ease-of-use
+                            for (var i = 0; i < 6; i++) {
+                                rankings[String(i)].sort(courseCompare);
+                            }
+
+                            t.setState({
+                                rankings: rankings,
+                                coursesInCart: coursesInCart
+                            });
+                        }
+                    })
+                    .catch(function(err) {
+                        throw err;
+                    });
             })
             .catch(function(err) {
                 throw err;
             });
-        */
-
-        // Until then...
-        t.setState({
-            rankings: {
-                1: [],
-                2: [],
-                3: [],
-                4: [],
-                5: [],
-                0: this.state.coursesInCart
-            }
-        });
     }
 
     refreshRankGroups(oldRank, newRank, code) {
@@ -114,18 +145,60 @@ export default class Cart extends Component {
     handleRemove(event, rankToRefresh, code) {
         event.stopPropagation();
 
-        // index of course being removed
-        const index = this.state.coursesInCart.findIndex(item => item.code === code);
+        // index of course being removed (from coursesInCart)
+        const indexCourses = this.state.coursesInCart.findIndex(item => item.code === code);
 
-        // delete the course, and reset state
+        // delete the course (from coursesInCart)
         let courses = this.state.coursesInCart.slice();
-        courses.splice(index, 1);
+        courses.splice(indexCourses, 1);
+
+        // index of course being removed (from state rankings)
+        const indexRank = this.state.rankings[String(rankToRefresh)].findIndex(item => item.code === code);
+        
+        // delete the course (from state rankings)
+        let rankings = JSON.parse(JSON.stringify(this.state.rankings));
+        rankings[String(rankToRefresh)].splice(indexRank, 1);
+
         this.setState({
-            coursesInCart: courses
+            coursesInCart: courses,
+            rankings: rankings
         });
 
         // refresh groups to not include this course
         this.refreshRankGroups(rankToRefresh, -1, code);
+    }
+
+    handleSave() {
+        var t = this;
+
+        fetch('/save-rankings', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    rankings: {
+                        1: t.state.rankings[1].map(function(course) { return course.code }),
+                        2: t.state.rankings[2].map(function(course) { return course.code }),
+                        3: t.state.rankings[3].map(function(course) { return course.code }),
+                        4: t.state.rankings[4].map(function(course) { return course.code }),
+                        5: t.state.rankings[5].map(function(course) { return course.code }),
+                        0: t.state.rankings[0].map(function(course) { return course.code })
+                    },
+                    utorid: t.state.UTORid,
+                    status: false,
+                    session: "Fall 2017"
+                })
+            })
+            .then(json)
+            .then(function(data) {
+                // TODO
+            })
+            .catch(function(err) {
+                throw err;
+            });
     }
 
     render() {
@@ -140,6 +213,7 @@ export default class Cart extends Component {
                     <RankGroup rank={5} courses={this.state.rankings[5]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={0} courses={this.state.rankings[0]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                 </div>
+                <Button waves='light' onClick={this.handleSave}>Save</Button>
             </div>
         );
     }

@@ -4,12 +4,13 @@ import Applicant from './Applicant';
 import Filter from './Filter';
 
 export default class Course extends Component {
-    constructor() {
-        super();
-
+    constructor(props) {
+        super(props);
+        console.log(props.numberOfTAs)
         this.state = {
             applicants: [],
-            applicantsCart: []
+            applicantsCart: [],
+            numTAs: props.numberOfTAs
         };
 
 
@@ -103,10 +104,49 @@ export default class Course extends Component {
     }
 
     setFilter(grad, taed) {
-        console.log(grad + " " + taed);
-        return true;
+        var constructQuery = "?query=";
+        //query=grad;takenPreq;TAed=CSC108
+        if (grad && taed) {
+            constructQuery += "grad;TAed=" + this.props.code;
+        } else if (grad) {
+            constructQuery += "grad";            
+        } else if (taed) {
+            constructQuery += "TAed=" + this.props.code;                        
+        }
+        
+        if (constructQuery != "query=") {
+            // make fetch call
+            fetch('/filter' + "?" + constructQuery, {method: 'GET'})
+                .then(json)
+                .then(function(data) {
+                    // store this in the state courses to create course objects
+                    const applicants = data.data;
+                    t.setState({
+                        applicants: applicants.map(function(applicant) {
+                            return {UTORid: applicant.UTORid,
+                                    studentNumber: applicant.studentNumber,
+                                    lastName: applicant.lastName,
+                                    firstName: applicant.firstName,
+                                    phoneNumber: applicant.phoneNumber,
+                                    email: applicant.email,
+                                    studentInformation: applicant.studentInformation}
+                        })
+                    });
+                })
+                .catch(function(err) {
+                // fetch didnt work
+                throw err;
+            });
+        }
     }
 
+    incTAs(value) {
+        var current = this.props.numberOfTAs;
+        current += value;
+        this.setState({
+            numTAs: current
+        });
+    } 
     render() {
         let head = this.props.code + ": " + this.props.title;
         return (
@@ -114,12 +154,12 @@ export default class Course extends Component {
         <CollapsibleItem header={ head }>
                 <p>Course Code: {this.props.code}
                    Title: {this.props.title}
-                   Number of TAs: {this.props.numberOfTAs}
+                   Number of TAs: {this.state.numTAs}
                    Qualifications: {this.props.qualifications}
                    </p>
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
-                        <Filter onChange={this.setFilter.bind(this)}/>
+                        <Filter setFilter={this.setFilter.bind(this)}/>
                         {this.state.applicants.map(applicant =>
                             
                             <Applicant key={applicant.studentNumber}
@@ -127,8 +167,9 @@ export default class Course extends Component {
                                        prompt={this.isAssigned.bind(this)}
                                        courseUnderConsideration={this.props.code}
                                        toggleFunction={this.toggleCart.bind(this)}
-                                       // TODO: disable accept when numTAs reached
-                                       numTAs={this.props.numberOfTAs} />
+                                       
+                                       numTAFunction={this.incTAs.bind(this)}
+                                       numTAs={this.state.numTAs} />
                         )}
                     </CollapsibleItem>
                 </Collapsible>

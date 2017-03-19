@@ -82,6 +82,14 @@ app.get('/rejectApplicant', function(req, res) {
     makeGetRequest('/api', {}, req, res);
 });
 
+app.get('/rejectApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/filter', function(req, res) {
+    makeGetRequest('/filterApplicants/', {}, req, res);
+});
+
 */
 
 

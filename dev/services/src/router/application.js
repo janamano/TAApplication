@@ -37,8 +37,8 @@ module.exports = function(app) {
             for(i=0; i<5; i++){
                 for(j=0; j<req.body.rankings[i].length; j++){
                     var crsRank = {
-                        courseCode: String(req.body.rankings[i][j].courseCode),
-                        rank: req.body.rankings[i][j].rank
+                        courseCode: String(req.body.rankings[i][j]),
+                        rank: i
                     }
                     console.log(crsRank);
                     

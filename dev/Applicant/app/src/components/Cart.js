@@ -63,35 +63,40 @@ export default class Cart extends Component {
                         // copy of state coursesInCart
                         let coursesInCart = t.state.coursesInCart.slice();
 
-                        // examine every course-preference and update accordingly
-                        coursePrefs.map(function(course) {
-                            // index of course in allCourses list
-                            const index = t.state.allCourses.findIndex(item => item.code === course.courseCode);
+                        if (typeof coursePrefs !== 'undefined' && coursePrefs.length == 0) {
+                            return;
+                        } else {
+                            coursePrefs = coursePrefs[0].coursePref;
 
-                            // update coursesInCart to have all the courses in the cart, and their associated titles
-                            coursesInCart.push({
-                                code: course.courseCode, 
-                                title: t.state.allCourses[index].title
+                            // examine every course-preference and update accordingly
+                            coursePrefs.map(function(course) {
+                                // index of course in allCourses list
+                                const index = t.state.allCourses.findIndex(item => item.code === course.courseCode);
+
+                                // update coursesInCart to have all the courses in the cart, and their associated titles
+                                coursesInCart.push({
+                                    code: course.courseCode, 
+                                    title: t.state.allCourses[index].title
+                                });
+
+                                // update rankings to have all the courses in the cart (at the correct position based
+                                // on rank), and their titles
+                                rankings[String(course.rank)].push({
+                                    code: course.courseCode, 
+                                    title: t.state.allCourses[index].title
+                                });
                             });
 
-                            // update rankings to have all the courses in the cart (at the correct position based
-                            // on rank), and their titles
-                            rankings[String(course.rank)].push({
-                                code: course.courseCode, 
-                                title: t.state.allCourses[index].title
-                            });
-                        });
+                            // sort courses alphabetically for ease-of-use
+                            for (var i = 0; i < 6; i++) {
+                                rankings[String(i)].sort(courseCompare);
+                            }
 
-                        // sort courses alphabetically for ease-of-use
-                        for (var i = 0; i < 6; i++) {
-                            rankings[String(i)].sort(courseCompare);
+                            t.setState({
+                                rankings: rankings,
+                                coursesInCart: coursesInCart
+                            });
                         }
-
-                        t.setState({
-                            rankings: rankings,
-                            coursesInCart: coursesInCart
-                        });
-
                     })
                     .catch(function(err) {
                         throw err;

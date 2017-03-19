@@ -65,16 +65,10 @@ var makeGetRequest = function (route, qParams, req, res) {
 }
 
 var makePostRequest = function (route, qBody, req, res) {
-    const rankings = qBody.rankings;
     var options = {  
         method: 'POST',
         uri: 'http://localhost:8080' + route,
-        body: {
-            rankings: rankings,
-            utorid: qBody.utorid,
-            status: qBody.status,
-            session: qBody.session
-        },
+        body: qBody,
         json: true
     }
     request(options)  
@@ -115,7 +109,13 @@ app.get('/get-rankings', function(req, res) {
 });
 
 app.post('/save-rankings', function(req, res) {
-    makePostRequest('/saveApplication', req.body, req, res);
+    let body = {
+        rankings: req.body.rankings,
+        utorid: req.body.utorid,
+        status: req.body.status,
+        session: req.body.session
+    }
+    makePostRequest('/saveApplication', body, req, res);
 })
 
 const server = app.listen(3000, function() {

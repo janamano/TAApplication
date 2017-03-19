@@ -26,41 +26,41 @@ module.exports = function(app) {
     });
     app.post('/saveApplication/', function(req, res) {
         var utorId = req.body.utorid;
-        var session = req.body.session;
-        var status = req.body.status;
-        var rankings = req.body.rankings;
-        console.log(rankings);
-        res.send("RECVD");
-        /*
-        rankings: {
-            1: ["CSC165"],
-            2: ["CSC108", "CSC324"],
-            3: ["CSC443"],
-            4: [],
-            5: ["CSC207", "CSC236"],
-            0: []
+        var ssn = req.body.session;
+        var sts = req.body.status;
+        
+        console.log(req.body);
+        console.log(req.body.utorid);
+    
+        /* Get all the course rank combinations and adds them to a list */
+        var courseRankComb = [];
+            for(i=0; i<5; i++){
+                for(j=0; j<req.body.rankings[i].length; j++){
+                    var crsRank = {
+                        courseCode: String(req.body.rankings[i][j]),
+                        rank: i
+                    }
+                    console.log(crsRank);
+                    
+                    courseRankComb.push(crsRank);
+                }
             }
-        */ 
-
-        /*
-        applications.find({UTORid: utorId}, function(err, application){
-        	if (err) {
-                res.status(400)
+        /* Creates application and saves it */
+        var newapplication = new applications({
+            UTORid: utorId,
+            session: ssn,
+            coursePref: courseRankComb,
+            status: sts 
+        });
+       newapplication.save();
+       res.status(200)
                     .json({
-                        status: 'error',
+                        status: 'success',
                         data: {},
-                        message: err
+                        message: "assignment saved"
                     });
-        	} else {
-        		console.log("Sending resp");
-                res.status(200)
-                    .json({
-                        status: 'error',
-                        data: application,
-                        message: "Successfully found all applicants"
-                    });
-        	}
-        });*/
-    });
+       
+        });   
+    };
    
-};
+

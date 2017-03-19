@@ -3,6 +3,9 @@ import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-material
 import Applicant from './Applicant';
 import Filter from './Filter';
 
+let utils = require('../utils.js');
+let json = utils.json;
+
 export default class Course extends Component {
     constructor(props) {
         super(props);
@@ -21,27 +24,29 @@ export default class Course extends Component {
         var t = this;
         // get all the applicants who applied to this course
         var query = '/getApplicants?course=' + this.props.code;
-        // fetch(query, {method: 'GET'})
-        //     .then(json)
-        //     .then(function(data) {
-        //         // store this in the state courses to create course objects
-        //         const applicants = data.data;
-        //         t.setState({
-        //             applicants: applicants.map(function(applicant) {
-        //                 return {UTORid: applicant.UTORid,
-        //                         studentNumber: applicant.studentNumber,
-        //                         lastName: applicant.lastName,
-        //                         firstName: applicant.firstName,
-        //                         phoneNumber: applicant.phoneNumber,
-        //                         email: applicant.email,
-        //                         studentInformation: applicant.studentInformation}
-        //             })
-        //         });
-        //     })
-        //     .catch(function(err) {
-        //     // fetch didnt work
-        //     throw err;
-        // });
+        fetch(query, {method: 'GET'})
+            .then(json)
+            .then(function(data) {
+                // store this in the state courses to create course objects
+                const applicants = data.data;
+                t.setState({
+                    applicants: applicants.map(function(applicant) {
+                        return {UTORid: applicant.UTORid,
+                                studentNumber: applicant.studentNumber,
+                                lastName: applicant.lastName,
+                                firstName: applicant.firstName,
+                                phoneNumber: applicant.phoneNumber,
+                                email: applicant.email,
+                                studentInformation: applicant.studentInformation}
+                    })
+                });
+            })
+            .catch(function(err) {
+            // fetch didnt work
+            throw err;
+        });
+
+        /*
         // make the fetch call to get all the applicants that applied to this courseCode
         t.setState({
             applicants: [{ studentNumber: 12345,   UTORid: "manoha56", lastName: "Manoharan", firstName: "Janarthanan", phoneNumber: "4161231234", email: "jana@gmail.com",
@@ -51,6 +56,7 @@ export default class Course extends Component {
                         studentInformation: {programLevel: "Undergraduate", year: 4, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
                         TAHistory: [{courseCode: "CSCA08", timesTAd: 1},{courseCode: "CSCA48", timesTAd: 2}]} }]
         });
+        */
     }
     
     toggleCart(student) {

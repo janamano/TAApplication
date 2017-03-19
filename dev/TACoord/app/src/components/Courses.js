@@ -21,54 +21,57 @@ export default class Courses extends Component {
      componentWillMount() {
         var t = this;
         //get all the courses
-        // fetch('/getOpenCourses', {method: 'GET'})
-        //     .then(json)
-        //     .then(function(data) {
-        //         // store this in the state courses to create course objects
-        //         const courses = data.data;
-        //         t.setState({
-        //             courses: courses.map(function(course) {
-        //                 return {code: course.code,
-        //                     title: course.title,
-        //                     numberOfTAs: course.numberOfTAs,
-        //                     qualifications: course.qualifications}
-        //             })
-        //         });
-        //     })
-        //     .catch(function(err) {
-        //     // fetch didnt work
-        //     throw err;
-        // });
+        fetch('/getOpenCourses', {method: 'GET'})
+            .then(json)
+            .then(function(data) {
+                // store this in the state courses to create course objects
+                const courses = data.data;
+                t.setState({
+                    courses: courses.map(function(course) {
+                        return {code: course.code,
+                            title: course.title,
+                            numberOfTAs: course.numberOfTAs,
+                            qualifications: course.qualifications}
+                    })
+                });
+            })
+            .catch(function(err) {
+            // fetch didnt work
+            throw err;
+        });
 
+        /*
         // fetch all the assignments for that are considered for employment
-        // fetch('/getAcceptedAssignments', {method: 'GET'})
-        //     .then(json)
-        //     .then(function(data) {
-        //         // store all the assignments in a variable
-        //         const assignments = data.data;
-        //         var cart = [];
+        fetch('/getAcceptedAssignments', {method: 'GET'})
+            .then(json)
+            .then(function(data) {
+                // store all the assignments in a variable
+                const assignments = data.data;
+                var cart = [];
                 
-        //         // go through each assignment
-        //         for(var i = 0; i < assignments.length; i++) {
-        //             var assignment = assignments[i];
-        //             // check if the course assosiated with this assignment is already in the cart
-        //             if (this.contains(assignment.assignedCourse, cart)) {
-        //                 // if it , then add it the applicant to its list of applicants
-        //                 cart[this.index(assignment.assignedCourse, cart)].applicants.push({UTORid: assignment.assignedApplicant});
-        //             } else {
-        //                 // otherwise create a new entry
-        //                 cart.push({code: assignment.assignedCourse, applicants: [{UTORid:assignment.assignedApplicant}] });
-        //             }
-        //         }
+                // go through each assignment
+                for(var i = 0; i < assignments.length; i++) {
+                    var assignment = assignments[i];
+                    // check if the course assosiated with this assignment is already in the cart
+                    if (this.contains(assignment.assignedCourse, cart)) {
+                        // if it , then add it the applicant to its list of applicants
+                        cart[this.index(assignment.assignedCourse, cart)].applicants.push({UTORid: assignment.assignedApplicant});
+                    } else {
+                        // otherwise create a new entry
+                        cart.push({code: assignment.assignedCourse, applicants: [{UTORid:assignment.assignedApplicant}] });
+                    }
+                }
 
-        //         t.setState({
-        //             courseCarts: cart
-        //         });
-        //     })
-        //     .catch(function(error) {
-        //         throw error;
-        // });
+                t.setState({
+                    courseCarts: cart
+                });
+            })
+            .catch(function(error) {
+                throw error;
+        });
+        */
 
+        /*
        t.setState({
            courses: [
                {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
@@ -81,7 +84,7 @@ export default class Courses extends Component {
                {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
            ]
        });
-
+       */
 
      } 
 

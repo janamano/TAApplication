@@ -64,6 +64,40 @@ var makeGetRequest = function (route, qParams, req, res) {
         });
 }
 
+var makePostRequest = function (route, qBody, req, res) {
+    const rankings = qBody.rankings;
+    var options = {  
+        method: 'POST',
+        uri: 'http://localhost:8080' + route,
+        body: {
+            rankings: rankings,
+            utorid: qBody.utorid,
+            status: qBody.status,
+            session: qBody.session
+        },
+        json: true
+    }
+    request(options)  
+        .then(function (response) {
+            // Request was successful
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: {},
+                    message: "message"
+                });
+        })
+        .catch(function (err) {
+            // An error occurred
+            res.status(200)
+                .json({
+                    status: 'error',
+                    data: {},
+                    message: "error message"
+                });
+        })
+}
+
 app.get('/all-courses', function(req, res) {
     makeGetRequest('/getCourseList', {}, req, res);
 });
@@ -75,6 +109,14 @@ app.get('/course-info', function(req, res) {
 app.get('/login', function(req, res) {
     makeGetRequest('/login', req.query, req, res);
 });
+
+app.get('/get-rankings', function(req, res) {
+    makeGetRequest('/getApplication', req.query, req, res);
+});
+
+app.post('/save-rankings', function(req, res) {
+    makePostRequest('/saveApplication', req.body, req, res);
+})
 
 const server = app.listen(3000, function() {
     const host = server.address().address;

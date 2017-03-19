@@ -47,6 +47,7 @@ export default class Profile extends Component {
         hashHistory.push({
             pathname: `/history`,
             state: { 
+                UTORid: this.state.UTORid,
                 studentNumber: this.state.studentNumber,
                 TAHistory: (typeof this.state.studentInformation != 'undefined' && 
                                 typeof this.state.studentInformation.TAHistory != 'undefined') 

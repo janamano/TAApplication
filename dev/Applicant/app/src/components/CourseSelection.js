@@ -104,10 +104,19 @@ export default class CourseSelection extends Component {
                         if (typeof coursePrefs !== 'undefined' && coursePrefs.length == 0) {
                             t.setState({
                                 courses: courses.map(function(obj){
-                                    return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart
-                                })
+                                    return {code: obj.code, title: obj.title, inCart: false}
+                                }),
+                                rankings: {
+                                    1: [],
+                                    2: [],
+                                    3: [],
+                                    4: [],
+                                    5: [],
+                                    0: [],
+                                }
                             });
                         } else {
+                            coursePrefs = data.data[0].coursePref;
                             t.setState({
                                 courses: courses.map(function(obj) {
                                     return {
@@ -119,18 +128,12 @@ export default class CourseSelection extends Component {
                                     }
                                 }),
                                 rankings: {
-                                    1: t.filterCoursePrefs(coursePrefs, 1)
-                                        .map(function(course) { return course.courseCode }),
-                                    2: t.filterCoursePrefs(coursePrefs, 2)
-                                        .map(function(course) { return course.courseCode }),
-                                    3: t.filterCoursePrefs(coursePrefs, 3)
-                                        .map(function(course) { return course.courseCode }),
-                                    4: t.filterCoursePrefs(coursePrefs, 4)
-                                        .map(function(course) { return course.courseCode }),
-                                    5: t.filterCoursePrefs(coursePrefs, 5)
-                                        .map(function(course) { return course.courseCode }),
-                                    0: t.filterCoursePrefs(coursePrefs, 0)
-                                        .map(function(course) { return course.courseCode }),
+                                    1: t.filterCoursePrefs(coursePrefs, 1),
+                                    2: t.filterCoursePrefs(coursePrefs, 2),
+                                    3: t.filterCoursePrefs(coursePrefs, 3),
+                                    4: t.filterCoursePrefs(coursePrefs, 4),
+                                    5: t.filterCoursePrefs(coursePrefs, 5),
+                                    0: t.filterCoursePrefs(coursePrefs, 0),
                                 }
                             });
                         }
@@ -156,6 +159,7 @@ export default class CourseSelection extends Component {
 
     handleSave() {
         var t = this;
+
         fetch('/save-rankings', {
                 method: 'POST',
                 credentials: 'include',
@@ -165,6 +169,20 @@ export default class CourseSelection extends Component {
                 },
                 body: JSON.stringify({
                     rankings: t.state.rankings,
+                    rankings: {
+                        1: this.state.rankings['1']
+                            .map(function(course) { return course.courseCode }),
+                        2: this.state.rankings['2']
+                            .map(function(course) { return course.courseCode }),
+                        3: this.state.rankings['3']
+                            .map(function(course) { return course.courseCode }),
+                        4: this.state.rankings['4']
+                            .map(function(course) { return course.courseCode }),
+                        5: this.state.rankings['5']
+                            .map(function(course) { return course.courseCode }),
+                        0: this.state.rankings['0']
+                            .map(function(course) { return course.courseCode }),
+                    },
                     utorid: t.state.UTORid,
                     status: false,
                     session: "Fall 2017"

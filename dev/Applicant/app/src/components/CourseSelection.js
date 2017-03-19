@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Collapsible, CollapsibleItem } from "react-materialize";
+import { hashHistory } from 'react-router';
 import 'whatwg-fetch';
 
 import Course from './Course';
@@ -96,41 +97,47 @@ export default class CourseSelection extends Component {
                     .then(json)
                     .then(function(data) {
                         coursePrefs = data.data;
+
+                        // if course preferences are empty (i.e. they have not added any course preferences
+                        // yet, or have not done this step of the process before), then we set all the courses
+                        // to not be in the cart
+                        if (typeof coursePrefs !== 'undefined' && coursePrefs.length == 0) {
+                            t.setState({
+                                courses: courses.map(function(obj){
+                                    return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart
+                                })
+                            });
+                        } else {
+                            t.setState({
+                                courses: courses.map(function(obj) {
+                                    return {
+                                        code: obj.code, 
+                                        title: obj.title, 
+                                        // if course preference list does not include this course, then it is not in the cart.
+                                        // else, it is in the cart
+                                        inCart: coursePrefs.findIndex(item => item.courseCode === obj.code) === -1 ? false : true
+                                    }
+                                }),
+                                rankings: {
+                                    1: t.filterCoursePrefs(coursePrefs, 1)
+                                        .map(function(course) { return course.courseCode }),
+                                    2: t.filterCoursePrefs(coursePrefs, 2)
+                                        .map(function(course) { return course.courseCode }),
+                                    3: t.filterCoursePrefs(coursePrefs, 3)
+                                        .map(function(course) { return course.courseCode }),
+                                    4: t.filterCoursePrefs(coursePrefs, 4)
+                                        .map(function(course) { return course.courseCode }),
+                                    5: t.filterCoursePrefs(coursePrefs, 5)
+                                        .map(function(course) { return course.courseCode }),
+                                    0: t.filterCoursePrefs(coursePrefs, 0)
+                                        .map(function(course) { return course.courseCode }),
+                                }
+                            });
+                        }
                     })
                     .catch(function(err) {
                         throw err;
                     });
-
-                // if course preferences are empty (i.e. they have not added any course preferences
-                // yet, or have not done this step of the process before), then we set all the courses
-                // to not be in the cart
-                if (typeof coursePrefs !== 'undefined' && coursePrefs.length == 0) {
-                    t.setState({
-                        courses: courses.map(function(obj){
-                            return {code: obj.code, title: obj.title, inCart: false}    // TODO: inCart
-                        })
-                    });
-                } else {
-                    t.setState({
-                        courses: courses.map(function(obj) {
-                            return {
-                                code: obj.code, 
-                                title: obj.title, 
-                                // if course preference list does not include this course, then it is not in the cart.
-                                // else, it is in the cart
-                                inCart: coursePrefs.findIndex(item => item.courseCode === obj.code) === -1 ? false : true
-                            }
-                        }),
-                        rankings: {
-                            1: t.filterCoursePrefs(coursePrefs, 1),
-                            2: t.filterCoursePrefs(coursePrefs, 2),
-                            3: t.filterCoursePrefs(coursePrefs, 3),
-                            4: t.filterCoursePrefs(coursePrefs, 4),
-                            5: t.filterCoursePrefs(coursePrefs, 5),
-                            0: t.filterCoursePrefs(coursePrefs, 0),
-                        }
-                    });
-                }
             })
             .catch(function(err) {
                 throw err;
@@ -148,6 +155,7 @@ export default class CourseSelection extends Component {
     }
 
     handleSave() {
+        var t = this;
         fetch('/save-rankings', {
                 method: 'POST',
                 credentials: 'include',
@@ -156,15 +164,22 @@ export default class CourseSelection extends Component {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    rankings: this.state.rankings,
-                    utorid: this.state.UTORid,
+                    rankings: t.state.rankings,
+                    utorid: t.state.UTORid,
                     status: false,
                     session: "Fall 2017"
                 })
             })
             .then(json)
             .then(function(data) {
-                return;
+                // Until then...
+                hashHistory.push({
+                    pathname: `/cart`,
+                    state: { 
+                        UTORid: t.state.UTORid,
+                        studentNumber: t.state.studentNumber,
+                    }
+                });
             })
             .catch(function(err) {
                 throw err;
@@ -187,7 +202,7 @@ export default class CourseSelection extends Component {
                         )
                     }
                 </Collapsible>
-                <Button waves='light' onClick={this.handleSave}>Save</Button>
+                <Button waves='light' onClick={this.handleSave}>Enter</Button>
             </div>
         );
     }

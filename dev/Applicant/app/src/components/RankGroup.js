@@ -29,12 +29,22 @@ export default class RankGroup extends Component {
     }
  
     render() {
+        var style = {
+            textAlign: 'left',
+            fontSize: '1.35em'
+        }
+        var style2 = {
+            fontSize: '1.1em'
+        }
         return (
             <div>
                 <br />
-                Rank: {(this.state.rank ===0) ? "Unranked" : this.state.rank}
+                <p style={style}>
+                    <span className='thin'><b>Rank</b>: {(this.state.rank ===0) ? "Unranked" : this.state.rank}</span>
+                </p>
                 <Collapsible>
-                    {this.props.courses.map(course =>
+                    {(this.props.courses.length > 0) ?
+                        this.props.courses.map(course =>
                         <div key={course.code} >
                             <CartCourse code={course.code}
                                     title={course.title}
@@ -45,6 +55,8 @@ export default class RankGroup extends Component {
                             />
                         </div>
                         )
+                        :
+                        <span style={style2}>No courses added to this rank yet</span>
                     }
                 </Collapsible>
             </div>

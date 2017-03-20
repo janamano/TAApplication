@@ -128,12 +128,22 @@ export default class ApplicantHistory extends Component {
             zIndex: 1
         };
 
+        var style2 = {
+            textAlign: 'center',
+            width: '60%',
+            margin: 'auto',
+        };
+
+        var style3 = {
+            fontSize: '1.4em'
+        }
+
         return (
             <div>
                 <Nav heading="Applicant History"/>
-                <p>Enter courses TA'd in the past: </p>
                 <p />
-                <form onSubmit={this.handleSubmit}>
+                <form style={style2} onSubmit={this.handleSubmit}>
+                    <p style={style3} className='thin'><b>Enter courses TA'd in the past</b>: </p>
                     <Row>
                         <AutosuggestBox 
                             style={style}

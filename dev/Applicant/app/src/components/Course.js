@@ -75,14 +75,22 @@ export default class Course extends Component {
     render() {
         const { code, title } = this.props;
         let cart;
+        var style = {
+            textAlign: 'left',
+            marginTop: '1.3%',
+            marginBottom: '1.5%'
+        };
+        var style2 = {
+            float: 'right'
+        }
         if (this.state.inCart) {
             cart =
-                <Button waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
+                <Button style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         } else {
             cart =
-                <Button waves='light' onClick={(evt) => this.cartEvent(evt, code, this.add)}>
+                <Button style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.add)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         }
@@ -90,7 +98,7 @@ export default class Course extends Component {
         let heading = 
             <span>
                 <span className="course-code">
-                    {code}
+                    <b>{code}</b>
                 </span>
                 {": "}
                 <span className="course-title">
@@ -103,7 +111,7 @@ export default class Course extends Component {
 
         return (
             <div className="course">
-                <CollapsibleItem header={heading} icon='view_agenda' >
+                <CollapsibleItem style={style} header={heading} icon='view_agenda' >
                     <CourseInfo code={code} />
                 </CollapsibleItem>
             </div>

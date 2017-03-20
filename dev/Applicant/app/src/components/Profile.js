@@ -164,10 +164,15 @@ export default class Profile extends Component {
     }
 
     render() {
+        var style = {
+            textAlign: 'center',
+            width: '60%',
+            margin: 'auto',
+        };
         return (
             <div>
                 <Nav heading={"Student Profile"} />
-                <form id="profileForm" onSubmit={this.handleSubmit}>
+                <form style={style} id="profileForm" onSubmit={this.handleSubmit}>
                     <Row>
                         <Input s={6} 
                             label="First Name"

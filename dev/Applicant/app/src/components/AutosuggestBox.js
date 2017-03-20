@@ -26,7 +26,7 @@ export default class AutosuggestBox extends Component {
         });
         this.props.onSelectOption(value);
     }
- 
+
     render() {
         return (
             <div className="autosuggest">

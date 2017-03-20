@@ -83,7 +83,7 @@ var makePostRequest = function (route, qBody, req, res) {
         })
         .catch(function (err) {
             // An error occurred
-            res.status(200)
+            res.status(400)
                 .json({
                     status: 'error',
                     data: {},
@@ -104,6 +104,10 @@ app.get('/login', function(req, res) {
     makeGetRequest('/login', req.query, req, res);
 });
 
+app.get('/get-applicant', function(req, res) {
+    makeGetRequest('/getApplicant', req.query, req, res);
+});
+
 app.get('/get-rankings', function(req, res) {
     makeGetRequest('/getApplication', req.query, req, res);
 });
@@ -116,7 +120,15 @@ app.post('/save-rankings', function(req, res) {
         session: req.body.session
     }
     makePostRequest('/saveApplication', body, req, res);
-})
+});
+
+app.post('/save-profile', function(req, res) {
+    makePostRequest('/saveProfile', req.body, req, res);
+});
+
+app.post('/save-TA-history', function(req, res) {
+    makePostRequest('/saveTAHistory', req.body, req, res);
+});
 
 const server = app.listen(3000, function() {
     const host = server.address().address;

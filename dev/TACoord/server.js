@@ -58,9 +58,41 @@ var makeGetRequest = function (route, qParams, req, res) {
         });
 }
 
-app.get('/getCourses', function(req, res) {
-    makeGetRequest('/getCourseList', {}, req, res);
+// get a list of all the ourse that need TA Assignments
+app.get('/getOpenCourses', function(req, res) {
+    makeGetRequest('/getOpenings', {}, req, res);
 });
+
+// get a list of Applicants who applied to a certain course
+app.get('/getApplicants', function(req, res) {
+    makeGetRequest('/getApplicantsByCourse', {}, req, res);
+});
+
+/*
+* TODO
+app.get('/getAcceptedAssignments', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/acceptApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/rejectApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/rejectApplicant', function(req, res) {
+    makeGetRequest('/api', {}, req, res);
+});
+
+app.get('/filter', function(req, res) {
+    makeGetRequest('/filterApplicants/', {}, req, res);
+});
+
+*/
+
+
 /* 
 TODO: 
 remove this comment once everyone has a solid feel for the structure 

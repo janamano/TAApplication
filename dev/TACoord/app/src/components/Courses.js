@@ -21,7 +21,7 @@ export default class Courses extends Component {
      componentWillMount() {
         var t = this;
         //get all the courses
-        /*
+        
         fetch('/getOpenCourses', {method: 'GET'})
             .then(json)
             .then(function(data) {
@@ -70,8 +70,8 @@ export default class Courses extends Component {
             .catch(function(error) {
                 throw error;
         });
-        */
-
+        
+/*
        t.setState({
            courses: [
                {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
@@ -84,7 +84,7 @@ export default class Courses extends Component {
                {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
            ]
        });
-       
+  */     
 
      } 
 

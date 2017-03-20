@@ -16,7 +16,7 @@ export default class Login extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        var utoridregex = /^([A-Za-z0-9]{5,})$/;
+        var utoridregex = /^([A-Za-z0-9]{4,})$/;
         var stunumregex = /^([0-9]{9,10})$/;
 
         // values entered in the UTOR/StuNum fields
@@ -54,13 +54,21 @@ export default class Login extends Component {
     }
 
     render() {
+        var style = {
+            //textAlign: 'center',
+            width: '70%',
+            margin: 'auto'
+        };
+        var style2 = {
+            fontSize: '1.22em'
+        }
         return (
             <div>
                 <Nav heading="TA Application System"/>
-                <form>
+                <form style={style} className='center'>
                     <Row>
-                        <Input id="utorid" className='validate' pattern='[a-zA-Z0-9].{5,}' label="UtorID" s={12} required/>
-                        <Input id="studentnum" className='validate' pattern='[0-9].{9,10}' label="Student Number" s={12} required/>
+                        <Input style={style2} id="utorid" className='validate center' pattern='[a-zA-Z0-9].{4,}' label="UtorID" s={12} required/>
+                        <Input style={style2} id="studentnum" className='validate center' pattern='[0-9].{9,10}' label="Student Number" s={12} required/>
                         <Button waves='light' onClick={this.handleClick} type="submit">Login</Button>
                     </Row>
                 </form>

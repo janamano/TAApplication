@@ -90,7 +90,7 @@ For this phase, we relied largely on manual testing -- both on the front- and ba
 
 **Front-end**
 
-For the front-end, as we built our various React components, we tested by visually asserting that each component rendered correctly, with the correct state variables, etc. We knew immediately, via this visual testing, when a component was rendering incorrectly, and could quickly and efficiently remedy the problem. We made liberal use of the various browsers' developer tools (for example [Chrome DevTools](https://developer.chrome.com/devtools) in this testing process, to examine and debug any errors that occurred on the front-end. 
+For the front-end, as we built our various React components, we tested by visually asserting that each component rendered correctly, with the correct state variables, etc. We knew immediately, via this visual testing, when a component was rendering incorrectly, and could quickly and efficiently remedy the problem. We made liberal use of the various browsers' developer tools (for example [Chrome DevTools](https://developer.chrome.com/devtools)) in this testing process, to examine and debug any errors that occurred on the front-end. 
 
 Additionally, our applications make frequent use of `fetch()` calls to various API routes in the back-end. For this, before actually calling any route, we ensured that all the data we intended to send was well-formed (using, for example, Chrome DevTools). Then, we ensured that each `fetch()` call arrived correctly at each application's respective `server.js` file (by logging the body of the requests). Then, only once all of this was ensured to be correct, did we make the final API call, from the corresponding `server.js` to the main back-end server (in `dev/services/src/main.js`). 
 
@@ -130,10 +130,40 @@ We deviated quite a bit from initial plan of following Kanban as our development
 ### Source Code Managment
 Although, the code bases for all the three components of our app was hosted within the same repository, we partitioned them neatly in separate directories, such that they still remained as self-contained entities without any direct dependencies within each other.
 
-Despite this not being an extremely large project, with only a few developers working on each component, we used GitHub Pull Requests extensively as a means of ensuring that the code being pushed could safely be merged, and also to allow extra pairs of eyes when necessary. We occasionally made use of Reviews for Pull requests ([here](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/pull/45) is an an example), but generally gave the responsibility to each individual developer to ensure that they pushed non-breaking, stable, and error-free code. This was largely done through manual testing (as described in the Testing section of this document). We also made some use of GitHub branching, though this was largely on the front-end. In general, branching was not too necessary because of the compartmentalization of the project, and each developer's responsibilities being distinct.
+Despite this not being an extremely large project, with only a few developers working on each component, we used GitHub Pull Requests extensively as a means of ensuring that the code being pushed could safely be merged, and also to allow extra pairs of eyes when necessary. We occasionally made use of Reviews for Pull requests ([here](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/pull/45) is an example), but generally gave the responsibility to each individual developer to ensure that they pushed non-breaking, stable, and error-free code. This was largely done through manual testing (as described in the Testing section of this document). We also made some use of GitHub branching, though this was largely on the front-end. In general, branching was not too necessary because of the compartmentalization of the project, and each developer's responsibilities being distinct.
 
 ### Meetings
-We followed [previous patterns of meetings](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/blob/master/doc/phase1/Collaborate.md), regularly meeting in tutorial time slots and discuss important issues and planning for next week. Other times, we used facebook group chat to talk about design concerns and issues raised during development. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
+We followed [previous patterns of meetings](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/blob/master/doc/phase1/Collaborate.md), regularly meeting in tutorial time slots and discuss important issues and planning for next week. Other times, we used Facebook group chat to talk about design concerns and issues raised during development. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
+
+**Below are the notes for the meetings we held for this Phase 2**:
+
+* #### March 10, 2017
+
+  __Location__: On campus  
+  __Attendees__: All team members  
+  __What was accomplished__: We completed a post-mortem of our Phase 1 submission and grades, both amongst ourselves and with the TA. This helped us get feedback on the things we did right, and the things we could have improved on, which set us up well to have a good idea of the approach we should take for Phase 2. Additionally, we also divided up the work for Phase 2 amongst ourselves. We chose which team members would be working on the front-end and back-end (and made further subdivisions therein; for example, who would work on the Applicant client, who would work on the TA Coordinator client, who would work on the database, who would work on the NodeJS routes, etc.). We also decided on some of the most important, high-priority tasks, and which tasks were less important. We held discussions on which scope items to complete in this Phase, and which ones could be pushed to Phase 2; this was a fruitful discussion as the division was well-made, and as laid our in this document, we met most of the scope items we set out to meet. We also decided our general workflow of how we would collaborate as a team for Phase 2.
+
+After the above meeting, we did not meet in person until the following week, so instead we communicated extensively through Facebook group chat. This allowed us to maintain an up-to-the-minute idea of the state of the project (and the various components therein). This was also where we ironed out a lot of issues, both large-scale design issues as well as technical issues. Several of the issues described in the Technical Highlights section of this document (for example, the MongoDB issues, the Safari bug, and the HTTP response code difficulty) were actually found out about and discussed on the group chat. Most of these issues were solved/remedied via the various group members' contributions in the group chat itself. 
+
+As such, we did not need to meet as often as perhaps we expected, and nonetheless kept working at a steady and quick rate. The group chat, in addition to the GitHub issues, proved priceless in keeping us on-track and in regular communication with each other.
+
+* #### March 17, 2017
+
+  __Location__: On campus  
+  __Attendees__: Everyone  
+  __What was accomplished__: When we met at this point, large portions of the work for this Phase were already complete. As such, the front-end team demo'ed the parts of the clients that were complete and working, and got valuable feedback from the other team members. The front-end team also talked about the remaining features left to complete, and the timeline for these. The entire team also discussed whatever features were blocking each member (i.e. some front-end components required back-end API routes to be completed before they could be finished), and this gave us a good idea of what was left to be done. The back-end team described some of the additional challenges and upcoming API routes, so that the whole team could plan the required work for the weekend. Additionally, we also discussed how we would go about completing the report, and pieces that we were missing, or hadn't discussed. Ultimately, this gave us a really strong sense of the little remaining work, and how we would demo
+
+* #### March 19, 2017
+
+  __Location__: On campus  
+  __Attendees__: Front-end team  
+  __What was accomplished__: The front-end team met up to iron out some bugs that both Applicant and TA Coordinator clients were having, and discuss some unification of styling. This was a good meeting to bounce ideas off one another, and help each other fix some small, remaining bugs/issues. 
+
+* #### March 20, 2017
+
+  __Location__: On campus  
+  __Attendees__: Front-end team  
+  __What was accomplished__: In this meeting, final decisions on general styling/CSS were made, and were implemented. This meeting was done to ensure that both clients look roughly similar, and that they both have a fluid, usable feel to them. This meeting also helped us get a better sense of the flow of the demo. 
 
 ### Rate of Progress
 As reflected from the timestamps in our [GitHub Issues](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues?q=is%3Aissue+is%3Aclosed) and the [commit history](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/commits/master), we did not get started with development work from day one of this phase. We took a bit of time and got started with development work a week later. However, as it can be seen from the number of *closed* issues and the product that we will be demoing, we did make very quick and steady progress over the past couple of weeks and have reached a state where we consider that most of the implementation work has been completed.
@@ -154,8 +184,19 @@ Going forward into the final phase, we will consider making tasks more granular 
 
 ### Applicant Client UI:
 
-???????????????
+
+![Student Profile Form](screenshots/StudentProfile.png)
+
+![TA History View](screenshots/ApplicantHistory.png)
+
+![Course Selection View](screenshots/ApplicantHistory.png)
+
+![Cart View](screenshots/CartView.png)
 
 ### TA Coordinator Client UI
 
-???????????????
+![Picture 1](screenshots/TACoord1.png)
+![Picture 2](screenshots/TACoord2.png)
+![Picture 3](screenshots/TACoord3.png)
+![Picture 4](screenshots/TACoord4.png)
+

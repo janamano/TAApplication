@@ -159,4 +159,46 @@ module.exports = function(app) {
             }
 
         });
+    app.post('/saveApplicant/', function(req, res) {
+        var UTORid = req.body.UTORid;
+        var studentNumber = req.body.studentNumber;
+        var lastName = req.body.lastName;
+        var firstName = req.body.firstName;
+        var phoneNumber = req.body.phoneNumber;
+        var email = req.body.phoneNumber;
+        var email = req.body.email;
+        var programLevel = req.body.studentInformation.programLevel;
+        var year = req.body.studentInformation.year;
+        var programName = req.body.studentInformation.programName;
+        var workStatus = req.body.studentInformation.workStatus;
+        var studentStatus = req.body.studentInformation.studentStatus;
+        
+        console.log(req.body);
+        console.log(req.body.utorid);
+    
+        /* Creates application and saves it */
+        var newapplicant = new ApplicantList({
+            UTORid: UTORid,
+            studentNumber: studentNumber,
+            lastName: lastName,
+            firstName: firstName,
+            phoneNumber: phoneNumber,
+            email: email,
+            studentInformation: {
+                programLevel: programLevel,
+                year: year,
+                programName: programName,
+                workStatus: workStatus,
+                studentStatus: studentStatus
+            }
+        });
+       newapplicant.save();
+       res.status(200)
+                    .json({
+                        status: 'success',
+                        data: {},
+                        message: "assignment saved"
+                    });
+       
+        });
 };

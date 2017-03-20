@@ -21,6 +21,7 @@ export default class Courses extends Component {
      componentWillMount() {
         var t = this;
         //get all the courses
+        
         fetch('/getOpenCourses', {method: 'GET'})
             .then(json)
             .then(function(data) {
@@ -40,7 +41,7 @@ export default class Courses extends Component {
             throw err;
         });
 
-        /*
+        
         // fetch all the assignments for that are considered for employment
         fetch('/getAcceptedAssignments', {method: 'GET'})
             .then(json)
@@ -69,22 +70,21 @@ export default class Courses extends Component {
             .catch(function(error) {
                 throw error;
         });
-        */
-
-        /*
-       t.setState({
-           courses: [
-               {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
-               {code: "CSC148", title: "Introduction to Computer Science", numberOfTAs: 20, qualifications: "CSC108, CSC148"},
-               {code: "CSC207", title: "Software Design",numberOfTAs: 12, qualifications: "CSC207"},
-               {code: "CSC343", title: "Introduction To Databases",numberOfTAs: 1, qualifications: "CSC207"},        
-           ],
-           courseCarts: [
-               {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
-               {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
-           ]
-       });
-       */
+        
+        
+    //    t.setState({
+    //        courses: [
+    //            {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
+    //            {code: "CSC148", title: "Introduction to Computer Science", numberOfTAs: 20, qualifications: "CSC108, CSC148"},
+    //            {code: "CSC207", title: "Software Design",numberOfTAs: 12, qualifications: "CSC207"},
+    //            {code: "CSC343", title: "Introduction To Databases",numberOfTAs: 1, qualifications: "CSC207"},        
+    //        ],
+    //        courseCarts: [
+    //            {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
+    //            {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
+    //        ]
+    //    });
+       
 
      } 
 
@@ -155,9 +155,26 @@ export default class Courses extends Component {
     }
 
     render() {
+        var style = {
+            textAlign: 'center',
+            width: '70%',
+            //marginLeft: '2%',
+            //marginBottom: '2%'
+            
+            margin: 'auto'
+        }
+
+        var headingStyle = {
+            //textAlign: 'center',
+            marginLeft: '15%'
+        }
+        var style2 = {
+            textAlign: 'left'
+        }
         return (
-            <div>
-                <Collapsible>
+            <div >
+            <h2 style={headingStyle} className="thin">Open Courses</h2>
+                <Collapsible style={style}>    
                     {this.state.courses.map(course =>
                         <Course key={course.code}
                                 code={course.code}
@@ -171,11 +188,12 @@ export default class Courses extends Component {
                     }
                 </Collapsible>
                 <div>
+                    <h3 style={headingStyle} className='thin'> Considered Applicants</h3>
                     {this.state.courseCarts.map(cart =>
-                        <div key={cart.code}>
-                            <h3>{cart.code}</h3>
+                        <div style={style} key={cart.code}>
+                            <h4 style={style2} className='thin'>{cart.code}</h4>
                             {cart.applicants.map(applicant =>
-                            <p key={applicant.UTORid}>{applicant.UTORid}</p>
+                            <p style={style2} key={applicant.UTORid}>{applicant.UTORid}</p>
                             )}
                         </div>)}
                 </div>

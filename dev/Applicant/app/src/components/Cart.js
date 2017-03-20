@@ -202,10 +202,22 @@ export default class Cart extends Component {
     }
 
     render() {
+        var style = {
+            textAlign: 'center',
+            width: '60%',
+            margin: 'auto',
+            marginBottom: '5%'
+        };
+        var style2 = {
+            textAlign: 'center',
+            marginLeft: '45%',
+            marginBottom: '5%'
+        }
+
         return (
             <div>
                 <Nav heading={"Course Cart"} />
-                <div className="cart">
+                <div style={style} className="cart">
                     <RankGroup rank={1} courses={this.state.rankings[1]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={2} courses={this.state.rankings[2]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={3} courses={this.state.rankings[3]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
@@ -213,7 +225,7 @@ export default class Cart extends Component {
                     <RankGroup rank={5} courses={this.state.rankings[5]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={0} courses={this.state.rankings[0]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                 </div>
-                <Button waves='light' onClick={this.handleSave}>Save</Button>
+                <Button style={style2} waves='light' onClick={this.handleSave}>Save</Button>
             </div>
         );
     }

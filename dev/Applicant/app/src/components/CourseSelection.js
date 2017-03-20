@@ -205,10 +205,20 @@ export default class CourseSelection extends Component {
     }
  
     render() {
+        var style = {
+            textAlign: 'center',
+            width: '60%',
+            margin: 'auto',
+            marginBottom: '5%'
+        };
+        var style2 = {
+            textAlign: 'center',
+            marginLeft: '45%',
+        }
         return (
             <div>
                 <Nav heading={"Course Selection"} />
-                <Collapsible>
+                <Collapsible style={style}>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 
                                     code={course.code} 
@@ -220,7 +230,7 @@ export default class CourseSelection extends Component {
                         )
                     }
                 </Collapsible>
-                <Button waves='light' onClick={this.handleSave}>Enter</Button>
+                <Button style={style2} waves='light' onClick={this.handleSave}>Enter</Button>
             </div>
         );
     }

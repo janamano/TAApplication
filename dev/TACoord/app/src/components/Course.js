@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-materialize";
+import { Row, Button, Collapsible, CollapsibleItem, Modal, Collection } from "react-materialize";
 import Applicant from './Applicant';
 import Filter from './Filter';
 
@@ -9,19 +9,32 @@ let json = utils.json;
 export default class Course extends Component {
     constructor(props) {
         super(props);
-        console.log(props.numberOfTAs)
         this.state = {
             applicants: [],
             applicantsCart: [],
-            numTAs: props.numberOfTAs
+            numberOfTAs: props.numberOfTAs,
+            cantTakeMore: false
         };
 
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.toggleButton = this.toggleButton.bind(this);
+        this.toggleCart = this.toggleCart.bind(this);
+        this.incTAs = this.incTAs.bind(this);
+        this.setFilter = this.setFilter.bind(this);
     }
     
     componentWillMount() {
+        if (this.state.numberOfTAs == 0) {
+            var newVal = !this.state.cantTakeMore;
+            this.setState({
+                cantTakeMore: newVal
+            });
+        }
+
         var t = this;
+        
+        
         // get all the applicants who applied to this course
         var query = '/getApplicants?course=' + this.props.code;
         fetch(query, {method: 'GET'})
@@ -45,20 +58,29 @@ export default class Course extends Component {
             // fetch didnt work
             throw err;
         });
-
-        /*
-        // make the fetch call to get all the applicants that applied to this courseCode
-        t.setState({
-            applicants: [{ studentNumber: 12345,   UTORid: "manoha56", lastName: "Manoharan", firstName: "Janarthanan", phoneNumber: "4161231234", email: "jana@gmail.com",
-            studentInformation: {programLevel: "Undergraduate", year: 3, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
-            TAHistory: [{courseCode: "CSCA08", timesTAd: 1}, {courseCode: "CSCA48", timesTAd: 2}]} },
-                        {studentNumber: 12215,   UTORid: "atheed12", lastName: "Thameem", firstName: "Atheed", phoneNumber: "4163231234", email: "Atheed@gmail.com",
-                        studentInformation: {programLevel: "Undergraduate", year: 4, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
-                        TAHistory: [{courseCode: "CSCA08", timesTAd: 1},{courseCode: "CSCA48", timesTAd: 2}]} }]
-        });
-        */
+        
+        
+        // // make the fetch call to get all the applicants that applied to this courseCode
+        // t.setState({
+        //     applicants: [{ studentNumber: 12345,   UTORid: "manoha56", lastName: "Manoharan", firstName: "Janarthanan", phoneNumber: "4161231234", email: "jana@gmail.com",
+        //     studentInformation: {programLevel: "Undergraduate", year: 3, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
+        //     TAHistory: [{courseCode: "CSCA08", timesTAd: 1}, {courseCode: "CSCA48", timesTAd: 2}]} },
+        //                 {studentNumber: 12215,   UTORid: "atheed12", lastName: "Thameem", firstName: "Atheed", phoneNumber: "4163231234", email: "Atheed@gmail.com",
+        //                 studentInformation: {programLevel: "Undergraduate", year: 4, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
+        //                 TAHistory: [{courseCode: "CSCA08", timesTAd: 1},{courseCode: "CSCA48", timesTAd: 2}]} }]
+        // });
+        
     }
-    
+
+    toggleButton() {
+        if (this.state.numberOfTAs == 0) {
+            var newVal = !this.state.cantTakeMore;
+            this.setState({
+                cantTakeMore: newVal
+            });
+        }
+
+    }    
     toggleCart(student) {
         var cart = this.state.applicantsCart;
         var index = cart.indexOf(student);
@@ -147,36 +169,46 @@ export default class Course extends Component {
     }
 
     incTAs(value) {
-        var current = this.props.numberOfTAs;
+        let current = this.state.numberOfTAs;
+        console.log(current + "   " + value);
         current += value;
         this.setState({
-            numTAs: current
-        });
+            numberOfTAs: current
+        }, function() {console.log("current: " + this.state.numberOfTAs);});
+        
     } 
+    
     render() {
         let head = this.props.code + ": " + this.props.title;
+        var style = {
+            textAlign: 'left'
+        }
         return (
 
-        <CollapsibleItem header={ head }>
-                <p>Course Code: {this.props.code}
-                   Title: {this.props.title}
-                   Number of TAs: {this.state.numTAs}
-                   Qualifications: {this.props.qualifications}
+        <CollapsibleItem style={style} header={ head }>
+                <p>Course Code: {this.props.code}</p>
+                <p>Title: {this.props.title}</p>
+                <p>Number of TAs: {this.state.numberOfTAs}</p>
+                <p>Qualifications: {this.props.qualifications}
                    </p>
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
                         <Filter setFilter={this.setFilter.bind(this)}/>
+                        <Collection>
                         {this.state.applicants.map(applicant =>
                             
                             <Applicant key={applicant.studentNumber}
+                                       onChange={this.toggleButton}
+                                       cantClick={this.state.cantTakeMore}
                                        applicantInfo={applicant}
                                        prompt={this.isAssigned.bind(this)}
                                        courseUnderConsideration={this.props.code}
                                        toggleFunction={this.toggleCart.bind(this)}
                                        
                                        numTAFunction={this.incTAs.bind(this)}
-                                       numTAs={this.state.numTAs} />
+                                       numberOfTAs={this.state.numberOfTAs} />
                         )}
+                        </Collection>
                     </CollapsibleItem>
                 </Collapsible>
                 

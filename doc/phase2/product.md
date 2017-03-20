@@ -1,10 +1,10 @@
 # Progress Report
 
-## Intial Scope
+### Intial Scope
 
 Phase 2 was planned as our core developement phase. During this cycle, we planned to implement the base framework of our application that will enable us to build the features we mentioned in our initial [scope document]() in the previous phase. This includes setting up the projects and the dev environment for the different components of our app, designing and implementing the data model, and incorporating any new APIs that would be required by the client applications. In addition, we planned (and implemented) a sizeable subset of the features as mentioned in detail below.
 
-## Tasks Completed
+### Tasks Completed
 A significant portion of our entire application has been implemented during this phase. Apart from setting up the basic structures of the different components, we were able to implement the following set of features into our app:
 
 * Applicant client:
@@ -29,14 +29,14 @@ A significant portion of our entire application has been implemented during this
    
      [Applicant Login](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/21), [GetAllApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/23), [GetCourses](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/30), [GetCourseInfo](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/31), [GetUnassignedPositions](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/38), [GetApplicantsByCourse](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/39), [GetApplicantProfile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/53), [AssignApplicant](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/68), [FilterApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/82)
      
-## Pending / Incomplete Tasks
+### Pending / Incomplete Tasks
 Although we made significant inroads towards our final product, there are still outstanding features and some integration work left which we would have liked to complete within this phase. These are as follows:
 
 * [API for saving applicant profile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/52). This is only relevant for the non-academic information such as students' emails, degree status, etc, and their past history of TAing. This is *distinct* from the actual application for courses for TAing.
 * [Apply consistent and usable design to all UI layouts](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/36)
 * [Ability to mark an application as 'submitted'](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/75)
 
-## Task(s) Not Part of Initial Scope
+### Task(s) Not Part of Initial Scope
 There is a particular enhancement that we added to our feature list, as we think this will add value to the user experience and will make the application process more comfortable and seemless.
 
 * We introduced the concept of a "virtual cart", which will allow applicants to mark / shortlist courses they are interested in applying, so that can access / revisit them with ease at a later time.
@@ -119,15 +119,15 @@ Throughout this phase, we encountered several interesting technical issues, chal
 # Teamork and Process
 We deviated quite a bit from initial plan of following Kanban as our development process. We adapted a more agile and less strict workflow, where we primarily collaborated through GitHub Issues and through online communication. Tasks, such as the implementation of features and APIs, were articulated as GitHub Issues and assigned to team members based on their expertise and / or the nature of work they were already involved with in this project.
 
-## Source Code Managment
+### Source Code Managment
 Although, the code bases for all the three components of our app was hosted within the same repository, we partitioned them neatly in separate directories, such that they still remained as self-contained entities without any direct dependencies within each other.
 
 Despite this not being an extremely large project, with only a few developers working on each component, we used GitHub Pull Requests extensively as a means of ensuring that the code being pushed could safely be merged, and also to allow extra pairs of eyes when necessary. We occasionally made use of Reviews for Pull requests ([here](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/pull/45) is an an example), but generally gave the responsibility to each individual developer to ensure that they pushed non-breaking, stable, and error-free code. This was largely done through manual testing (as described in the Testing section of this document). We also made some use of GitHub branching, though this was largely on the front-end. In general, branching was not too necessary because of the compartmentalization of the project, and each developer's responsibilities being distinct.
 
-## Meetings
+### Meetings
 We followed [previous patterns of meetings](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/blob/master/doc/phase1/Collaborate.md), regularly meeting in tutorial time slots and discuss important issues and planning for next week. Other times, we used facebook group chat to talk about design concerns and issues raised during development. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
 
-## Rate of Progress
+### Rate of Progress
 As reflected from the timestamps in our [GitHub Issues](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues?q=is%3Aissue+is%3Aclosed) and the [commit history](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/commits/master), we did not get started with development work from day one of this phase. We took a bit of time and got started with development work a week later. However, as it can be seen from the number of *closed* issues and the product that we will be demoing, we did make very quick and steady progress over the past couple of weeks and have reached a state where we consider that most of the implementation work has been completed.
 
 ## Areas of Improvement and Plans for Next Phase
@@ -136,17 +136,18 @@ Although our way of working and collaboration worked out pretty well for the mos
 Going forward into the final phase, we will consider making tasks more granular and specific. However, as we judge based on our initial [scope document](../phase1/Scope.md) and the above list pending tasks, there isn't much development work left to reach a state where will be comfortable taking our product for a test-drive.
 
 # Workflow and Progress Artifacts
-__Completed Tasks__:
+
+### Completed Tasks:
 
 ![Completed Tasks](screenshots/completed_tasks.png)
 
-__Pending Tasks__:
+### Pending Tasks:
 ![Pending Tasks](screenshots/pending_tasks.png)
 
-__Applicant Client UI__:
+### Applicant Client UI:
 
 ???????????????
 
-__TA Coordinator Client UI__
+### TA Coordinator Client UI
 
 ???????????????

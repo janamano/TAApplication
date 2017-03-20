@@ -7,8 +7,12 @@ export default class Nav extends Component {
     }
     
     render() {
+        var style = {
+            paddingLeft: '39%',
+            marginBottom: '2%'
+        }
         return (
-            <Navbar brand={this.props.heading} right></Navbar>
+            <Navbar style={style} className="indigo darken-4" brand={this.props.heading} right></Navbar>
         );
     }
 }

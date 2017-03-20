@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, CollapsibleItem, Modal } from "react-materialize";
+import { Row, Button, Collapsible, CollapsibleItem, Modal, CollectionItem } from "react-materialize";
 
 
 export default class Applicant extends Component {
@@ -132,7 +132,7 @@ export default class Applicant extends Component {
         return (
             <Modal header={ head }
                    trigger={
-                            <ul><li>{ head }</li></ul>
+                            <CollectionItem>{ head }</CollectionItem>
                            }>
                   <h4 className="thin">Basic Info</h4>
                   <p>Name: {app.firstName} {app.lastName}</p>
@@ -145,7 +145,7 @@ export default class Applicant extends Component {
                   <p>Work Status: {app.studentInformation.workStatus}</p>
                   <h4 className="thin">Student History</h4>
                   {app.studentInformation.TAHistory.map(entry =>
-                      <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
+                      <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
                   <Button disabled={this.state.cantClick} id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>

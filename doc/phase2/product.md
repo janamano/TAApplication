@@ -188,4 +188,8 @@ Going forward into the final phase, we will consider making tasks more granular 
 
 ### TA Coordinator Client UI
 
-???????????????
+![Picture 1](screenshots/TACoord1.png)
+![Picture 2](screenshots/TACoord2.png)
+![Picture 3](screenshots/TACoord3.png)
+![Picture 4](screenshots/TACoord4.png)
+

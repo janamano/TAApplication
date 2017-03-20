@@ -9,19 +9,32 @@ let json = utils.json;
 export default class Course extends Component {
     constructor(props) {
         super(props);
-        console.log(props.numberOfTAs)
         this.state = {
             applicants: [],
             applicantsCart: [],
-            numTAs: props.numberOfTAs
+            numberOfTAs: props.numberOfTAs,
+            cantTakeMore: false
         };
 
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.toggleButton = this.toggleButton.bind(this);
+        this.toggleCart = this.toggleCart.bind(this);
+        this.incTAs = this.incTAs.bind(this);
+        this.setFilter = this.setFilter.bind(this);
     }
     
     componentWillMount() {
+        if (this.state.numberOfTAs == 0) {
+            var newVal = !this.state.cantTakeMore;
+            this.setState({
+                cantTakeMore: newVal
+            });
+        }
+
         var t = this;
+        
+        
         // get all the applicants who applied to this course
         var query = '/getApplicants?course=' + this.props.code;
         fetch(query, {method: 'GET'})
@@ -58,7 +71,16 @@ export default class Course extends Component {
         });
         */
     }
-    
+
+    toggleButton() {
+        if (this.state.numberOfTAs == 0) {
+            var newVal = !this.state.cantTakeMore;
+            this.setState({
+                cantTakeMore: newVal
+            });
+        }
+
+    }    
     toggleCart(student) {
         var cart = this.state.applicantsCart;
         var index = cart.indexOf(student);
@@ -147,12 +169,15 @@ export default class Course extends Component {
     }
 
     incTAs(value) {
-        var current = this.props.numberOfTAs;
+        let current = this.state.numberOfTAs;
+        console.log(current + "   " + value);
         current += value;
         this.setState({
-            numTAs: current
-        });
+            numberOfTAs: current
+        }, function() {console.log("current: " + this.state.numberOfTAs);});
+        
     } 
+    
     render() {
         let head = this.props.code + ": " + this.props.title;
         return (
@@ -160,7 +185,7 @@ export default class Course extends Component {
         <CollapsibleItem header={ head }>
                 <p>Course Code: {this.props.code}
                    Title: {this.props.title}
-                   Number of TAs: {this.state.numTAs}
+                   Number of TAs: {this.state.numberOfTAs}
                    Qualifications: {this.props.qualifications}
                    </p>
                 <Collapsible>
@@ -169,13 +194,15 @@ export default class Course extends Component {
                         {this.state.applicants.map(applicant =>
                             
                             <Applicant key={applicant.studentNumber}
+                                       onChange={this.toggleButton}
+                                       cantClick={this.state.cantTakeMore}
                                        applicantInfo={applicant}
                                        prompt={this.isAssigned.bind(this)}
                                        courseUnderConsideration={this.props.code}
                                        toggleFunction={this.toggleCart.bind(this)}
                                        
                                        numTAFunction={this.incTAs.bind(this)}
-                                       numTAs={this.state.numTAs} />
+                                       numberOfTAs={this.state.numberOfTAs} />
                         )}
                     </CollapsibleItem>
                 </Collapsible>

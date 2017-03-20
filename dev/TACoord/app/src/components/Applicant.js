@@ -8,14 +8,22 @@ export default class Applicant extends Component {
 
         this.state = {
             prompt: "",
-            numberOfTAs: props.numTAs
+            numberOfTAs: props.numberOfTAs,
+            cantClick: props.cantClick
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
       this.toggleCart = this.toggleCart.bind(this);
-      
+      this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+
     }
-    
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            numberOfTAs: nextProps.numberOfTAs
+        }, function() {
+            console.log("NEW VAL: " + this.state.numberOfTAs);
+        });
+    }
     componentWillMount() {
         var prompt = this.props.prompt(this.props.applicantInfo.UTORid);
         this.setState({
@@ -54,18 +62,25 @@ export default class Applicant extends Component {
             // one more spot opened update
             numTAsQuery = "inc";
             this.props.numTAFunction(1);
-            var newVal = this.state.numberOfTAs + 1;
+            //var newVal = this.state.numberOfTAs + 1;
         } else {
             applicantQuery = "/acceptApplicant";
             numTAsQuery = "dec"
             this.props.numTAFunction(-1);
-            var newVal = this.state.numberOfTAs + 1;            
+            console.log("UNF: " + this.state.numberOfTAs);
+            //var newVal = this.state.numberOfTAs - 1;            
         }
 
         this.setState({
             numberOfTAs: newVal
         })
 
+        if (this.props.numberOfTAs == 0 && prompt === "ACCEPT") {
+            var newVal = !this.state.cantClick;
+            this.setState({
+                cantClick: newVal
+            });
+        }
         // update this applicant's status in the database
         // fetch(applicantQuery, {
         //     method: 'POST',
@@ -132,7 +147,7 @@ export default class Applicant extends Component {
                   {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>CourseCode: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
+                  <Button disabled={this.state.cantClick} id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>
             </Modal> 
         )

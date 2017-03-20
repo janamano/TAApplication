@@ -1,0 +1,17 @@
+{
+  "name": "services",
+  "version": "1.0.0",
+  "description": "The commands below are assuming that the current working directory is  `proj-TopOfTheHeap/dev/services/src`.",
+  "main": "test.js",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

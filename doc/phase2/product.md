@@ -184,7 +184,14 @@ Going forward into the final phase, we will consider making tasks more granular 
 
 ### Applicant Client UI:
 
-???????????????
+
+![Student Profile Form](screenshots/StudentProfile.png)
+
+![TA History View](screenshots/ApplicantHistory.png)
+
+![Course Selection View](screenshots/ApplicantHistory.png)
+
+![Cart View](screenshots/CartView.png)
 
 ### TA Coordinator Client UI
 

@@ -27,7 +27,7 @@ A significant portion of our entire application has been implemented during this
     * [Design and implementation of database schema](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/22)
     * Following web APIs to support the above features of the Applicant and the TA Coordinator client:
    
-     [Applicant Login](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/21), [GetAllApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/23), [GetCourses](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/30), [GetCourseInfo](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/31), [GetUnassignedPositions](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/38), [GetApplicantsByCourse](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/39), [GetApplicantProfile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/53), [AssignApplicant](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/68)
+     [Applicant Login](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/21), [GetAllApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/23), [GetCourses](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/30), [GetCourseInfo](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/31), [GetUnassignedPositions](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/38), [GetApplicantsByCourse](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/39), [GetApplicantProfile](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/53), [AssignApplicant](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/68), [FilterApplicants](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/82)
      
 ## Pending / Incomplete Tasks
 Although we made significant inroads towards our final product, there are still outstanding features and some integration work left which we would have liked to complete within this phase. These are as follows:
@@ -53,12 +53,15 @@ The central backend system is regarded as a container / wrapper around the datab
 Moreover, in order to decouple the implementation logic and to be consistent with general best practices, we have created separate modules pertaining to specific types of operations within each of these applications. We believe, this greatly helped in keeping our codebase organized and readable.
 
 # Testing
-???????
+We didn't implement the code by test-driven, instead the APIs were implemented and manually tested.
+We built the API and use Postman to send requests and by checking out server responses to male sure it's correctly functioning.
 
 # Technical Highlights
 * Directly typcasting a String to a Boolean will always result in true
 * Learned that in React functions can be passed in as props
-??????? interesting bugs, challenges, lessons learned, observations, etc ????
+* Learned that in React you can pass objects in parameters in a request, it made life easier for implementing Course-Ranking for applying TAship
+* As we are using MongoDb, we found out that document.save() could both create a new record or update existing record if given Objectid. This forced us to use MongoDB generated Id instead of our own created Id, had to rewrite parts of the code to properly address the Id issues.
+* Since Node Js is singed-threaded, we had to make sure that promises are finished and then execute other pieces of the code. We had issues when asynchronous code were running and generating different results that we aren't expecting. It turned out we must wait for promise to resolve.
 
 # Teamork and Process
 We deviated quite a bit from initial plan of following Kanban as our development process. We adapted a more agile and less strict workflow, where we primarily collaborated through GitHub Issues and through online communication. Tasks, such as the implementation of features and APIs, were articulated as GitHub Issues and assigned to team members based on their expertise and / or the nature of work they were already involved with in this project.
@@ -69,7 +72,7 @@ Although, the code bases for all the three components of our app was hosted with
 Since this is not an extremely large project and there aren't too many developers working on each component, we did not use pull requests or branching very extensively. However, each member made sure that the code they committed / pushed was stable and error-free. This was largely done through manual testing __??__and our continuous integration tests.__??__
 
 ## Meetings
-We met on a weekly basis to discuss progress and set targets for the coming week. However, most of our communication and important discussions took place through online messaging. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
+We followed [previous patterns of meetings](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/blob/master/doc/phase1/Collaborate.md), regularly meeting in tutorial time slots and discuss important issues and planning for next week. Other times, we used facebook group chat to talk about design concerns and issues raised during development. Most of our members were very prompt and proactive in terms of responding to messages and getting tasks completed.
 
 ## Rate of Progress
 As reflected from the timestamps in our [GitHub Issues](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues?q=is%3Aissue+is%3Aclosed) and the [commit history](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/commits/master), we did not get started with development work from day one of this phase. We took a bit of time and got started with development work a week later. However, as it can be seen from the number of *closed* issues and the product that we will be demoing, we did make very quick and steady progress over the past couple of weeks and have reached a state where we consider that most of the implementation work has been completed.

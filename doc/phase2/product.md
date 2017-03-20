@@ -52,6 +52,30 @@ The central backend system is regarded as a container / wrapper around the datab
 
 Moreover, in order to decouple the implementation logic and to be consistent with general best practices, we have created separate modules pertaining to specific types of operations within each of these applications. We believe, this greatly helped in keeping our codebase organized and readable.
 
+**An Example API Call**
+
+Here we will describe the general flow of an API call from the front-end to the back-end, in order to better illustrate how all 3 components (the Applicant client, the TA-Coordinator client, and the back-end) coordinate. 
+
+Our front-end applications make liberal use of `fetch()` calls to retrieve data from the back-end and the database. For example, we retrieve the current logged-in user's Student Profile (in the `Profile.js` component) on the Applicant client. We do this by:
+
+1.  First making a `fetch()` request (which is, in essence, [a JavaScript interface that allows one to hook into the HTTP pipeline](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)) to the **Applicant client's `server.js` file** (which is the NodeJS server that is backing this React application -- every React application must have a backing server file). Note that this `fetch()` call is made to the client's own server, not to the main back-end server (that will happen in Step 3); this is done to provide maximum separation of concerns. 
+
+2. Next, the Applicant client's `server.js` receives this request, parses the body/parameters of the request. 
+
+3. Then, this `server.js` file makes a GET/POST request (based on what kind of `fetch()` request was made) to the main back-end server. 
+
+4. The main back-end server (in `dev/services/src/main.js` and associated route files) receives this request, parses it, and retrieves the necessary information from the MongoDB database.
+
+5. The main back-end server then sends an appropriate JSON response. 
+
+6. This response is received by, once again, the Applicant client's `server.js` file. 
+
+7. The Applicant client's server parses this response, and passes it on to the relevant front-end component that made this call (in this case, `Profile.js`). 
+
+8. This front-end component receives this response, parses it, and uses this information to render the appropriate information on-screen.
+
+This flow was used to ensure optimal separation of concerns. 
+
 # Testing
 
 For this phase, we relied largely on manual testing -- both on the front- and back-end. 
@@ -65,6 +89,8 @@ Additionally, our applications make frequent use of `fetch()` calls to various A
 **Back-end**
 
 In the back-end, we made constant use of API testers/examiners such as [Postman](https://www.getpostman.com/docs/introduction). Whenever an API route was built, we checked, using Postman, that 1) the route is actually alive and is receiving requests, 2) that the route is actually responding with well-formed JSON objects, and 3) that the route is responding with accurate and expected information. Any time that any of these 3 conditions was not met, we knew about it immediately through Postman, and were able to efficiently debug and fix the corresponding problem. 
+
+**Next Phase**
 
 For the next phase, we intend to formalise this testing workflow by implementing unit tests for every reasonable API route (with an appropriate amount of coverage), and then following a test-driven methodology. 
 

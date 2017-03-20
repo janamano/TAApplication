@@ -2,7 +2,7 @@
 
 ### Intial Scope
 
-Phase 2 was planned as our core developement phase. During this cycle, we planned to implement the base framework of our application that will enable us to build the features we mentioned in our initial [scope document]() in the previous phase. This includes setting up the projects and the dev environment for the different components of our app, designing and implementing the data model, and incorporating any new APIs that would be required by the client applications. In addition, we planned (and implemented) a sizeable subset of the features as mentioned in detail below.
+Phase 2 was planned as our core developement phase. During this cycle, we planned to implement the base framework of our application that will enable us to build the features we mentioned in our initial [scope document](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/blob/master/doc/phase1/Scope.md) in the previous phase. This includes setting up the projects and the dev environment for the different components of our app, designing and implementing the data model, and incorporating any new APIs that would be required by the client applications. In addition, we planned (and implemented) a sizeable subset of the features as mentioned in detail below.
 
 ### Tasks Completed
 A significant portion of our entire application has been implemented during this phase. Apart from setting up the basic structures of the different components, we were able to implement the following set of features into our app:
@@ -36,12 +36,20 @@ Although we made significant inroads towards our final product, there are still 
 * [Apply consistent and usable design to all UI layouts](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/36)
 * [Ability to mark an application as 'submitted'](https://github.com/csc302-2017-spring/proj-TopOfTheHeap/issues/75)
 
+Furthermore, there are some tasks (from our initial scope document) which we planned to only tackle in the next phase, and are on target to tackle those. These are: 
+* The ability for instructors to enter requests, and anti-requests. 
+* The ability for the TA coordinator to get a named set of provisional applicants. This will likely be done as, perhaps, an auto-generated CSV file, or a spreadsheet.
+* The ability to correctly filter and search for applicants (on the TA Coordinator client) by various fields.
+
 ### Task(s) Not Part of Initial Scope
 There is a particular enhancement that we added to our feature list, as we think this will add value to the user experience and will make the application process more comfortable and seemless.
 
 * We introduced the concept of a "virtual cart", which will allow applicants to mark / shortlist courses they are interested in applying, so that can access / revisit them with ease at a later time.
 
+### Task(s) Removed from Scope
+During this phase, some tasks (which were in our initial scope document) were removed from the scope of our project. 
 
+1. We decided to remove the field for an Applicant to enter the past courses they have taken which are relevant to the TA position. This decision was taken for a couple of reasons. First, each Applicant makes one application for *all* the courses they desire, not on a separate application for each course; as such, courses relevant to *each* position is untenable. Additionally, we also made this decision because most Applicants apply for several TA positions (a rough average might be in the ballpark of 15 courses). As such, if an Applicant was to enter every course they had taken which was relevant to those positions, they would likely end up entering almost all of the past Computer Science courses they have taken. This seems both unnecessary and excessive, and will only complicate the process for both Applicant and TA Coordinator, without providing much utility. As such, we decided to remove this from our scope.
 
 # High-level Design
 As mentioned in our [architecture document](../phase1/Arch.md) in Phase 1, our entire application is partitioned into three separate components: two client apps (i.e. the Applicant and the TA-Coordinator apps) and one central backend system.

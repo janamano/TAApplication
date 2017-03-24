@@ -12,7 +12,9 @@ export default class Nav extends Component {
             marginBottom: '2%'
         }
         return (
-            <Navbar style={style} className="indigo darken-4" brand={this.props.heading} right></Navbar>
+            <Navbar style={style} className="indigo darken-4" brand={this.props.heading} right>
+                <NavItem>Review Changes</NavItem>
+            </Navbar>
         );
     }
 }

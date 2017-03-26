@@ -4,7 +4,8 @@ mongoose.connect('localhost', 'serverDB');
 
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
-var Assignment = require('./models/assignment')
+var Assignment = require('./models/assignment');
+var Application = require('./models/application');
 
 console.log('Applicant population in progress');
 var applicant1 = new Applicant({
@@ -377,26 +378,160 @@ var assignment21 = new Assignment({
 });
 
 assignment1.save();
-assignment2.save();
+//assignment2.save();
 assignment3.save();
 assignment4.save();
-assignment5.save();
+//assignment5.save();
 assignment6.save();
 assignment7.save();
-assignment8.save();
+//assignment8.save();
 assignment9.save();
 assignment10.save();
-assignment11.save();
+//assignment11.save();
 assignment12.save();
 assignment13.save();
-assignment14.save();
+//assignment14.save();
 assignment15.save();
 assignment16.save();
-assignment17.save();
+//assignment17.save();
 assignment18.save();
 assignment19.save();
-assignment20.save();
+//assignment20.save();
 assignment21.save();
 
+var application1 = new Application({
+	UTORid:'bondj',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC258', rank: 1
+		},
+		{
+			courseCode: 'CSC108', rank: 2
+		},
+		{
+			courseCode: 'CSC148', rank: 3
+		},
+		{
+			courseCode: 'CSC165', rank: 4
+		}],
+	status: true
+});
+var application2 = new Application({
+	UTORid:'gautams',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC301', rank: 1
+		},
+		{
+			courseCode: 'CSC148', rank: 2
+		},
+		{
+			courseCode: 'CSC108', rank: 3
+		},
+		{
+			courseCode: 'CSC207', rank: 4
+		}],
+	status: true
+});
+var application3 = new Application({
+	UTORid:'manoha56',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC258', rank: 1
+		},
+		{
+			courseCode: 'CSC108', rank: 2
+		},
+		{
+			courseCode: 'CSC148', rank: 3
+		},
+		{
+			courseCode: 'CSC309', rank: 4
+		}],
+	status: true
+});
+var application4 = new Application({
+	UTORid:'gsc123',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC209', rank: 1
+		},
+		{
+			courseCode: 'CSC207', rank: 2
+		},
+		{
+			courseCode: 'CSC148', rank: 3
+		},
+		{
+			courseCode: 'CSC369', rank: 4
+		}],
+	status: true
+});
+var application5 = new Application({
+	UTORid:'atheed12',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC209', rank: 1
+		},
+		{
+			courseCode: 'CSC207', rank: 1
+		},
+		{
+			courseCode: 'CSC343', rank: 1
+		},
+		{
+			courseCode: 'CSC369', rank: 1
+		}],
+	status: true
+});
+var application6 = new Application({
+	UTORid:'alexyan',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC148', rank: 1
+		},
+		{
+			courseCode: 'CSC209', rank: 1
+		},
+		{
+			courseCode: 'CSC343', rank: 1
+		},
+		{
+			courseCode: 'CSC369', rank: 1
+		}],
+	status: true
+});
+var application7 = new Application({
+	UTORid:'sajid32',
+	session: 'Summer 2017',
+	coursePref: [
+		{
+			courseCode: 'CSC108', rank: 5
+		},
+		{
+			courseCode: 'CSC309', rank: 4
+		},
+		{
+			courseCode: 'CSC343', rank: 3
+		},
+		{
+			courseCode: 'CSC367', rank: 1
+		}],
+	status: true
+});
+
+applicant1.save();
+applicant2.save();
+applicant3.save();
+applicant4.save();
+applicant5.save();
+applicant6.save();
+applicant7.save();
 
 console.log('Process Complete!');

@@ -16,6 +16,7 @@ export default class Courses extends Component {
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.toggleCart = this.toggleCart.bind(this);
      }
 
      componentWillMount() {
@@ -147,13 +148,16 @@ export default class Courses extends Component {
         }
         return -1;
     }
-    courseList() {
-      this.state.courses.map(function(course) {
-        return <Course key={course.code} code={course.code} title={course.title}  numberOfTAs={course.numberOfTAs}
-                            qualifications={course.qualifications}/>
-      });
-    }
+    goToReview(e) {
+        e.preventDefault();
 
+        hashHistory.push({
+            pathname: `/Review`,
+            state: { 
+                data: this.state.courseCarts
+             }
+        })
+    }
     render() {
         var style = {
             textAlign: 'center',
@@ -173,6 +177,10 @@ export default class Courses extends Component {
         }
         return (
             <div >
+            <Navbar style={style} className="indigo darken-4" brand="TA Coordinator System" right>
+                <NavItem>Preview</NavItem>                
+                <NavItem onClick={this.goToReview}>Review Changes</NavItem>
+            </Navbar>
             <h2 style={headingStyle} className="thin">Open Courses</h2>
                 <Collapsible style={style}>    
                     {this.state.courses.map(course =>

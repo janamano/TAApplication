@@ -4,6 +4,8 @@ mongoose.connect('localhost', 'serverDB');
 
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
+var Assignment = require('./model/assignment')
+
 console.log('Applicant population in progress');
 var applicant1 = new Applicant({
       studentNumber: 1007192911,
@@ -266,5 +268,112 @@ course7.save()
 course8.save();
 course9.save();
 course10.save();
+
+var assignment1 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC108',
+	assignedHour: 65
+});
+var assignment2 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC148',
+	assignedHour: 65
+});
+var assignment3 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC258',
+	assignedHour: 65
+});
+var assignment4 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC108',
+	assignedHour: 65
+});
+var assignment5 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC148',
+	assignedHour: 65
+});
+var assignment6 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC165',
+	assignedHour: 65
+});
+
+var assignment7 = new Assignment({
+	assignedApplicant: 1000192911,
+	assignedCourse: 'CSC207',
+	assignedHour: 65
+});
+var assignment8 = new Assignment({
+	assignedApplicant: 1000192911,
+	assignedCourse: 'CSC209',
+	assignedHour: 65
+});
+var assignment9 = new Assignment({
+	assignedApplicant: 1000192911,
+	assignedCourse: 'CSC301',
+	assignedHour: 65
+});
+var assignment10 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC369',
+	assignedHour: 65
+});
+var assignment11 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC309',
+	assignedHour: 65
+});
+var assignment12 = new Assignment({
+	assignedApplicant: 1123872340,
+	assignedCourse: 'CSC343',
+	assignedHour: 65
+});
+var assignment13 = new Assignment({
+	assignedApplicant: 1123192911,
+	assignedCourse: 'CSC369',
+	assignedHour: 65
+});
+var assignment14 = new Assignment({
+	assignedApplicant: 1123192911,
+	assignedCourse: 'CSC309',
+	assignedHour: 65
+});
+var assignment15 = new Assignment({
+	assignedApplicant: 1123192911,
+	assignedCourse: 'CSC343',
+	assignedHour: 65
+});
+var assignment16 = new Assignment({
+	assignedApplicant: 1007192911,
+	assignedCourse: 'CSC369',
+	assignedHour: 65
+});
+var assignment17 = new Assignment({
+	assignedApplicant: 1007192911,
+	assignedCourse: 'CSC309',
+	assignedHour: 65
+});
+var assignment18 = new Assignment({
+	assignedApplicant: 1007192911,
+	assignedCourse: 'CSC343',
+	assignedHour: 65
+});
+var assignment19 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC108',
+	assignedHour: 65
+});
+var assignment20 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC148',
+	assignedHour: 65
+});
+var assignment21 = new Assignment({
+	assignedApplicant: 1123802340,
+	assignedCourse: 'CSC258',
+	assignedHour: 65
+});
 
 console.log('Process Complete!');

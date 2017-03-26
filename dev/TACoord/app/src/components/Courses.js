@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible } from "react-materialize";
+import { Row, Button, Collapsible, Navbar, NavItem } from "react-materialize";
 import Course from './Course';
 
 let utils = require('../utils.js');
@@ -17,6 +17,7 @@ export default class Courses extends Component {
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.toggleCart = this.toggleCart.bind(this);
+        this.goToReview = this.goToReview.bind(this);
      }
 
      componentWillMount() {
@@ -55,12 +56,12 @@ export default class Courses extends Component {
                 for(var i = 0; i < assignments.length; i++) {
                     var assignment = assignments[i];
                     // check if the course assosiated with this assignment is already in the cart
-                    if (this.contains(assignment.assignedCourse, cart)) {
+                    if (this.contains(assignment.assignedCourse.code, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[this.index(assignment.assignedCourse, cart)].applicants.push({UTORid: assignment.assignedApplicant});
+                        cart[this.index(assignment.assignedCourse.code, cart)].applicants.push({UTORid: assignment.assignedApplicant});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse, applicants: [{UTORid:assignment.assignedApplicant}] });
+                        cart.push({code: assignment.assignedCourse.code, applicants: [{UTORid:assignment.assignedApplicant}] });
                     }
                 }
 
@@ -152,7 +153,7 @@ export default class Courses extends Component {
         e.preventDefault();
 
         hashHistory.push({
-            pathname: `/Review`,
+            pathname: `/review`,
             state: { 
                 data: this.state.courseCarts
              }
@@ -175,9 +176,12 @@ export default class Courses extends Component {
         var style2 = {
             textAlign: 'left'
         }
+        var navStyle = {
+            textAlign: 'center'       
+        }
         return (
             <div >
-            <Navbar style={style} className="indigo darken-4" brand="TA Coordinator System" right>
+            <Navbar style={navStyle} className="indigo darken-4" brand="TA Coordinator System" right>
                 <NavItem>Preview</NavItem>                
                 <NavItem onClick={this.goToReview}>Review Changes</NavItem>
             </Navbar>

@@ -5,6 +5,25 @@ var ApplicantList = require('../../models/Applicant');
 
 module.exports = function(app) {
 
+    app.get('/getAssignments', function(req, res) {
+        AssignmentList.find({}, function (err, assignments) {
+            if (err) {
+                res.status(400)
+                .json({
+                    status: 'error',
+                    data: {},
+                    message: err
+                });
+            } else {
+                res.status(200)
+                .json({
+                    status: 'success',
+                    data: assignments,
+                    message: 'retrieved assignments'
+                });
+            }
+        });
+    });
     /* Save Assignment
     Test Call:  http://localhost:8080/saveAssignment?applicant=1000192911&course=CSC108&hour=40
     */

@@ -60,31 +60,18 @@ var makeGetRequest = function (route, qParams, req, res) {
 
 // get a list of all the ourse that need TA Assignments
 app.get('/getOpenCourses', function(req, res) {
-    makeGetRequest('/getOpenings', {}, req, res);
+    makeGetRequest('/getOpenings', req.query, req, res);
 });
 
 // get a list of Applicants who applied to a certain course
 app.get('/getApplicants', function(req, res) {
-    makeGetRequest('/getApplicantsByCourse', {}, req, res);
+    makeGetRequest('/getApplicantsByCourse', req.query, req, res);
 });
 
-/*
-* TODO
 app.get('/getAcceptedAssignments', function(req, res) {
-    makeGetRequest('/api', {}, req, res);
+    makeGetRequest('/getAssignments', req.query, req, res);
 });
-
-app.get('/acceptApplicant', function(req, res) {
-    makeGetRequest('/api', {}, req, res);
-});
-
-app.get('/rejectApplicant', function(req, res) {
-    makeGetRequest('/api', {}, req, res);
-});
-
-app.get('/rejectApplicant', function(req, res) {
-    makeGetRequest('/api', {}, req, res);
-});
+/*
 
 app.get('/filter', function(req, res) {
     makeGetRequest('/filterApplicants/', {}, req, res);

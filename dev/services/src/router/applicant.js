@@ -159,13 +159,12 @@ module.exports = function(app) {
             }
 
         });
-    app.post('/saveApplicant/', function(req, res) {
+    app.post('/saveProfile/', function(req, res) {
         var UTORid = req.body.UTORid;
         var studentNumber = req.body.studentNumber;
         var lastName = req.body.lastName;
         var firstName = req.body.firstName;
         var phoneNumber = req.body.phoneNumber;
-        var email = req.body.phoneNumber;
         var email = req.body.email;
         var programLevel = req.body.studentInformation.programLevel;
         var year = req.body.studentInformation.year;
@@ -173,13 +172,41 @@ module.exports = function(app) {
         var workStatus = req.body.studentInformation.workStatus;
         var studentStatus = req.body.studentInformation.studentStatus;
         
-        console.log(req.body);
-        console.log(req.body.utorid);
+        console.log("YOLO");
+        ApplicantList.findOne({studentNumber: studentNumber}, function(err, student){
+            if(err){
+                res.status(400)
+                        .json({
+                            status: 'error',
+                            data: {},
+                            message: err
+                        });
+            }else{
+                student.UTORid = UTORid;
+                student.lastName = lastName;
+                student.firstName = firstName;
+                student.phoneNumber = phoneNumber;
+                student.email = email;
+                student.studentInformation.programLevel = programLevel;
+                student.studentInformation.year = year;
+                student.studentInformation.programName = programName;
+                student.studentInformation.workStatus = workStatus;
+                student.studentInformation.studentStatus = studentStatus;
+                student.save();
+                res.status(200)
+                        .json({
+                            status: 'success',
+                            data: student,
+                            message: "Successfully filtered applicants"
+                        });
+            }
+        });
     
+        /* THIS WILL STAY TILL WE DECIDE IF WE WILL BE ADDING NEW APPLICANTS */
         /* Creates application and saves it */
-        var newapplicant = new ApplicantList({
-            UTORid: UTORid,
+       /* var newapplicant = new ApplicantList({
             studentNumber: studentNumber,
+            UTORid: UTORid,
             lastName: lastName,
             firstName: firstName,
             phoneNumber: phoneNumber,
@@ -190,9 +217,20 @@ module.exports = function(app) {
                 programName: programName,
                 workStatus: workStatus,
                 studentStatus: studentStatus
-            }
+            },
+            TAHistory: []
         });
-       newapplicant.save();
+        
+        ApplicantList.save(newapplicant, {w:1}, function(err, modified, stats){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("MODIFIES: "+ modified);
+            }
+            
+        });
+       //newapplicant.save();
+       console.log(newapplicant);
        res.status(200)
                     .json({
                         status: 'success',
@@ -200,5 +238,5 @@ module.exports = function(app) {
                         message: "assignment saved"
                     });
        
-        });
-};
+        });*/
+})};

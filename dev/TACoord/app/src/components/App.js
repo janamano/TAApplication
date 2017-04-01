@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import Nav from './Nav';
-import Courses from './Courses'
+import Courses from './Courses';
+
+import {
+    Router,
+    Route,
+    Link,
+    IndexRoute,
+    hashHistory,
+    browserHistory
+} from 'react-router';
 
 export default class App extends Component {
     constructor() {
@@ -9,10 +17,14 @@ export default class App extends Component {
  
     render() {
         return (
-            <div>
-                <Nav heading="TA Coordinator System"/>
-                <Courses />
-            </div>
+            <Router history={hashHistory}>
+                <Route path='/' component={Courses}/>
+                
+            </Router>
+            // <div>
+            //     <Nav heading="TA Coordinator System"/>
+            //     <Courses />
+            // </div>
         );
     }
 }

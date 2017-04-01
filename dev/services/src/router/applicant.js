@@ -172,7 +172,6 @@ module.exports = function(app) {
         var workStatus = req.body.studentInformation.workStatus;
         var studentStatus = req.body.studentInformation.studentStatus;
         
-        console.log("YOLO");
         ApplicantList.findOne({studentNumber: studentNumber}, function(err, student){
             if(err){
                 res.status(400)
@@ -239,4 +238,34 @@ module.exports = function(app) {
                     });
        
         });*/
-})};
+    })
+    app.post('/saveTAHistory/', function(req, res) {
+        var UTORid = req.body.UTORid;
+        var studentNumber = req.body.studentNumber;
+        var TAHistory = req.body.TAHistory;
+        ApplicantList.findOne({studentNumber: studentNumber}, function(err, student){
+            if(err){
+                res.status(400)
+                        .json({
+                            status: 'error',
+                            data: {},
+                            message: err
+                        });
+            }else{
+                student.studentInformation.TAHistory = TAHistory;
+                student.save();
+                res.status(200)
+                        .json({
+                            status: 'success',
+                            data: student,
+                            message: "Successfully filtered applicants"
+                        });
+            }
+        });
+    
+        
+    })
+
+
+
+};

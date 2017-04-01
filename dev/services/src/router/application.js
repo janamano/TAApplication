@@ -60,4 +60,26 @@ module.exports = function(app) {
                 message: "assignment saved"
             });
     });
+    app.get('/submitApplication/', function(req, res) {
+        var utorId = req.query.utorid;
+        applications.findOne({UTORid: utorId}, function(err, application){
+            if(err){
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+            }else{
+                application.status = true;
+                console.log("Sending resp");
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: application,
+                        message: "Successfully submitted Application"
+                    });
+            }
+        });
+    });
 };

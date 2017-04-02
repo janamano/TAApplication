@@ -45,20 +45,40 @@ module.exports = function(app) {
                     courseRankComb.push(crsRank);
                 }
             }
-        /* Creates application and saves it */
-        var newapplication = new applications({
-            UTORid: utorId,
-            session: ssn,
-            coursePref: courseRankComb,
-            status: sts 
+            console.log("COURSE RANK COMBO")
+            console.log(courseRankComb);
+        applications.findOne({UTORid: utorId}, function(err, applcn){
+            if(err){
+                console.log("Doesnt exist in db. Creating application.");
+                /* Creates application and saves it */
+                var newapplication = new applications({
+                    UTORid: utorId,
+                    session: ssn,
+                    coursePref: courseRankComb,
+                    status: sts 
+                });
+                newapplication.save();
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: {},
+                        message: "assignment saved"
+                    });
+            }else{
+                console.log("Application exists. Modifying")
+                applcn.status= sts;
+                applcn.session = ssn;
+                applcn.coursePref = courseRankComb;
+                applcn.save();
+                res.status(200)
+                        .json({
+                            status: 'success',
+                            data: student,
+                            message: "Successfully filtered applicants"
+                        });
+            }
         });
-       newapplication.save();
-       res.status(200)
-            .json({
-                status: 'success',
-                data: {},
-                message: "assignment saved"
-            });
+        
     });
     app.get('/submitApplication/', function(req, res) {
         var utorId = req.query.utorid;

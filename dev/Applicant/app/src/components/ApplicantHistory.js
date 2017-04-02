@@ -140,7 +140,12 @@ export default class ApplicantHistory extends Component {
 
         return (
             <div>
-                <Nav heading="Applicant History"/>
+                <Nav 
+                    heading={"Applicant History"} 
+                    stunum={this.state.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Applicant History"}
+                />
                 <p />
                 <form style={style2} onSubmit={this.handleSubmit}>
                     <p style={style3} className='thin'><b>Enter courses TA'd in the past</b>: </p>

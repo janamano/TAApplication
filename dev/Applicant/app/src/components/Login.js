@@ -64,7 +64,10 @@ export default class Login extends Component {
         }
         return (
             <div>
-                <Nav heading="TA Application System"/>
+                <Nav 
+                    heading="TA Application System"
+                    activePage={"Login"}
+                />
                 <form style={style} className='center'>
                     <Row>
                         <Input style={style2} id="utorid" className='validate center' pattern='[a-zA-Z0-9].{4,}' label="UtorID" s={12} required/>

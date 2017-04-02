@@ -171,7 +171,12 @@ export default class Profile extends Component {
         };
         return (
             <div>
-                <Nav heading={"Student Profile"} />
+                <Nav 
+                    heading={"Student Profile"} 
+                    stunum={this.props.location.state.data.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Profile"}
+                />
                 <form style={style} id="profileForm" onSubmit={this.handleSubmit}>
                     <Row>
                         <Input s={6} 

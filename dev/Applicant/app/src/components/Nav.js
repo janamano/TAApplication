@@ -15,6 +15,7 @@ export default class Nav extends Component {
         this.goToHistory = this.goToHistory.bind(this);
         this.goToSelection = this.goToSelection.bind(this);
         this.goToCart = this.goToCart.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     goToProfile() {
@@ -86,6 +87,10 @@ export default class Nav extends Component {
             }
         });
     }
+
+    logout() {
+        hashHistory.push(`/`);
+    }
     
     render() {
         var style = {
@@ -105,13 +110,21 @@ export default class Nav extends Component {
             paddingTop: "0.8%",
             paddingBottom: "1%"
         }
+        var style5 = {
+            float: 'right',
+            marginRight: "2%",
+        }
+        var style6 = {
+            marginLeft: "11%",
+            marginRight: "1.5%"
+        }
 
         let navButtons = null;
         if (this.props.activePage !== "Login") {
             navButtons = 
                 <div className="center" style={style4}>
                     <Button className={(this.props.activePage == "Profile") ? "red darken-3" : ""}
-                        style={style3}
+                        style={style6}
                         waves="waves-effect waves-light btn-large" 
                         onClick={this.goToProfile}>
                         Profile
@@ -133,6 +146,13 @@ export default class Nav extends Component {
                         waves="waves-effect waves-light btn-large" 
                         onClick={this.goToCart}>
                         Course Cart
+                    </Button>
+                    <Button className="grey darken-4"
+                        style={style5}
+                        waves="waves-effect waves-light btn-large" 
+                        onClick={this.logout}
+                        >
+                        Logout
                     </Button>
                 </div>
         }

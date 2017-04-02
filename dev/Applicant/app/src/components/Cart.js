@@ -216,7 +216,12 @@ export default class Cart extends Component {
 
         return (
             <div>
-                <Nav heading={"Course Cart"} />
+                <Nav 
+                    heading={"Course Cart"} 
+                    stunum={this.state.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Course Cart"}
+                />
                 <div style={style} className="cart">
                     <RankGroup rank={1} courses={this.state.rankings[1]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={2} courses={this.state.rankings[2]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>

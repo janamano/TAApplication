@@ -66,6 +66,7 @@ module.exports = function(app) {
                     });
             }else{
                 console.log("Application exists. Modifying")
+                console.log(applcn);
                 applcn.status= sts;
                 applcn.session = ssn;
                 applcn.coursePref = courseRankComb;
@@ -73,7 +74,7 @@ module.exports = function(app) {
                 res.status(200)
                         .json({
                             status: 'success',
-                            data: student,
+                            data: applcn,
                             message: "Successfully filtered applicants"
                         });
             }

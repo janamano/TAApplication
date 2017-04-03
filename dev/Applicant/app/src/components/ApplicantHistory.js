@@ -222,7 +222,7 @@ export default class ApplicantHistory extends Component {
                     null
                 }
                 <p />
-                <Button waves='light' style={style2} onClick={this.handleSubmit}>Enter</Button>
+                <Button waves='light' style={style2} onClick={this.handleSubmit}>Save and Next</Button>
             </div>
         );
     }

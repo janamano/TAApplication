@@ -235,7 +235,7 @@ export default class CourseSelection extends Component {
                         )
                     }
                 </Collapsible>
-                <Button style={style2} waves='light' onClick={this.handleSave}>Enter</Button>
+                <Button style={style2} waves='light' onClick={this.handleSave}>Save and Next</Button>
             </div>
         );
     }

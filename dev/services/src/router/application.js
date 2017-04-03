@@ -49,34 +49,44 @@ module.exports = function(app) {
             console.log(courseRankComb);
         applications.findOne({UTORid: utorId}, function(err, applcn){
             if(err){
-                console.log("Doesnt exist in db. Creating application.");
-                /* Creates application and saves it */
-                var newapplication = new applications({
-                    UTORid: utorId,
-                    session: ssn,
-                    coursePref: courseRankComb,
-                    status: sts 
-                });
-                newapplication.save();
-                res.status(200)
+                res.status(400)
                     .json({
-                        status: 'success',
+                        status: 'error',
                         data: {},
-                        message: "assignment saved"
+                        message: err
                     });
             }else{
-                console.log("Application exists. Modifying")
-                console.log(applcn);
-                applcn.status= sts;
-                applcn.session = ssn;
-                applcn.coursePref = courseRankComb;
-                applcn.save();
-                res.status(200)
+                if(applcn == null){
+                    console.log("Doesnt exist in db. Creating application.");
+                /* Creates application and saves it */
+                    var newapplication = new applications({
+                        UTORid: utorId,
+                        session: ssn,
+                        coursePref: courseRankComb,
+                        status: sts 
+                    });
+                    newapplication.save();
+                    res.status(200)
                         .json({
                             status: 'success',
-                            data: applcn,
-                            message: "Successfully filtered applicants"
+                            data: {},
+                            message: "assignment saved"
                         });
+                }else{
+                    console.log("Application exists. Modifying")
+                    console.log(applcn);
+                    applcn.status= sts;
+                    applcn.session = ssn;
+                    applcn.coursePref = courseRankComb;
+                    applcn.save();
+                    res.status(200)
+                            .json({
+                                status: 'success',
+                                data: applcn,
+                                message: "Successfully filtered applicants"
+                            });
+                }
+                
             }
         });
         

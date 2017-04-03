@@ -3,6 +3,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const request = require('request-promise');
+const bodyParser = require('body-parser')
 const app = express();
 
 const compiler = webpack(webpackConfig);
@@ -18,6 +19,11 @@ app.use(webpackDevMiddleware(compiler, {
     },
     historyApiFallback: true,
 }));
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 
 var makeGetRequest = function (route, qParams, req, res) {
     var options = {
@@ -58,6 +64,36 @@ var makeGetRequest = function (route, qParams, req, res) {
         });
 }
 
+var makePostRequest = function (route, qBody, req, res) {
+    var options = {  
+        method: 'POST',
+        uri: 'http://localhost:8080' + route,
+        body: qBody,
+        json: true
+    }
+    request(options)  
+        .then(function (response) {
+            // Request was successful
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: {},
+                    message: "message"
+
+                    
+                });
+        })
+        .catch(function (err) {
+            // An error occurred
+            res.status(400)
+                .json({
+                    status: 'error',
+                    data: {},
+                    message: "error message"
+                });
+        })
+}
+
 // get a list of all the ourse that need TA Assignments
 app.get('/getOpenCourses', function(req, res) {
     makeGetRequest('/getOpenings', req.query, req, res);
@@ -75,6 +111,16 @@ app.get('/getAcceptedAssignments', function(req, res) {
 app.get('/getUtorid', function(req, res) {
     makeGetRequest('/getApplicantUtorid', req.query, req, res);
 });
+
+app.get('/getApplicantInfo', function(req, res) {
+    console.log(req.query);
+    makeGetRequest('/getApplicantByStudentNumber', req.query, req, res);
+});
+
+app.post('/createAssignment', function(req, res) {
+    makePostRequest('/saveAssignment/', req.body, req, res);
+});
+
 
 
 /*

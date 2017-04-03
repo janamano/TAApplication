@@ -56,27 +56,27 @@ export default class Courses extends Component {
     //        ]
     //    });        
         // fetch all the assignments for that are considered for employment
-        console.log(this.state.courses)
         fetch('/getAcceptedAssignments', {method: 'GET'})
             .then(json)
             .then(function(data) {
                 // store all the assignments in a variable
                 const assignments = data.data;
-                console.log(assignments)
-
+                
                 var cart = [];
                 
                 // go through each assignment
                 for(var i = 0; i < assignments.length; i++) {
                     var assignment = assignments[i];
+                   
                     // check if the course assosiated with this assignment is already in the cart
                     if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({UTORid: assignment.assignedApplicant});
+                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicantInfo: assignment.assignedApplicant});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{UTORid:assignment.assignedApplicant}] });
+                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicantInfo:assignment.assignedApplicant}] });
                     }
+
                 }
 
                 t.setState({
@@ -191,6 +191,7 @@ export default class Courses extends Component {
                                 code={course.code}
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
+                                hours={course.number}
                                 qualifications={course.qualifications}
                                 currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}
@@ -204,7 +205,7 @@ export default class Courses extends Component {
                         <div style={style} key={cart.code}>
                             <h4 style={style2} className='thin'>{cart.code}</h4>
                             {cart.applicants.map(applicant =>
-                            <p style={style2} key={applicant.UTORid}>{applicant.UTORid}</p>
+                            <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
                             )}
                         </div>)}
                 </div>

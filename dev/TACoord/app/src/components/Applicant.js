@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Button, Collapsible, CollapsibleItem, Modal, CollectionItem } from "react-materialize";
 
+let utils = require('../utils.js');
+let json = utils.json;
 
 export default class Applicant extends Component {
     constructor(props) {
@@ -55,7 +57,22 @@ export default class Applicant extends Component {
         var numTAsQuery = ""
         if (stat === "ACCEPT") {
             // this means that this applicant was just rejected
-            applicantQuery = "/removeAssignment";
+            // fetch('/API', {
+            //     method: 'DELETE',
+            //     credentials: 'include',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         applicant: t.props.applicantInfo.studentNumber,
+            //         course: t.props.courseUnderConsideration
+            //     })
+            // })
+            // .catch(function(error) {
+            //     throw error;
+            // });
+
             // one more spot opened update
             numTAsQuery = "inc";
             t.props.numTAFunction(1);
@@ -69,8 +86,9 @@ export default class Applicant extends Component {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    courseCode: t.props.courseUnderConsideration,
-                    studentNumber: t.props.applicantInfo.studentNumber                   
+                    course: t.props.courseUnderConsideration,
+                    applicant: t.props.applicantInfo.studentNumber,
+                    hour: 65
                 })
             })
             .then(json)
@@ -81,30 +99,7 @@ export default class Applicant extends Component {
             .catch(function(error) {
                 throw error;
             });
-            //var newVal = this.state.numberOfTAs - 1;            
         }
-
-        // update this applicant's status in the database
-        // // increment or decrement the number of tas needed
-        // fetch('/API', {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         name: numTAsQuery
-        //     })
-        // })
-        // .then(json)
-        // .then(function(data) {
-        //     //TODO
-        // })
-        // .catch(function(error) {
-        //     throw error;
-        // });
-        
     }
 
 

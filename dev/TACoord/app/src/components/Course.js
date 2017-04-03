@@ -192,7 +192,6 @@ export default class Course extends Component {
                         <Filter setFilter={this.setFilter.bind(this)}/>
                         <Collection>
                         {this.state.applicants.map(applicant =>
-     {{ console.log(applciant) }}
                             <Applicant key={applicant.studentNumber}
                                        onChange={this.toggleButton}
                                        cantClick={this.state.cantTakeMore}

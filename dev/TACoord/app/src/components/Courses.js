@@ -191,6 +191,7 @@ export default class Courses extends Component {
                                 code={course.code}
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
+                                hours={course.number}
                                 qualifications={course.qualifications}
                                 currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}

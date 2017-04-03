@@ -29,9 +29,9 @@ module.exports = function(app) {
     Test Call:  http://localhost:8080/saveAssignment?applicant=1000192911&course=CSC108&hour=40
     */
     app.post('/saveAssignment/', function(req, res) {
-        var applicant = req.query.applicant;  //student number  Number
-        var course = req.query.course;  // course code  String
-        var hours = req.query.hour;   // assigned hour Number
+        var applicant = req.body.applicant;  //student number  Number
+        var course = req.body.course;  // course code  String
+        var hours = req.body.hour;   // assigned hour Number
 
         // Check to see if there is remaining position in course.
         CourseList.find({$and: [{code: course}, {numberOfTAs: {$ne: 0}}]}, function(err, course) {
@@ -43,6 +43,8 @@ module.exports = function(app) {
                         message: err
                     });
             } else {
+                console.log(req.body);
+                console.log(course);                
                 // save the assignment
                 var assignment = new AssignmentList({
                     assignedApplicant: applicant,  // student number

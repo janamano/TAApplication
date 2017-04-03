@@ -71,10 +71,10 @@ export default class Courses extends Component {
                     // check if the course assosiated with this assignment is already in the cart
                     if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicant: applicantInfo});
+                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicantInfo: assignment.assignedApplicant});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicant:applicantInfo}] });
+                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicantInfo:assignment.assignedApplicant}] });
                     }
 
                 }
@@ -205,7 +205,7 @@ export default class Courses extends Component {
                         <div style={style} key={cart.code}>
                             <h4 style={style2} className='thin'>{cart.code}</h4>
                             {cart.applicants.map(applicant =>
-                            <p  key={applicant.UTORid} style={style2} >{applicant.UTORid}</p>
+                            <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
                             )}
                         </div>)}
                 </div>

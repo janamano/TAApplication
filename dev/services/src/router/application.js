@@ -103,6 +103,7 @@ module.exports = function(app) {
                     });
             }else{
                 application.status = true;
+                application.save();
                 console.log("Sending resp");
                 res.status(200)
                     .json({

@@ -34,7 +34,7 @@ module.exports = function(app) {
     
         /* Get all the course rank combinations and adds them to a list */
         var courseRankComb = [];
-            for(i=0; i<5; i++){
+            for(i=0; i<=5; i++){
                 for(j=0; j<req.body.rankings[i].length; j++){
                     var crsRank = {
                         courseCode: String(req.body.rankings[i][j]),
@@ -45,19 +45,73 @@ module.exports = function(app) {
                     courseRankComb.push(crsRank);
                 }
             }
-        /* Creates application and saves it */
-        var newapplication = new applications({
-            UTORid: utorId,
-            session: ssn,
-            coursePref: courseRankComb,
-            status: sts 
+            console.log("COURSE RANK COMBO")
+            console.log(courseRankComb);
+        applications.findOne({UTORid: utorId}, function(err, applcn){
+            if(err){
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+            }else{
+                if(applcn == null){
+                    console.log("Doesnt exist in db. Creating application.");
+                /* Creates application and saves it */
+                    var newapplication = new applications({
+                        UTORid: utorId,
+                        session: ssn,
+                        coursePref: courseRankComb,
+                        status: sts 
+                    });
+                    newapplication.save();
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: {},
+                            message: "assignment saved"
+                        });
+                }else{
+                    console.log("Application exists. Modifying")
+                    console.log(applcn);
+                    applcn.status= sts;
+                    applcn.session = ssn;
+                    applcn.coursePref = courseRankComb;
+                    applcn.save();
+                    res.status(200)
+                            .json({
+                                status: 'success',
+                                data: applcn,
+                                message: "Successfully filtered applicants"
+                            });
+                }
+                
+            }
         });
-       newapplication.save();
-       res.status(200)
-            .json({
-                status: 'success',
-                data: {},
-                message: "assignment saved"
-            });
+        
+    });
+    app.get('/submitApplication/', function(req, res) {
+        var utorId = req.query.utorid;
+        applications.findOne({UTORid: utorId}, function(err, application){
+            if(err){
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+            }else{
+                application.status = true;
+                application.save();
+                console.log("Sending resp");
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: application,
+                        message: "Successfully submitted Application"
+                    });
+            }
+        });
     });
 };

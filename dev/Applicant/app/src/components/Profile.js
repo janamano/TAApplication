@@ -171,7 +171,12 @@ export default class Profile extends Component {
         };
         return (
             <div>
-                <Nav heading={"Student Profile"} />
+                <Nav 
+                    heading={"Student Profile"} 
+                    stunum={this.props.location.state.data.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Profile"}
+                />
                 <form style={style} id="profileForm" onSubmit={this.handleSubmit}>
                     <Row>
                         <Input s={6} 
@@ -264,7 +269,7 @@ export default class Profile extends Component {
                             <option value="Part-Time">Enrolled Part-Time</option>
                             <option value="Not Enrolled">Not Enrolled</option>
                         </Input>
-                        <Button waves='light' type="submit">Enter</Button>
+                        <Button waves='light' type="submit">Save and Next</Button>
                     </Row>
                 </form>
             </div>

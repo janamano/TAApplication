@@ -35,6 +35,7 @@ export default class Cart extends Component {
         this.handleRemove = this.handleRemove.bind(this);
         this.refreshRankGroups = this.refreshRankGroups.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -201,6 +202,49 @@ export default class Cart extends Component {
             });
     }
 
+    handleSubmit() {
+        var t = this;
+        fetch('/save-rankings', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    rankings: {
+                        1: t.state.rankings[1].map(function(course) { return course.code }),
+                        2: t.state.rankings[2].map(function(course) { return course.code }),
+                        3: t.state.rankings[3].map(function(course) { return course.code }),
+                        4: t.state.rankings[4].map(function(course) { return course.code }),
+                        5: t.state.rankings[5].map(function(course) { return course.code }),
+                        0: t.state.rankings[0].map(function(course) { return course.code })
+                    },
+                    utorid: t.state.UTORid,
+                    status: false,
+                    session: "Fall 2017"
+                })
+            })
+            .then(json)
+            .then(function(data) {
+                fetch('/submit-application?utorid=' + t.state.UTORid, { method: 'GET' })
+                    .then(json)
+                    .then(function(data) {
+                        if (data.status === "success") {
+                            Materialize.toast('Your application has been submitted', 2000);
+                        } else {
+                            Materialize.toast('An error occurred while submitting', 2000);
+                        }
+                    })
+                    .catch(function(err) {
+                        throw err;
+                    });
+            })
+            .catch(function(err) {
+                throw err;
+            });
+    }
+
     render() {
         var style = {
             textAlign: 'center',
@@ -211,12 +255,21 @@ export default class Cart extends Component {
         var style2 = {
             textAlign: 'center',
             marginLeft: '45%',
-            marginBottom: '5%'
+            marginBottom: '5%',
+        }
+        var style3 = {
+            marginLeft: '40%',
+            display: "inline-block"
         }
 
         return (
             <div>
-                <Nav heading={"Course Cart"} />
+                <Nav 
+                    heading={"Course Cart"} 
+                    stunum={this.state.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Course Cart"}
+                />
                 <div style={style} className="cart">
                     <RankGroup rank={1} courses={this.state.rankings[1]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={2} courses={this.state.rankings[2]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
@@ -225,7 +278,12 @@ export default class Cart extends Component {
                     <RankGroup rank={5} courses={this.state.rankings[5]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                     <RankGroup rank={0} courses={this.state.rankings[0]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
                 </div>
-                <Button style={style2} waves='light' onClick={this.handleSave}>Save</Button>
+                <span style={style3}>
+                    <Button waves='light' onClick={this.handleSave}>Save</Button>
+                    &emsp;&emsp;
+                    <Button waves='light'  className="light-blue darken-4" onClick={this.handleSubmit}>Submit</Button>
+                    </span>
+                <p></p>
             </div>
         );
     }

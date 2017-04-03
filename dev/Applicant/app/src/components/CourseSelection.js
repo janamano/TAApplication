@@ -217,7 +217,12 @@ export default class CourseSelection extends Component {
         }
         return (
             <div>
-                <Nav heading={"Course Selection"} />
+                <Nav 
+                    heading={"Course Selection"} 
+                    stunum={this.state.studentNumber} 
+                    UTORid={this.state.UTORid}
+                    activePage={"Course Selection"}
+                />
                 <Collapsible style={style}>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 
@@ -230,7 +235,7 @@ export default class CourseSelection extends Component {
                         )
                     }
                 </Collapsible>
-                <Button style={style2} waves='light' onClick={this.handleSave}>Enter</Button>
+                <Button style={style2} waves='light' onClick={this.handleSave}>Save and Next</Button>
             </div>
         );
     }

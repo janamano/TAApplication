@@ -159,6 +159,30 @@ module.exports = function(app) {
             }
 
         });
+
+        app.get('/getApplicantUtorid', function(req, res) {
+            var studNum = req.query.studentNum;
+            console.log(req.query);
+            ApplicantList.find({studentNumber: studNum}, function(err, appTAProf){
+                if (err) {
+                    res.status(400)
+                        .json({
+                            status: 'error',
+                            data: {},
+                            message: err
+                        });
+                } else {
+                    console.log("Sending resp");
+                    var appl = appTAProf[0];
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: appl.UTORid,
+                            message: "Successfully found the student's utorid"
+                        });
+                }
+            });
+        });
     app.post('/saveApplicant/', function(req, res) {
         var UTORid = req.body.UTORid;
         var studentNumber = req.body.studentNumber;

@@ -71,6 +71,12 @@ app.get('/getApplicants', function(req, res) {
 app.get('/getAcceptedAssignments', function(req, res) {
     makeGetRequest('/getAssignments', req.query, req, res);
 });
+
+app.get('/getUtorid', function(req, res) {
+    makeGetRequest('/getApplicantUtorid', req.query, req, res);
+});
+
+
 /*
 
 app.get('/filter', function(req, res) {

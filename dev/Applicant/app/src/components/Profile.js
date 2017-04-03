@@ -269,7 +269,7 @@ export default class Profile extends Component {
                             <option value="Part-Time">Enrolled Part-Time</option>
                             <option value="Not Enrolled">Not Enrolled</option>
                         </Input>
-                        <Button waves='light' type="submit">Enter</Button>
+                        <Button waves='light' type="submit">Save and Next</Button>
                     </Row>
                 </form>
             </div>

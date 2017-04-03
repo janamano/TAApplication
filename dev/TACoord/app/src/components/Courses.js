@@ -56,27 +56,27 @@ export default class Courses extends Component {
     //        ]
     //    });        
         // fetch all the assignments for that are considered for employment
-        console.log(this.state.courses)
         fetch('/getAcceptedAssignments', {method: 'GET'})
             .then(json)
             .then(function(data) {
                 // store all the assignments in a variable
                 const assignments = data.data;
-                console.log(assignments)
-
+                
                 var cart = [];
                 
                 // go through each assignment
                 for(var i = 0; i < assignments.length; i++) {
                     var assignment = assignments[i];
+                   
                     // check if the course assosiated with this assignment is already in the cart
                     if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({UTORid: assignment.assignedApplicant});
+                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicant: applicantInfo});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{UTORid:assignment.assignedApplicant}] });
+                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicant:applicantInfo}] });
                     }
+
                 }
 
                 t.setState({
@@ -205,7 +205,7 @@ export default class Courses extends Component {
                         <div style={style} key={cart.code}>
                             <h4 style={style2} className='thin'>{cart.code}</h4>
                             {cart.applicants.map(applicant =>
-                            <p style={style2} key={applicant.UTORid}>{applicant.UTORid}</p>
+                            <p  key={applicant.UTORid} style={style2} >{applicant.UTORid}</p>
                             )}
                         </div>)}
                 </div>

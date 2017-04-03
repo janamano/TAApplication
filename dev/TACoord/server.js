@@ -112,6 +112,11 @@ app.get('/getUtorid', function(req, res) {
     makeGetRequest('/getApplicantUtorid', req.query, req, res);
 });
 
+app.get('/getApplicantInfo', function(req, res) {
+    console.log(req.query);
+    makeGetRequest('/getApplicantByStudentNumber', req.query, req, res);
+});
+
 app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });

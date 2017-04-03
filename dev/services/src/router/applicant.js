@@ -22,6 +22,30 @@ module.exports = function(app) {
         	}
         });
     });
+
+    app.get('/getApplicantByStudentNumber', function(req, res) {
+        var studNum = req.query.studentNumber;
+
+        ApplicantList.findOne({studentNumber: studNum}, function(err, applicant){
+        	if (err) {
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+        	} else {
+        		res.status(200)
+                    .json({
+                        status: 'success',
+                        data: applicant,
+                        message: "Successfully found applicanta"
+                    });
+        	}
+        });
+    });
+
+    
     /*Test Call: http://localhost:8080/login?studentNum=1000192911&utorid=bondj */
     app.get('/login/', function(req, res) {
         var studNum = req.query.studentNum;

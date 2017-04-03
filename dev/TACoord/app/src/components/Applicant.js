@@ -57,21 +57,21 @@ export default class Applicant extends Component {
         var numTAsQuery = ""
         if (stat === "ACCEPT") {
             // this means that this applicant was just rejected
-            fetch('/API', {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    applicant: t.props.applicantInfo.studentNumber,
-                    course: t.props.courseUnderConsideration
-                })
-            })
-            .catch(function(error) {
-                throw error;
-            });
+            // fetch('/API', {
+            //     method: 'DELETE',
+            //     credentials: 'include',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         applicant: t.props.applicantInfo.studentNumber,
+            //         course: t.props.courseUnderConsideration
+            //     })
+            // })
+            // .catch(function(error) {
+            //     throw error;
+            // });
 
             // one more spot opened update
             numTAsQuery = "inc";

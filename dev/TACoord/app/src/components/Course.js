@@ -42,6 +42,9 @@ export default class Course extends Component {
             .then(function(data) {
                 // store this in the state courses to create course objects
                 const applicants = data.data;
+                if (t.props.code === 'CSC207') {
+                    console.log(applicants)
+                }
                 t.setState({
                     applicants: applicants.map(function(applicant) {
                         return {UTORid: applicant.UTORid,
@@ -52,23 +55,16 @@ export default class Course extends Component {
                                 email: applicant.email,
                                 studentInformation: applicant.studentInformation}
                     })
+                }, function() {
+                    if (t.props.code === 'CSC207') {
+                         console.log(t.state.applicants)
+                    }   
                 });
             })
             .catch(function(err) {
             // fetch didnt work
             throw err;
         });
-        
-        
-        // // make the fetch call to get all the applicants that applied to this courseCode
-        // t.setState({
-        //     applicants: [{ studentNumber: 12345,   UTORid: "manoha56", lastName: "Manoharan", firstName: "Janarthanan", phoneNumber: "4161231234", email: "jana@gmail.com",
-        //     studentInformation: {programLevel: "Undergraduate", year: 3, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
-        //     TAHistory: [{courseCode: "CSCA08", timesTAd: 1}, {courseCode: "CSCA48", timesTAd: 2}]} },
-        //                 {studentNumber: 12215,   UTORid: "atheed12", lastName: "Thameem", firstName: "Atheed", phoneNumber: "4163231234", email: "Atheed@gmail.com",
-        //                 studentInformation: {programLevel: "Undergraduate", year: 4, programName: "Computer Science", workStatus: "Legally Entitled", studentStatus: 'True', 
-        //                 TAHistory: [{courseCode: "CSCA08", timesTAd: 1},{courseCode: "CSCA48", timesTAd: 2}]} }]
-        // });
         
     }
 
@@ -196,7 +192,7 @@ export default class Course extends Component {
                         <Filter setFilter={this.setFilter.bind(this)}/>
                         <Collection>
                         {this.state.applicants.map(applicant =>
-                            
+     {{ console.log(applciant) }}
                             <Applicant key={applicant.studentNumber}
                                        onChange={this.toggleButton}
                                        cantClick={this.state.cantTakeMore}

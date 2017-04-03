@@ -34,7 +34,7 @@ module.exports = function(app) {
     
         /* Get all the course rank combinations and adds them to a list */
         var courseRankComb = [];
-            for(i=0; i<5; i++){
+            for(i=0; i<=5; i++){
                 for(j=0; j<req.body.rankings[i].length; j++){
                     var crsRank = {
                         courseCode: String(req.body.rankings[i][j]),

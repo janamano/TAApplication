@@ -159,7 +159,6 @@ module.exports = function(app) {
             }
 
         });
-<<<<<<< HEAD
 
         app.get('/getApplicantUtorid', function(req, res) {
             var studNum = req.query.studentNum;
@@ -184,6 +183,7 @@ module.exports = function(app) {
                 }
             });
         });
+
     app.post('/saveApplicant/', function(req, res) {
         var UTORid = req.body.UTORid;
         var studentNumber = req.body.studentNumber;

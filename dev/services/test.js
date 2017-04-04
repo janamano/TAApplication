@@ -389,7 +389,7 @@ assignment9.save();
 assignment10.save();
 //assignment11.save();
 assignment12.save();
-assignment13.save();
+//assignment13.save();
 //assignment14.save();
 assignment15.save();
 assignment16.save();
@@ -526,12 +526,12 @@ var application7 = new Application({
 	status: true
 });
 
-applicant1.save();
-applicant2.save();
-applicant3.save();
-applicant4.save();
-applicant5.save();
-applicant6.save();
-applicant7.save();
+application1.save();
+application2.save();
+application3.save();
+application4.save();
+application5.save();
+application6.save();
+application7.save();
 
 console.log('Process Complete!');

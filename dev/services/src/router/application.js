@@ -1,5 +1,5 @@
 var applications = require('../../models/Application');
-
+var applicants = require('../../models/Applicant');
 module.exports = function(app) {
      /*Test Call: http://localhost:8080/getApplication?utorid=bondj */
     app.get('/getApplication/', function(req, res) {
@@ -113,5 +113,41 @@ module.exports = function(app) {
                     });
             }
         });
+    });
+
+    app.get('/getApplicantsByCourse', function(req, res) {
+        var course = req.query.course;
+        applications.find({status: true, 'coursePref.courseCode': {$in: [course]}}, function(err, applications) {
+            if (err) {
+                res.status(400)
+                .json({
+                    status: 'error',
+                    data: {},
+                    message: err
+                });
+            } else {
+                var listOfApplicants = [];
+                for (var i = 0; i < applications.length; i++) {
+                    listOfApplicants.push(applications[i].UTORid);
+                }
+                applicants.find({UTORid: listOfApplicants}, function(err, applicants) {
+                    if (err) {
+                        res.status(400)
+                            .json({
+                                status: 'error',
+                                data: {},
+                                message: err
+                            });
+                    } else {
+                        res.status(200)
+                            .json({
+                                status: 'success',
+                                data: applicants,
+                                message: "found the applicants"
+                            });
+                    }
+                });
+            }
+        })
     });
 };

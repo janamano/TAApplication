@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Button, Collapsible, Navbar, NavItem } from "react-materialize";
+import { hashHistory } from 'react-router';
 import Course from './Course';
 
 let utils = require('../utils.js');
@@ -18,6 +19,11 @@ export default class Courses extends Component {
         this.componentWillMount = this.componentWillMount.bind(this);
         this.toggleCart = this.toggleCart.bind(this);
         this.goToReview = this.goToReview.bind(this);
+        //this.containsCourse = this.containsCourse.bind(this);
+        this.index = this.index.bind(this);
+        this.getIndex = this.getIndex.bind(this);
+        
+        ;
      }
 
      componentWillMount() {
@@ -43,26 +49,34 @@ export default class Courses extends Component {
             throw err;
         });
 
-        
+    //    t.setState({
+    //        courseCarts: [
+    //            {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
+    //            {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
+    //        ]
+    //    });        
         // fetch all the assignments for that are considered for employment
         fetch('/getAcceptedAssignments', {method: 'GET'})
             .then(json)
             .then(function(data) {
                 // store all the assignments in a variable
                 const assignments = data.data;
+                
                 var cart = [];
                 
                 // go through each assignment
                 for(var i = 0; i < assignments.length; i++) {
                     var assignment = assignments[i];
+                   
                     // check if the course assosiated with this assignment is already in the cart
-                    if (this.contains(assignment.assignedCourse.code, cart)) {
+                    if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[this.index(assignment.assignedCourse.code, cart)].applicants.push({UTORid: assignment.assignedApplicant});
+                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicantInfo: assignment.assignedApplicant});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{UTORid:assignment.assignedApplicant}] });
+                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicantInfo:assignment.assignedApplicant}] });
                     }
+
                 }
 
                 t.setState({
@@ -72,26 +86,11 @@ export default class Courses extends Component {
             .catch(function(error) {
                 throw error;
         });
-        
-        
-    //    t.setState({
-    //        courses: [
-    //            {code: "CSC108", title: "Introduction to Computer Programming", numberOfTAs: 40, qualifications: "CSC108"},
-    //            {code: "CSC148", title: "Introduction to Computer Science", numberOfTAs: 20, qualifications: "CSC108, CSC148"},
-    //            {code: "CSC207", title: "Software Design",numberOfTAs: 12, qualifications: "CSC207"},
-    //            {code: "CSC343", title: "Introduction To Databases",numberOfTAs: 1, qualifications: "CSC207"},        
-    //        ],
-    //        courseCarts: [
-    //            {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
-    //            {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
-    //        ]
-    //    });
-       
 
      } 
 
     // to check if a course is already in the list
-    contains(code, cart) {
+    containsCourse(code, cart) {
         for (var i = 0; i < cart.length; i++) {
             var item = cart[i];
             if (item.code === code) {
@@ -105,7 +104,7 @@ export default class Courses extends Component {
     toggleCart(code, student) {
         var carts = this.state.courseCarts;
         // if the course is not in the list of carts, then this student is accepted
-        if (! this.contains(code, carts)) {
+        if (! this.containsCourse(code, carts)) {
             carts.push({code: code, applicants: [{UTORid:student}] });
         } else {
             // find out if the student is already in the cart for this course
@@ -182,7 +181,7 @@ export default class Courses extends Component {
         return (
             <div >
             <Navbar style={navStyle} className="indigo darken-4" brand="TA Coordinator System" right>
-                <NavItem>Preview</NavItem>                
+                <NavItem onClick={this.showPreview}>Preview</NavItem>                
                 <NavItem onClick={this.goToReview}>Review Changes</NavItem>
             </Navbar>
             <h2 style={headingStyle} className="thin">Open Courses</h2>
@@ -192,6 +191,7 @@ export default class Courses extends Component {
                                 code={course.code}
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
+                                hours={course.number}
                                 qualifications={course.qualifications}
                                 currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}
@@ -205,7 +205,7 @@ export default class Courses extends Component {
                         <div style={style} key={cart.code}>
                             <h4 style={style2} className='thin'>{cart.code}</h4>
                             {cart.applicants.map(applicant =>
-                            <p style={style2} key={applicant.UTORid}>{applicant.UTORid}</p>
+                            <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
                             )}
                         </div>)}
                 </div>

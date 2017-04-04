@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Button, Collapsible, CollapsibleItem, Modal, CollectionItem } from "react-materialize";
 
+let utils = require('../utils.js');
+let json = utils.json;
 
 export default class Applicant extends Component {
     constructor(props) {
@@ -9,7 +11,6 @@ export default class Applicant extends Component {
         this.state = {
             prompt: "",
             numberOfTAs: props.numberOfTAs,
-            cantClick: props.cantClick
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
@@ -20,8 +21,6 @@ export default class Applicant extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             numberOfTAs: nextProps.numberOfTAs
-        }, function() {
-            console.log("NEW VAL: " + this.state.numberOfTAs);
         });
     }
     componentWillMount() {
@@ -33,8 +32,8 @@ export default class Applicant extends Component {
     
     toggleCart() {
         // change the button
-
-        var stat = this.state.prompt;
+        var t = this;
+        var stat = t.state.prompt;
 
         if (stat === "REJECT") {
             stat = "ACCEPT";
@@ -43,13 +42,13 @@ export default class Applicant extends Component {
             stat = "REJECT";
         }
 
-        this.setState({
+        t.setState({
             prompt: stat
         });
 
         // add or remove this user from the list of accepted applicants (for review)
-        if (typeof this.props.toggleFunction === 'function') {
-            this.props.toggleFunction(this.props.applicantInfo.UTORid)
+        if (typeof t.props.toggleFunction === 'function') {
+            t.props.toggleFunction(t.props.applicantInfo.UTORid)
         }
 
         //
@@ -58,69 +57,49 @@ export default class Applicant extends Component {
         var numTAsQuery = ""
         if (stat === "ACCEPT") {
             // this means that this applicant was just rejected
-            applicantQuery = "/rejectApplicant";
+            // fetch('/API', {
+            //     method: 'DELETE',
+            //     credentials: 'include',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         applicant: t.props.applicantInfo.studentNumber,
+            //         course: t.props.courseUnderConsideration
+            //     })
+            // })
+            // .catch(function(error) {
+            //     throw error;
+            // });
+
             // one more spot opened update
             numTAsQuery = "inc";
-            this.props.numTAFunction(1);
+            t.props.numTAFunction(1);
             //var newVal = this.state.numberOfTAs + 1;
         } else {
-            applicantQuery = "/acceptApplicant";
-            numTAsQuery = "dec"
-            this.props.numTAFunction(-1);
-            console.log("UNF: " + this.state.numberOfTAs);
-            //var newVal = this.state.numberOfTAs - 1;            
-        }
-
-        this.setState({
-            numberOfTAs: newVal
-        })
-
-        if (this.props.numberOfTAs == 0 && prompt === "ACCEPT") {
-            var newVal = !this.state.cantClick;
-            this.setState({
-                cantClick: newVal
+            fetch('/createAssignment', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    course: t.props.courseUnderConsideration,
+                    applicant: t.props.applicantInfo.studentNumber,
+                    hour: 65
+                })
+            })
+            .then(json)
+            .then(function(data) {
+                numTAsQuery = "dec"
+                t.props.numTAFunction(-1);
+            })
+            .catch(function(error) {
+                throw error;
             });
         }
-        // update this applicant's status in the database
-        // fetch(applicantQuery, {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         courseCode: this.props.courseUnderConsideration,
-        //         UTORid: this.props.UTORid                   
-        //     })
-        // })
-        // .then(json)
-        // .then(function(data) {
-        //     //TODO
-        // })
-        // .catch(function(error) {
-        //     throw error;
-        // });
-        // // increment or decrement the number of tas needed
-        // fetch('/API', {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         name: numTAsQuery
-        //     })
-        // })
-        // .then(json)
-        // .then(function(data) {
-        //     //TODO
-        // })
-        // .catch(function(error) {
-        //     throw error;
-        // });
-        
     }
 
 
@@ -147,7 +126,7 @@ export default class Applicant extends Component {
                   {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button disabled={this.state.cantClick} id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
+                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>
             </Modal> 
         )

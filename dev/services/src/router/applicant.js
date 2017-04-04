@@ -22,6 +22,30 @@ module.exports = function(app) {
         	}
         });
     });
+
+    app.get('/getApplicantByStudentNumber', function(req, res) {
+        var studNum = req.query.studentNumber;
+
+        ApplicantList.findOne({studentNumber: studNum}, function(err, applicant){
+        	if (err) {
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+        	} else {
+        		res.status(200)
+                    .json({
+                        status: 'success',
+                        data: applicant,
+                        message: "Successfully found applicanta"
+                    });
+        	}
+        });
+    });
+
+    
     /*Test Call: http://localhost:8080/login?studentNum=1000192911&utorid=bondj */
     app.get('/login/', function(req, res) {
         var studNum = req.query.studentNum;
@@ -159,7 +183,32 @@ module.exports = function(app) {
             }
 
         });
-    app.post('/saveProfile/', function(req, res) {
+
+        app.get('/getApplicantUtorid', function(req, res) {
+            var studNum = req.query.studentNum;
+            console.log(req.query);
+            ApplicantList.find({studentNumber: studNum}, function(err, appTAProf){
+                if (err) {
+                    res.status(400)
+                        .json({
+                            status: 'error',
+                            data: {},
+                            message: err
+                        });
+                } else {
+                    console.log("Sending resp");
+                    var appl = appTAProf[0];
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: appl.UTORid,
+                            message: "Successfully found the student's utorid"
+                        });
+                }
+            });
+        });
+
+    app.post('/saveApplicant/', function(req, res) {
         var UTORid = req.body.UTORid;
         var studentNumber = req.body.studentNumber;
         var lastName = req.body.lastName;

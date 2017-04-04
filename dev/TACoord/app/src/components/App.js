@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Courses from './Courses';
+import Review from './Review'
 
 import {
     Router,
@@ -19,7 +20,7 @@ export default class App extends Component {
         return (
             <Router history={hashHistory}>
                 <Route path='/' component={Courses}/>
-                
+                <Route path='/review' component={Review}/>                
             </Router>
             // <div>
             //     <Nav heading="TA Coordinator System"/>

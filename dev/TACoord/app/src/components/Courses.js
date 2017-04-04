@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Button, Collapsible, Navbar, NavItem } from "react-materialize";
 import { hashHistory } from 'react-router';
 import Course from './Course';
+import $ from "jquery";
 
 let utils = require('../utils.js');
 let json = utils.json;
@@ -22,12 +23,16 @@ export default class Courses extends Component {
         //this.containsCourse = this.containsCourse.bind(this);
         this.index = this.index.bind(this);
         this.getIndex = this.getIndex.bind(this);
-        
-        ;
+        this.componentDidMount = this.componentDidMount.bind(this);
      }
 
+     componentDidMount() {
+        $('.tapTarget').tapTarget('open');
+        $('.tapTarget').tapTarget('close');
+     }
      componentWillMount() {
         var t = this;
+        
         //get all the courses
         
         fetch('/getOpenCourses', {method: 'GET'})
@@ -176,11 +181,11 @@ export default class Courses extends Component {
             textAlign: 'left'
         }
         var navStyle = {
-            textAlign: 'center'       
+            textAlign: 'center'      
         }
         return (
             <div >
-            <Navbar style={navStyle} className="indigo darken-4" brand="TA Coordinator System" right>
+            <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
                 <NavItem onClick={this.showPreview}>Preview</NavItem>                
                 <NavItem onClick={this.goToReview}>Review Changes</NavItem>
             </Navbar>
@@ -199,15 +204,12 @@ export default class Courses extends Component {
                         )
                     }
                 </Collapsible>
-                <div>
-                    <h3 style={headingStyle} className='thin'> Considered Applicants</h3>
-                    {this.state.courseCarts.map(cart =>
-                        <div style={style} key={cart.code}>
-                            <h4 style={style2} className='thin'>{cart.code}</h4>
-                            {cart.applicants.map(applicant =>
-                            <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
-                            )}
-                        </div>)}
+                <a id="menu" className="waves-effect waves-light btn btn-floating" >TOUCH</a>
+                <div className="tap-target" data-activates="menu">
+                    <div className="tap-target-content">
+                    <h5>Title</h5>
+                    <p>A bunch of text</p>
+                    </div>
                 </div>
             </div>
         )    

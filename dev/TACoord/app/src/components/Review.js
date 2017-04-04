@@ -27,7 +27,7 @@ export default class Review extends Component {
             
             margin: 'auto'
         }
-
+        console.log(this.state.courseCarts);
         var headingStyle = {
             //textAlign: 'center',
             marginLeft: '15%'
@@ -42,7 +42,7 @@ export default class Review extends Component {
                     <div style={style} key={cart.code}>
                         <h4 style={style2} className='thin'>{cart.code}</h4>
                         {cart.applicants.map(applicant =>
-                        <p style={style2} key={applicant.UTORid}>{applicant.UTORid}</p>
+                        <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
                         )}
                     </div>)}
             </div>

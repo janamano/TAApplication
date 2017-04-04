@@ -130,6 +130,10 @@ app.post('/save-TA-history', function(req, res) {
     makePostRequest('/saveTAHistory', req.body, req, res);
 });
 
+app.get('/submit-application', function(req, res) {
+    makeGetRequest('/submitApplication', req.query, req, res);
+});
+
 const server = app.listen(3000, function() {
     const host = server.address().address;
     const port = server.address().port;

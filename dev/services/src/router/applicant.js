@@ -25,7 +25,7 @@ module.exports = function(app) {
 
     app.get('/getApplicantByStudentNumber', function(req, res) {
         var studNum = req.query.studentNumber;
-
+        console.log(studNum)
         ApplicantList.findOne({studentNumber: studNum}, function(err, applicant){
         	if (err) {
                 res.status(400)
@@ -39,7 +39,7 @@ module.exports = function(app) {
                     .json({
                         status: 'success',
                         data: applicant,
-                        message: "Successfully found applicanta"
+                        message: "Successfully found applicant"
                     });
         	}
         });

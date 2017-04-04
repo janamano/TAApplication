@@ -63,47 +63,47 @@ module.exports = function(app) {
 
     });
 
-    // /* Get a list of applicants assigned to a given course code
-    // Test Call http://localhost:8080/getApplicantsByCourse?course=CSC108*/
-    app.get('/getAssignmentsByCourse/', function(req, res) {
-        var course = req.query.course;
-        // 1. find the assignments that's related to this course.
-        AssignmentList.find({'assignedCourse.code': course}, function(err, assignments) {
-            if (err) {
-                res.status(400)
-                    .json({
-                        status: 'error',
-                        data: {},
-                        message: err
-                    });
-            } else {
-                // 2. find the list of assigned applicants
-                var listOfApplicants = [];
-                for (var i = 0; i < assignments.length; i++) {
-                    listOfApplicants.push(assignments[i].assignedApplicant);
-                }
+    // // /* Get a list of applicants assigned to a given course code
+    // // Test Call http://localhost:8080/getApplicantsByCourse?course=CSC108*/
+    // app.get('/getAssignmentsByCourse/', function(req, res) {
+    //     var course = req.query.course;
+    //     // 1. find the assignments that's related to this course.
+    //     AssignmentList.find({'assignedCourse.code': course}, function(err, assignments) {
+    //         if (err) {
+    //             res.status(400)
+    //                 .json({
+    //                     status: 'error',
+    //                     data: {},
+    //                     message: err
+    //                 });
+    //         } else {
+    //             // 2. find the list of assigned applicants
+    //             var listOfApplicants = [];
+    //             for (var i = 0; i < assignments.length; i++) {
+    //                 listOfApplicants.push(assignments[i].assignedApplicant);
+    //             }
 
-                // 3. Query the applicants info
-                ApplicantList.find({studentNumber: listOfApplicants}, function(err, applicants) {
-                    if (err) {
-                        res.status(400)
-                            .json({
-                                status: 'error',
-                                data: {},
-                                message: err
-                            });
-                    } else {
-                        res.status(200)
-                            .json({
-                                status: 'success',
-                                data: applicants,
-                                message: "found the applicants"
-                            });
-                    }
-                });
-            }
-        });
-    });
+    //             // 3. Query the applicants info
+    //             ApplicantList.find({studentNumber: listOfApplicants}, function(err, applicants) {
+    //                 if (err) {
+    //                     res.status(400)
+    //                         .json({
+    //                             status: 'error',
+    //                             data: {},
+    //                             message: err
+    //                         });
+    //                 } else {
+    //                     res.status(200)
+    //                         .json({
+    //                             status: 'success',
+    //                             data: applicants,
+    //                             message: "found the applicants"
+    //                         });
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
 
 
 

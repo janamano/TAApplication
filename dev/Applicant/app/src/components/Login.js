@@ -32,6 +32,8 @@ export default class Login extends Component {
             Materialize.toast('Enter a valid Student Number', 2000);
         }
 
+        var t = this;
+
         // if both are valid
         if (isUtorValid && isStuNumValid) {
             fetch('/login?studentNum=' + stunum + '&' + 'utorid=' + utor, { method: 'GET' })
@@ -39,10 +41,25 @@ export default class Login extends Component {
                 .then(function(data) {
                     if (data.status === "success") {
                         const student = data.data[0];
-                        hashHistory.push({
-                            pathname: `/profile`,
-                            state: { data: student }
-                        })
+                        
+                        fetch('/get-application?utorid=' + utor, { method: 'GET' })
+                            .then(json)
+                            .then(function(data) {
+                                let isSubmitted = false;
+                                if (data.data.length > 0 && data.data[0].status == true) {
+                                    isSubmitted = true;
+                                }
+                                hashHistory.push({
+                                    pathname: `/profile`,
+                                    state: { 
+                                        data: student,
+                                        submitted: isSubmitted
+                                    },
+                                })
+                            })
+                            .catch(function(err) {
+                                throw err;
+                            });
                     } else {
                         Materialize.toast('Your UTORid and Student Number do not match', 2000);
                     }

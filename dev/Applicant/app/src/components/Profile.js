@@ -13,6 +13,7 @@ export default class Profile extends Component {
         super(props);
 
         const student = props.location.state.data;
+        const submitted = props.location.state.submitted;
 
         this.state = {
             UTORid: student.UTORid,
@@ -27,6 +28,7 @@ export default class Profile extends Component {
             eligibility: "Legally Entitled",
             status: "Full-Time",
             initialStudentInformation: undefined,   // info of the student upon page-load
+            submitted: submitted
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -121,7 +123,9 @@ export default class Profile extends Component {
 
         var t = this;
 
-        fetch('/save-profile', {
+        // if the application hasn't already been submitted, save the info and continue
+        if (!t.state.submitted) {
+            fetch('/save-profile', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -154,13 +158,29 @@ export default class Profile extends Component {
                         TAHistory: (typeof t.state.initialStudentInformation != 'undefined' && 
                                 typeof t.state.initialStudentInformation.TAHistory != 'undefined') 
                                 ? 
-                            t.state.initialStudentInformation.TAHistory : []
+                            t.state.initialStudentInformation.TAHistory : [],
+                        submitted: t.state.submitted
                     }
                 });
             })
             .catch(function(err) {
                 throw err;
             });
+        } else {
+            // if application *has* been submitted, just go to next page
+            hashHistory.push({
+                pathname: `/history`,
+                state: { 
+                    UTORid: t.state.UTORid,
+                    studentNumber: t.state.studentNumber,
+                    TAHistory: (typeof t.state.initialStudentInformation != 'undefined' && 
+                            typeof t.state.initialStudentInformation.TAHistory != 'undefined') 
+                            ? 
+                        t.state.initialStudentInformation.TAHistory : [],
+                    submitted: t.state.submitted
+                }
+            });
+        }
     }
 
     render() {
@@ -177,9 +197,20 @@ export default class Profile extends Component {
                     UTORid={this.state.UTORid}
                     activePage={"Profile"}
                 />
+                {this.state.submitted ? 
+                 <div>
+                     <p className="thin center">
+                         <b>You have already submitted your application, and thus can
+                         no longer update your details.</b>
+                    </p>
+                    <p />
+                 </div>
+                 : 
+                 null}
                 <form style={style} id="profileForm" onSubmit={this.handleSubmit}>
                     <Row>
                         <Input s={6} 
+                            disabled={this.state.submitted}
                             label="First Name"
                             ref="firstName"
                             required 
@@ -187,6 +218,7 @@ export default class Profile extends Component {
                             onChange={this.handleFNameChange}
                         />
                         <Input s={6} 
+                            disabled={this.state.submitted}
                             label="Last Name" 
                             ref="lastName"
                             required 
@@ -202,6 +234,7 @@ export default class Profile extends Component {
                             defaultValue={this.state.studentNumber}
                         />
                         <Input s={12} 
+                            disabled={this.state.submitted}
                             label="Telephone" 
                             ref="phoneNumber"
                             type="tel" 
@@ -212,6 +245,7 @@ export default class Profile extends Component {
                             onChange={this.handleNumChange}
                         />
                         <Input s={12} 
+                            disabled={this.state.submitted}
                             label="Email" 
                             ref="email"
                             type="email" 
@@ -220,6 +254,7 @@ export default class Profile extends Component {
                             onChange={this.handleEmailChange}
                         />
                         <Input s={12} type="select" label="Degree Status" ref="degree"
+                            disabled={this.state.submitted}
                             defaultValue=
                                 {(typeof this.state.initialStudentInformation != 'undefined') ? 
                                     this.state.degree : "Undergrad"}
@@ -230,6 +265,7 @@ export default class Profile extends Component {
                             <option value="PhD">PhD</option>
                         </Input>
                         <Input s={12} type="select" label="Year of Study" ref="year"
+                            disabled={this.state.submitted}
                             defaultValue=
                                 {(typeof this.state.initialStudentInformation != 'undefined') ? 
                                     this.state.year : "1"}
@@ -241,7 +277,8 @@ export default class Profile extends Component {
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </Input>
-                        <Input s={12} 
+                        <Input s={12}
+                            disabled={this.state.submitted} 
                             label="Program of Study" 
                             ref="program"
                             required 
@@ -251,6 +288,7 @@ export default class Profile extends Component {
                             onChange={this.handleProgramChange}
                         />
                         <Input s={12} type="select" label="Work Eligibility" ref="eligibility"
+                            disabled={this.state.submitted}
                             defaultValue=
                                 {(typeof this.state.initialStudentInformation != 'undefined') ? 
                                     this.state.eligibility : "Legally Entitled"}
@@ -260,6 +298,7 @@ export default class Profile extends Component {
                             <option value="Student Visa">Student Visa</option>
                         </Input>
                         <Input s={12} type="select" label="Status" ref="status"
+                            disabled={this.state.submitted}
                             defaultValue=
                                 {(typeof this.state.initialStudentInformation != 'undefined') ? 
                                     this.state.status : "Full-Time"}
@@ -269,7 +308,9 @@ export default class Profile extends Component {
                             <option value="Part-Time">Enrolled Part-Time</option>
                             <option value="Not Enrolled">Not Enrolled</option>
                         </Input>
-                        <Button waves='light' type="submit">Save and Next</Button>
+                        <Button waves='light' type="submit">
+                            {this.state.submitted ? "Next" : "Save and Next"}
+                        </Button>
                     </Row>
                 </form>
             </div>

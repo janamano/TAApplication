@@ -50,10 +50,16 @@ export default class ReviewCourse extends Component {
             index++;
         }
         applicants.splice(index, 1);
-
+        // remove tha applicant from the list of assignments
         t.setState({
             assignedApplicants: applicants
         });
+
+        // if the last of the applicants were removed, then remove this course's cart
+        if (applicants.length == 0) {
+            this.props.removeCourse(t.state.courseCode);
+        }
+
     }   
     render() {
         var style = {

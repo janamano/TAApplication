@@ -120,17 +120,17 @@ app.get('/getCourse', function(req, res) {
     makeGetRequest('/getCourseInfo', req.query, req, res);
 });
 
+app.get('/getAssignments', function(req, res) {
+    makeGetRequest('/getAssignmentsByCourse/', req.query, req, res);
+});
+
+app.get('/filter', function(req, res) {
+    makeGetRequest('/filterApplicants/', req.query, req, res);
+});
+
 app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });
-
-/*
-
-app.get('/filter', function(req, res) {
-    makeGetRequest('/filterApplicants/', {}, req, res);
-});
-
-*/
 
 const server = app.listen(4000, function() {
     const host = server.address().address;

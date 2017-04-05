@@ -120,6 +120,10 @@ app.get('/getCourse', function(req, res) {
     makeGetRequest('/getCourseInfo', req.query, req, res);
 });
 
+app.get('/getAssignments', function(req, res) {
+    makeGetRequest('/getAssignmentsByCourse/', req.query, req, res);
+});
+
 app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });

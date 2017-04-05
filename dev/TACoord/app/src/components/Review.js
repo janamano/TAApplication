@@ -28,7 +28,28 @@ export default class Review extends Component {
         this.state = {
             courseCarts: courseCarts
         };
+
+        this.goToHome = this.goToHome.bind(this);
+        this.removeCourse = this.removeCourse.bind(this);
+        
     }
+
+    removeCourse(code) {
+        var t = this;
+        var carts = this.state.courseCarts;
+        var i = 0;
+        while (i < carts.length && carts[i].code != code) {
+            console.log(carts[i].code);
+            i++;
+        }
+
+        carts.splice(i, 1);
+
+        t.setState({
+            courseCarts: carts
+        });
+    }
+
     
     goToHome(e) {
         e.preventDefault();
@@ -70,6 +91,7 @@ export default class Review extends Component {
                         <ReviewCourse key={course.code}
                                         code={course.code}
                                         assignedApplicants={course.applicants}
+                                        removeCourse={this.removeCourse}
                         />
                     )}
                 </Collapsible>

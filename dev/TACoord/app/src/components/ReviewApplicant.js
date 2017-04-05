@@ -19,90 +19,17 @@ export default class ReviewApplicant extends Component {
             year: '',
             workStatus: '',
             studentStatus: '',
-            TAHistory: ''
+            TAHistory: '',
+            applicant: ''
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
       this.removeApplicant = this.removeApplicant.bind(this);
-    //   this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-
     }
-
-    // toggleCart() {
-    //     // change the button
-    //     var t = this;
-    //     var stat = t.state.prompt;
-
-    //     if (stat === "REJECT") {
-    //         stat = "ACCEPT";
-
-    //     } else {
-    //         stat = "REJECT";
-    //     }
-
-    //     t.setState({
-    //         prompt: stat
-    //     });
-
-    //     // add or remove this user from the list of accepted applicants (for review)
-    //     if (typeof t.props.toggleFunction === 'function') {
-    //         t.props.toggleFunction(t.props.applicantInfo.UTORid)
-    //     }
-
-    //     //
-    //     // CANT TEST BACKEND IS NOT WORKING FOR ME
-    //     var applicantQuery = "";
-    //     var numTAsQuery = ""
-    //     if (stat === "ACCEPT") {
-    //         // this means that this applicant was just rejected
-    //         // fetch('/API', {
-    //         //     method: 'DELETE',
-    //         //     credentials: 'include',
-    //         //     headers: {
-    //         //         'Accept': 'application/json',
-    //         //         'Content-Type': 'application/json'
-    //         //     },
-    //         //     body: JSON.stringify({
-    //         //         applicant: t.props.applicantInfo.studentNumber,
-    //         //         course: t.props.courseUnderConsideration
-    //         //     })
-    //         // })
-    //         // .catch(function(error) {
-    //         //     throw error;
-    //         // });
-
-    //         // one more spot opened update
-    //         numTAsQuery = "inc";
-    //         t.props.numTAFunction(1);
-    //         //var newVal = this.state.numberOfTAs + 1;
-    //     } else {
-    //         fetch('/createAssignment', {
-    //             method: 'POST',
-    //             credentials: 'include',
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 course: t.props.courseUnderConsideration,
-    //                 applicant: t.props.applicantInfo.studentNumber,
-    //                 hour: 65
-    //             })
-    //         })
-    //         .then(json)
-    //         .then(function(data) {
-    //             numTAsQuery = "dec"
-    //             t.props.numTAFunction(-1);
-    //         })
-    //         .catch(function(error) {
-    //             throw error;
-    //         });
-    //     }
-    // }
 
     componentWillMount() {
         var t = this;
-        console.log(t.state.studentNumber)
+
         fetch('/getApplicantInfo?studentNumber='+this.state.studentNumber, {method: 'GET'})
         .then(json)
         .then(function(data) {
@@ -111,6 +38,8 @@ export default class ReviewApplicant extends Component {
             if (data.status === 'success') {
                 const applicant = data.data;
                 t.setState({
+                    TAHistory: applicant.studentInformation.TAHistory,
+                    applicant: applicant,
                     applicantName: applicant.firstName + " " + applicant.lastName,
                     UTORid: applicant.UTORid,
                     phoneNumber: applicant.phoneNumber,
@@ -120,7 +49,6 @@ export default class ReviewApplicant extends Component {
                     year: applicant.studentInformation.year,
                     studentStatus: applicant.studentInformation.studentStatus,
                     workStatus: applicant.studentInformation.workStatus,
-                    TAHistory: applicant.studentInformation.TAHistory
                     
                 });
             }
@@ -133,9 +61,15 @@ export default class ReviewApplicant extends Component {
         this.props.removeApplicant(this.state.studentNumber);
     }
     render() {
-        // let app = this.state.applicant;
         
-        // let head = this.props.applicantInfo.firstName + " " + this.props.applicantInfo.lastName;
+        // dont remove this: or else it wont work
+        var TAHistory = [];
+        var history = this.state.TAHistory;
+ 
+        for (var i = 0; i < history.length; i++) {
+            TAHistory.push(history[i]);
+        }
+
 
         return (
             <Modal header={ this.state.applicantName}
@@ -153,10 +87,10 @@ export default class ReviewApplicant extends Component {
                   <p>Year: {this.state.year}</p>
                   <p>Work Status: {this.state.workStatus}</p>
                   <h4 className="thin">Student History</h4>
-
-                 <p> {JSON.stringify(this.state.TAHistory)}</p>
+                 {TAHistory.map(entry =>
+                      <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.removeApplicant}>REMOVE ASSIGNMENT</Button>
+                  <Button id="button" className="modal-action modal-close waves-effect red darken-3 btn" onClick={this.removeApplicant}>Remove Assignment</Button>
                   </div>
             </Modal> 
         )
@@ -164,8 +98,7 @@ export default class ReviewApplicant extends Component {
 }
 
 /*
- {this.state.TAHistory.map(entry =>
-                      <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
           
-                  
+                  {this.state.TAHistory.map(entry =>
+                      <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
 */

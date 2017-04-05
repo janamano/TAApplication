@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, Navbar, NavItem } from "react-materialize";
+import { Row, Button, Collapsible, Navbar, NavItem, Input } from "react-materialize";
 import { hashHistory } from 'react-router';
 import Course from './Course';
-import $ from "jquery";
 
 let utils = require('../utils.js');
 let json = utils.json;
@@ -11,10 +10,10 @@ let courseCompare = utils.courseCompare;
 export default class Courses extends Component {
      constructor() {
         super();
-        // initialize the list of courses
+
         this.state = {
             courses: [],
-            courseCarts: []
+            //courseCarts: []
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -23,6 +22,7 @@ export default class Courses extends Component {
         this.containsCourse = this.containsCourse.bind(this);
         this.index = this.index.bind(this);
         this.getIndex = this.getIndex.bind(this);
+        
      }
 
      componentWillMount() {
@@ -49,37 +49,37 @@ export default class Courses extends Component {
             throw err;
         });
        
-        // fetch all the assignments for that are considered for employment
-        fetch('/getAcceptedAssignments', {method: 'GET'})
-            .then(json)
-            .then(function(data) {
-                // store all the assignments in a variable
-                const assignments = data.data;
+        // // fetch all the assignments for that are considered for employment
+        // fetch('/getAcceptedAssignments', {method: 'GET'})
+        //     .then(json)
+        //     .then(function(data) {
+        //         // store all the assignments in a variable
+        //         const assignments = data.data;
                 
-                var cart = [];
+        //         var cart = [];
                 
-                // go through each assignment
-                for(var i = 0; i < assignments.length; i++) {
-                    var assignment = assignments[i];
+        //         // go through each assignment
+        //         for(var i = 0; i < assignments.length; i++) {
+        //             var assignment = assignments[i];
                    
-                    // check if the course assosiated with this assignment is already in the cart
-                    if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
-                        // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({studentNumber: assignment.assignedApplicant});
-                    } else {
-                        // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{studentNumber:assignment.assignedApplicant}] });
-                    }
+        //             // check if the course assosiated with this assignment is already in the cart
+        //             if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
+        //                 // if it , then add it the applicant to its list of applicants
+        //                 cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({studentNumber: assignment.assignedApplicant});
+        //             } else {
+        //                 // otherwise create a new entry
+        //                 cart.push({code: assignment.assignedCourse.code, applicants: [{studentNumber:assignment.assignedApplicant}] });
+        //             }
 
-                }
+        //         }
 
-                t.setState({
-                    courseCarts: cart
-                });
-            })
-            .catch(function(error) {
-                throw error;
-        });
+        //         t.setState({
+        //             courseCarts: cart
+        //         });
+        //     })
+        //     .catch(function(error) {
+        //         throw error;
+        //     });
 
      } 
 
@@ -125,7 +125,7 @@ export default class Courses extends Component {
     getIndex(list, student) {
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
-            if (item.UTORid === student) {
+            if (item.studentNumber === student) {
                 return i;
             }
         }   
@@ -134,6 +134,7 @@ export default class Courses extends Component {
 
     // to check if a course is already in the list
     index(code, cart) {
+        
         for (var i = 0; i < cart.length; i++) {
             var item = cart[i];
             if (item.code === code) {
@@ -146,28 +147,19 @@ export default class Courses extends Component {
         e.preventDefault();
 
         hashHistory.push({
-            pathname: `/review`,
-            state: { 
-                data: this.state.courseCarts
-             }
+            pathname: `/review`
         })
     }
+
     render() {
         var style = {
             textAlign: 'center',
             width: '70%',
-            //marginLeft: '2%',
-            //marginBottom: '2%'
-            
             margin: 'auto'
         }
 
         var headingStyle = {
-            //textAlign: 'center',
             marginLeft: '15%'
-        }
-        var style2 = {
-            textAlign: 'left'
         }
         var navStyle = {
             textAlign: 'center',
@@ -180,7 +172,8 @@ export default class Courses extends Component {
                 <NavItem onClick={this.showPreview}>Preview</NavItem>                
                 <NavItem onClick={this.goToReview}>Review Changes</NavItem>
             </Navbar>
-            <h2 style={headingStyle} className="thin">Open Courses</h2>
+            <div>
+                <h2 style={headingStyle} className="thin">Open Courses</h2>
                 <Collapsible style={style}>    
                     {this.state.courses.map(course =>
                         <Course key={course.code}
@@ -189,13 +182,19 @@ export default class Courses extends Component {
                                 numberOfTAs={course.numberOfTAs}
                                 //hours={course.number}
                                 qualifications={course.qualifications}
-                                currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}
                         />
                         )
                     }
                 </Collapsible>
             </div>
+
+
+            </div>
         )    
     }
 }
+
+/*
+
+*/

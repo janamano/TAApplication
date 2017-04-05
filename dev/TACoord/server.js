@@ -113,15 +113,16 @@ app.get('/getUtorid', function(req, res) {
 });
 
 app.get('/getApplicantInfo', function(req, res) {
-    console.log(req.query);
     makeGetRequest('/getApplicantByStudentNumber', req.query, req, res);
+});
+
+app.get('/getCourse', function(req, res) {
+    makeGetRequest('/getCourseInfo', req.query, req, res);
 });
 
 app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });
-
-
 
 /*
 
@@ -130,21 +131,6 @@ app.get('/filter', function(req, res) {
 });
 
 */
-
-
-/* 
-TODO: 
-remove this comment once everyone has a solid feel for the structure 
-of this project, and how the servers will interact.
-
-Here (or in separate files, if we feel like being more modular) we will be 
-adding handlers/routes that will call our main back-end server (via a URLs like
-"localhost:8080/handler"). 
-
-So, this React app (the TA Coordinator client), will call these handlers here, 
-which in turn will call the routes/handlers in the main back-end server.
-*/ 
-
 
 const server = app.listen(4000, function() {
     const host = server.address().address;

@@ -24,7 +24,8 @@ export default class Applicant extends Component {
         });
     }
     componentWillMount() {
-        var prompt = this.props.prompt(this.props.applicantInfo.UTORid);
+        var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
+        console.log(prompt);
         this.setState({
             prompt: prompt
         });
@@ -48,7 +49,7 @@ export default class Applicant extends Component {
 
         // add or remove this user from the list of accepted applicants (for review)
         if (typeof t.props.toggleFunction === 'function') {
-            t.props.toggleFunction(t.props.applicantInfo.UTORid)
+            t.props.toggleFunction(t.props.applicantInfo.studentNumber)
         }
 
         //

@@ -64,33 +64,43 @@ export default class ApplicantHistory extends Component {
         var t = this;
 
         // make form submit (POST) request
-        fetch("/save-TA-history", {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    studentNumber: t.state.studentNumber,
-                    UTORid: t.state.UTORid,
-                    TAHistory: t.state.TAHistory
-                })
-            })
-            .then(json)
-            .then(function(data) {
-                // TODO: later, check for success first
-                hashHistory.push({
-                    pathname: `/courseselection`,
-                    state: { 
-                        UTORid: t.state.UTORid,
+        if (!t.state.submitted) {
+            fetch("/save-TA-history", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
                         studentNumber: t.state.studentNumber,
-                        submitted: t.state.submitted
-                    }
+                        UTORid: t.state.UTORid,
+                        TAHistory: t.state.TAHistory
+                    })
                 })
+                .then(json)
+                .then(function(data) {
+                    hashHistory.push({
+                        pathname: `/courseselection`,
+                        state: { 
+                            UTORid: t.state.UTORid,
+                            studentNumber: t.state.studentNumber,
+                            submitted: t.state.submitted
+                        }
+                    })
+                })
+                .catch(function(err) {
+                    throw err;
+                });
+        } else {
+            hashHistory.push({
+                pathname: `/courseselection`,
+                state: { 
+                    UTORid: t.state.UTORid,
+                    studentNumber: t.state.studentNumber,
+                    submitted: t.state.submitted
+                }
             })
-            .catch(function(err) {
-                throw err;
-            });
+        }
     }
 
     updateCoursesTAdList(selected) {

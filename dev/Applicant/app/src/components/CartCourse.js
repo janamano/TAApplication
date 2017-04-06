@@ -11,7 +11,8 @@ export default class CartCourse extends Component {
         this.state = {
             code: props.code,
             title: props.title,
-            rank: props.rank
+            rank: props.rank,
+            applicationSubmitted: props.submitted
         };
     }
  
@@ -25,7 +26,7 @@ export default class CartCourse extends Component {
             float: 'right'
         }
         let cart = 
-                <Button style={style2} waves='light' onClick={(evt) => this.props.handleRemove(evt, this.state.rank, this.state.code)}>
+                <Button disabled={this.state.applicationSubmitted} style={style2} waves='light' onClick={(evt) => this.props.handleRemove(evt, this.state.rank, this.state.code)}>
                     Remove From Cart
                 </Button>;
 
@@ -46,6 +47,7 @@ export default class CartCourse extends Component {
                     <Ranking course={this.state.code} 
                             rank={this.props.rank} 
                             refreshRanks={this.props.refreshRanks}
+                            applicationSubmitted={this.state.applicationSubmitted}
                     />
                 </span>
             </span>;

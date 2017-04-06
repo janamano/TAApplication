@@ -119,13 +119,26 @@ export default class Nav extends Component {
 
     goToCart() {
         var t = this;
-        hashHistory.push({
-            pathname: `/cart`,
-            state: { 
-                UTORid: t.props.UTORid,
-                studentNumber: t.props.stunum,
-            }
-        });
+
+        fetch('/get-application?utorid=' + t.props.UTORid, { method: 'GET' })
+            .then(json)
+            .then(function(data) {
+                let isSubmitted = false;
+                if (data.data.length > 0 && data.data[0].status == true) {
+                    isSubmitted = true;
+                }
+                hashHistory.push({
+                    pathname: `/cart`,
+                    state: { 
+                        UTORid: t.props.UTORid,
+                        studentNumber: t.props.stunum,
+                        submitted: isSubmitted
+                    }
+                });
+            })
+            .catch(function(err) {
+                throw err;
+            });
     }
 
     logout() {

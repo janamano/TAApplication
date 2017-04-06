@@ -40,7 +40,7 @@ export default class RankGroup extends Component {
             <div>
                 <br />
                 <p style={style}>
-                    <span className='thin'><b>Rank</b>: {(this.state.rank ===0) ? "Unranked" : this.state.rank}</span>
+                    <span className='thin'><b>Preference Level</b>: {(this.state.rank ===0) ? "Unranked" : this.state.rank}</span>
                 </p>
                 <Collapsible>
                     {(this.props.courses.length > 0) ?
@@ -52,6 +52,7 @@ export default class RankGroup extends Component {
                                     rank={this.state.rank}
                                     refreshRanks={this.helperRefreshRanks}
                                     handleRemove={this.helperHandleRemove}
+                                    submitted={this.props.submitted}
                             />
                         </div>
                         )

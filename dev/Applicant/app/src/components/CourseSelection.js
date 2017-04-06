@@ -41,51 +41,6 @@ export default class CourseSelection extends Component {
         this.handleSave = this.handleSave.bind(this);
     }
 
-    addToCart(course) {
-        coursesinCart.push(course);
-
-        // add course to state rankings
-        const newList = this.state.rankings['0'].slice();
-        newList.push({
-            courseCode: course,
-            rank: 0
-        });
-        this.setState({
-            rankings: {
-                1: this.state.rankings['1'],
-                2: this.state.rankings['2'],
-                3: this.state.rankings['3'],
-                4: this.state.rankings['4'],
-                5: this.state.rankings['5'],
-                0: newList
-            }
-        })
-    }
-
-    removeFromCart(course) {
-        var delIdx = coursesinCart.indexOf(course);
-        if (delIdx > -1) {
-            coursesinCart.splice(delIdx, 1);
-        }
-        
-        // copy of state rankings
-        let rankings = JSON.parse(JSON.stringify(this.state.rankings));
-
-        // delete course from rank that it belongs to (in the copied object)
-        for (var i = 0; i < 6; i++) {
-            // index of course being deleted
-            const delIdx = rankings[i].findIndex(item => item.courseCode === course);
-            if (delIdx > -1) {
-                rankings[i].splice(delIdx, 1);
-                break;
-            }
-        }
-
-        this.setState({
-            rankings: rankings
-        })
-    }
-
     componentWillMount() {
         var t = this;
         fetch('/all-courses', { method: 'GET' })
@@ -149,6 +104,51 @@ export default class CourseSelection extends Component {
             });
     }
 
+    addToCart(course) {
+        coursesinCart.push(course);
+
+        // add course to state rankings
+        const newList = this.state.rankings['0'].slice();
+        newList.push({
+            courseCode: course,
+            rank: 0
+        });
+        this.setState({
+            rankings: {
+                1: this.state.rankings['1'],
+                2: this.state.rankings['2'],
+                3: this.state.rankings['3'],
+                4: this.state.rankings['4'],
+                5: this.state.rankings['5'],
+                0: newList
+            }
+        })
+    }
+
+    removeFromCart(course) {
+        var delIdx = coursesinCart.indexOf(course);
+        if (delIdx > -1) {
+            coursesinCart.splice(delIdx, 1);
+        }
+        
+        // copy of state rankings
+        let rankings = JSON.parse(JSON.stringify(this.state.rankings));
+
+        // delete course from rank that it belongs to (in the copied object)
+        for (var i = 0; i < 6; i++) {
+            // index of course being deleted
+            const delIdx = rankings[i].findIndex(item => item.courseCode === course);
+            if (delIdx > -1) {
+                rankings[i].splice(delIdx, 1);
+                break;
+            }
+        }
+
+        this.setState({
+            rankings: rankings
+        })
+    }
+
     /*
     Function that filters the course-preferences list to only include the courses 
     of the given 'rank' (i.e. preference)
@@ -162,48 +162,59 @@ export default class CourseSelection extends Component {
     handleSave() {
         var t = this;
 
-        fetch('/save-rankings', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    rankings: t.state.rankings,
-                    rankings: {
-                        1: this.state.rankings['1']
-                            .map(function(course) { return course.courseCode }),
-                        2: this.state.rankings['2']
-                            .map(function(course) { return course.courseCode }),
-                        3: this.state.rankings['3']
-                            .map(function(course) { return course.courseCode }),
-                        4: this.state.rankings['4']
-                            .map(function(course) { return course.courseCode }),
-                        5: this.state.rankings['5']
-                            .map(function(course) { return course.courseCode }),
-                        0: this.state.rankings['0']
-                            .map(function(course) { return course.courseCode }),
+        if (!t.state.submitted) {
+            fetch('/save-rankings', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
                     },
-                    utorid: t.state.UTORid,
-                    status: false,
-                    session: "Fall 2017"
+                    body: JSON.stringify({
+                        rankings: t.state.rankings,
+                        rankings: {
+                            1: this.state.rankings['1']
+                                .map(function(course) { return course.courseCode }),
+                            2: this.state.rankings['2']
+                                .map(function(course) { return course.courseCode }),
+                            3: this.state.rankings['3']
+                                .map(function(course) { return course.courseCode }),
+                            4: this.state.rankings['4']
+                                .map(function(course) { return course.courseCode }),
+                            5: this.state.rankings['5']
+                                .map(function(course) { return course.courseCode }),
+                            0: this.state.rankings['0']
+                                .map(function(course) { return course.courseCode }),
+                        },
+                        utorid: t.state.UTORid,
+                        status: false,
+                        session: "Fall 2017"
+                    })
                 })
-            })
-            .then(json)
-            .then(function(data) {
-                // Until then...
-                hashHistory.push({
-                    pathname: `/cart`,
-                    state: { 
-                        UTORid: t.state.UTORid,
-                        studentNumber: t.state.studentNumber,
-                    }
+                .then(json)
+                .then(function(data) {
+                    hashHistory.push({
+                        pathname: `/cart`,
+                        state: { 
+                            UTORid: t.state.UTORid,
+                            studentNumber: t.state.studentNumber,
+                            submitted: t.state.submitted
+                        }
+                    });
+                })
+                .catch(function(err) {
+                    throw err;
                 });
-            })
-            .catch(function(err) {
-                throw err;
+        } else {
+            hashHistory.push({
+                pathname: `/cart`,
+                state: { 
+                    UTORid: t.state.UTORid,
+                    studentNumber: t.state.studentNumber,
+                    submitted: t.state.submitted
+                }
             });
+        }
     }
  
     render() {

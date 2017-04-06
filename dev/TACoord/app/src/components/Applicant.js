@@ -11,6 +11,7 @@ export default class Applicant extends Component {
         this.state = {
             prompt: "",
             numberOfTAs: props.numberOfTAs,
+            color: 'green accent-4'
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
@@ -19,36 +20,62 @@ export default class Applicant extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            numberOfTAs: nextProps.numberOfTAs
+        var t = this;
+        t.setState({
+            numberOfTAs: nextProps.numberOfTAs,            
         });
+        var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
+        if (prompt === "ACCEPT") {
+            this.setState({
+                prompt: prompt,
+                color: 'green accent-4'
+            });
+        } else {
+            this.setState({
+                prompt: prompt,
+                color: 'red darken-2'
+            });
+        }
+        
     }
     componentWillMount() {
-        var prompt = this.props.prompt(this.props.applicantInfo.UTORid);
-        this.setState({
-            prompt: prompt
-        });
+        var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
+        if (prompt === "ACCEPT") {
+            this.setState({
+                prompt: prompt
+            });
+        } else {
+            this.setState({
+                prompt: prompt,
+                color: 'red darken-2'
+            });
+        }
     }
     
     toggleCart() {
-        // change the button
         var t = this;
+
+        // change the button
         var stat = t.state.prompt;
+        var color = t.state.color;
 
         if (stat === "REJECT") {
             stat = "ACCEPT";
-
+            color = 'green accent-4';
         } else {
             stat = "REJECT";
+            color = 'red darken-2';
         }
-
         t.setState({
-            prompt: stat
+            prompt: stat,
+            color: color
         });
 
         // add or remove this user from the list of accepted applicants (for review)
         if (typeof t.props.toggleFunction === 'function') {
-            t.props.toggleFunction(t.props.applicantInfo.UTORid)
+            // t.props.toggleFunction(t.props.applicantInfo.studentNumber)
+            t.props.toggleFunction(t.props.applicantInfo)
+            
         }
 
         //
@@ -107,7 +134,7 @@ export default class Applicant extends Component {
         let app = this.props.applicantInfo;
 
         let head = this.props.applicantInfo.firstName + " " + this.props.applicantInfo.lastName;
-
+        let className = "modal-action modal-close waves-effect btn " + this.state.color 
         return (
             <Modal header={ head }
                    trigger={
@@ -126,7 +153,7 @@ export default class Applicant extends Component {
                   {app.studentInformation.TAHistory.map(entry =>
                       <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
-                  <Button id="button" className="modal-action modal-close waves-effect indigo darken-3 btn" onClick={this.toggleCart}>{this.state.prompt}</Button>
+                  <Button id="button" className={ className } onClick={this.toggleCart}>{this.state.prompt}</Button>
                   </div>
             </Modal> 
         )

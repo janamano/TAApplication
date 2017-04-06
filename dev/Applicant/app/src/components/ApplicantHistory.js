@@ -18,10 +18,12 @@ export default class ApplicantHistory extends Component {
 
         const studentNumber = props.location.state.studentNumber;
         const UTORid = props.location.state.UTORid;
+        const submitted = props.location.state.submitted;
         this.state = {
             UTORid: UTORid,
             studentNumber: studentNumber,
-            TAHistory: []
+            TAHistory: [],
+            submitted: submitted
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -30,18 +32,6 @@ export default class ApplicantHistory extends Component {
         this.addCourse = this.addCourse.bind(this);
         this.handleTimesChange = this.handleTimesChange.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
-    }
-
-    addCourse(course) {
-        // index of course being added
-        const index = this.state.TAHistory.findIndex(item => item.courseCode === course);
-
-        // only update history if course has not already been added
-        if (index === -1) {
-            this.setState({ 
-                TAHistory: this.state.TAHistory.concat([{courseCode: course, timesTAd: 0}])
-            });
-        }
     }
 
     componentWillMount() {
@@ -54,6 +44,18 @@ export default class ApplicantHistory extends Component {
         t.setState({
             TAHistory: history
         })
+    }
+
+    addCourse(course) {
+        // index of course being added
+        const index = this.state.TAHistory.findIndex(item => item.courseCode === course);
+
+        // only update history if course has not already been added
+        if (index === -1) {
+            this.setState({ 
+                TAHistory: this.state.TAHistory.concat([{courseCode: course, timesTAd: 0}])
+            });
+        }
     }
 
     handleSubmit(event) {

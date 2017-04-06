@@ -114,6 +114,10 @@ app.get('/get-rankings', function(req, res) {
     makeGetRequest('/getApplication', req.query, req, res);
 });
 
+app.get('/get-application', function(req, res) {
+    makeGetRequest('/getApplication', req.query, req, res);
+});
+
 app.post('/save-rankings', function(req, res) {
     let body = {
         rankings: req.body.rankings,

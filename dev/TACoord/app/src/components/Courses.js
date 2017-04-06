@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, Navbar, NavItem } from "react-materialize";
+import { Row, Button, Collapsible, Navbar, NavItem, Input } from "react-materialize";
 import { hashHistory } from 'react-router';
 import Course from './Course';
 
@@ -10,24 +10,24 @@ let courseCompare = utils.courseCompare;
 export default class Courses extends Component {
      constructor() {
         super();
-        // initialize the list of courses
+
         this.state = {
             courses: [],
-            courseCarts: []
+            //courseCarts: []
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.toggleCart = this.toggleCart.bind(this);
         this.goToReview = this.goToReview.bind(this);
-        //this.containsCourse = this.containsCourse.bind(this);
+        this.containsCourse = this.containsCourse.bind(this);
         this.index = this.index.bind(this);
         this.getIndex = this.getIndex.bind(this);
         
-        ;
      }
 
      componentWillMount() {
         var t = this;
+        
         //get all the courses
         
         fetch('/getOpenCourses', {method: 'GET'})
@@ -48,45 +48,6 @@ export default class Courses extends Component {
             // fetch didnt work
             throw err;
         });
-
-    //    t.setState({
-    //        courseCarts: [
-    //            {code: "CSC108", applicants: [{UTORid: "atheed12"}, {UTORid: "manoha56"} ]},
-    //            {code: "CSC207", applicants: [{UTORid: "atheed12"}]}
-    //        ]
-    //    });        
-        // fetch all the assignments for that are considered for employment
-        fetch('/getAcceptedAssignments', {method: 'GET'})
-            .then(json)
-            .then(function(data) {
-                // store all the assignments in a variable
-                const assignments = data.data;
-                
-                var cart = [];
-                
-                // go through each assignment
-                for(var i = 0; i < assignments.length; i++) {
-                    var assignment = assignments[i];
-                   
-                    // check if the course assosiated with this assignment is already in the cart
-                    if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
-                        // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({applicantInfo: assignment.assignedApplicant});
-                    } else {
-                        // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{applicantInfo:assignment.assignedApplicant}] });
-                    }
-
-                }
-
-                t.setState({
-                    courseCarts: cart
-                });
-            })
-            .catch(function(error) {
-                throw error;
-        });
-
      } 
 
     // to check if a course is already in the list
@@ -105,7 +66,7 @@ export default class Courses extends Component {
         var carts = this.state.courseCarts;
         // if the course is not in the list of carts, then this student is accepted
         if (! this.containsCourse(code, carts)) {
-            carts.push({code: code, applicants: [{UTORid:student}] });
+            carts.push({code: code, applicants: [{studentNumber: student}] });
         } else {
             // find out if the student is already in the cart for this course
             // if they are, that means they just got rejected
@@ -116,7 +77,7 @@ export default class Courses extends Component {
                 currentCart.applicants.splice(index, 1);
             } else {
                 // this student is not in the cart, so add them
-                currentCart.applicants.push({UTORid: student});
+                currentCart.applicants.push({studentNumber: student});
             }
 
             carts[this.index(code, carts)] = currentCart;
@@ -131,7 +92,7 @@ export default class Courses extends Component {
     getIndex(list, student) {
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
-            if (item.UTORid === student) {
+            if (item.studentNumber === student) {
                 return i;
             }
         }   
@@ -140,6 +101,7 @@ export default class Courses extends Component {
 
     // to check if a course is already in the list
     index(code, cart) {
+        
         for (var i = 0; i < cart.length; i++) {
             var item = cart[i];
             if (item.code === code) {
@@ -152,64 +114,54 @@ export default class Courses extends Component {
         e.preventDefault();
 
         hashHistory.push({
-            pathname: `/review`,
-            state: { 
-                data: this.state.courseCarts
-             }
+            pathname: `/review`
         })
     }
+
     render() {
         var style = {
             textAlign: 'center',
             width: '70%',
-            //marginLeft: '2%',
-            //marginBottom: '2%'
-            
             margin: 'auto'
         }
 
         var headingStyle = {
-            //textAlign: 'center',
             marginLeft: '15%'
         }
-        var style2 = {
-            textAlign: 'left'
-        }
         var navStyle = {
-            textAlign: 'center'       
+            textAlign: 'center',
+            marginTop: '0px'      
         }
+        // TODO: implement lazy loading
         return (
             <div >
-            <Navbar style={navStyle} className="indigo darken-4" brand="TA Coordinator System" right>
+            <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
                 <NavItem onClick={this.showPreview}>Preview</NavItem>                
                 <NavItem onClick={this.goToReview}>Review Changes</NavItem>
             </Navbar>
-            <h2 style={headingStyle} className="thin">Open Courses</h2>
+            <div>
+                <h2 style={headingStyle} className="thin">Open Courses</h2>
                 <Collapsible style={style}>    
                     {this.state.courses.map(course =>
                         <Course key={course.code}
                                 code={course.code}
                                 title={course.title}
                                 numberOfTAs={course.numberOfTAs}
-                                hours={course.number}
+                                //hours={course.number}
                                 qualifications={course.qualifications}
-                                currentlyAssigned={this.state.courseCarts[this.index(course.code, this.state.courseCarts)]}
                                 onChange={this.toggleCart.bind(this)}
                         />
                         )
                     }
                 </Collapsible>
-                <div>
-                    <h3 style={headingStyle} className='thin'> Considered Applicants</h3>
-                    {this.state.courseCarts.map(cart =>
-                        <div style={style} key={cart.code}>
-                            <h4 style={style2} className='thin'>{cart.code}</h4>
-                            {cart.applicants.map(applicant =>
-                            <p  key={applicant.applicantInfo} style={style2} >{applicant.applicantInfo}</p>
-                            )}
-                        </div>)}
-                </div>
+            </div>
+
+
             </div>
         )    
     }
 }
+
+/*
+
+*/

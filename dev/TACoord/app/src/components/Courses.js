@@ -48,39 +48,6 @@ export default class Courses extends Component {
             // fetch didnt work
             throw err;
         });
-       
-        // // fetch all the assignments for that are considered for employment
-        // fetch('/getAcceptedAssignments', {method: 'GET'})
-        //     .then(json)
-        //     .then(function(data) {
-        //         // store all the assignments in a variable
-        //         const assignments = data.data;
-                
-        //         var cart = [];
-                
-        //         // go through each assignment
-        //         for(var i = 0; i < assignments.length; i++) {
-        //             var assignment = assignments[i];
-                   
-        //             // check if the course assosiated with this assignment is already in the cart
-        //             if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
-        //                 // if it , then add it the applicant to its list of applicants
-        //                 cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({studentNumber: assignment.assignedApplicant});
-        //             } else {
-        //                 // otherwise create a new entry
-        //                 cart.push({code: assignment.assignedCourse.code, applicants: [{studentNumber:assignment.assignedApplicant}] });
-        //             }
-
-        //         }
-
-        //         t.setState({
-        //             courseCarts: cart
-        //         });
-        //     })
-        //     .catch(function(error) {
-        //         throw error;
-        //     });
-
      } 
 
     // to check if a course is already in the list

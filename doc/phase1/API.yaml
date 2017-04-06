@@ -1,0 +1,312 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: TA Assignment System API
+  description: APIs supporting the Applicant and the TA Coordinator applications.
+  version: "1.0.0"
+# array of all schemes that our API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /openings:
+    get:
+      summary: List of all Openings
+      description: |
+        The Openings endpoint returns a list of all courses along with their descriptions and the number of available positions in each course.
+      tags:
+        - Openings
+      responses:
+        200:
+          description: An array of course info, including the number of available positions in each course.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Course'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /profile:
+    get:
+      summary: Applicant Profile
+      description: |
+        Returns a the profile of a given applicant.
+      parameters:
+        - name: applicant_id
+          in: query
+          description: Applicant ID
+          required: true
+          type: number
+          format: integer
+      tags:
+        - Profile
+      responses:
+        200:
+          description: An Applicant object.
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /profile/update:
+    post:
+      summary: Update Applicant Profile
+      description: |
+        Updates the profile of a given applicant.
+      parameters:
+        - name: profile
+          in: body
+          description: Applicant Profile
+          required: true
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+      tags:
+        - Upate
+      responses:
+        200:
+          description: Profile successfully updated
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /profile/submit:
+    post:
+      summary: Update Applicant Profile
+      description: |
+        Submit application
+      parameters:
+        - name: profile
+          in: body
+          description: Applicant Profile
+          required: true
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Profile'
+      tags:
+        - Submit
+      responses:
+        200:
+          description: Application successfully submitted.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /applicant/assign:
+    post:
+      summary: Assign Applicant
+      description: Assign the given applicant to the given course.
+      parameters:
+        - name: assignments
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+      tags:
+        - Assign
+      responses:
+        200:
+          description: Applicant(s) successfully assigned.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /applicant/unassign:
+    post:
+      summary: Unassign Applicant
+      description: Assign the given applicant to the given course.
+      parameters:
+        - name: unassignments
+          in: body
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+      tags:
+        - Unassign
+      responses:
+        200:
+          description: Applicant(s) successfully unassigned.
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /unassigned/positions:
+    get:
+      summary: Unassigned TA posiitions
+      description: |
+        The Unassigned Positions endpoint returns a list of all positions that doesn't have an assignee yet.
+      responses:
+        200:
+          description: An array of Positions, each has descriptions about its belonging course.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Position'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /{applicant-id}/declineFlag:
+    parameters:
+      - name: applicant-id
+        in: path
+        description: Applicant ID
+        type: integer
+        required: true
+    get:
+      description: |
+        The Decline Flag endpoint returns a boolean to indicate whether or not the applicant
+        with applicant-id has declined an offer
+      responses:
+        200:
+          description: OK
+          schema:
+            properties:
+              data:
+                type: boolean
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Set/Unset the flag for the applicant with applicant-id
+      responses:
+        200:
+          description: OK
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Course:
+    type: object
+    properties:
+      code:
+        type: string
+        description: Course code. (ex. CSC108)
+      description:
+        type: string
+        description: Description of tasks
+      requirements:
+        type: string
+        description: Eligibility requirements for TAing this course
+      add_requirements:
+        type: string
+        description: Addtional requirements (i.e. nice-to-haves)
+      num_positions:
+        type: integer
+        description: Number of available positions
+      positions:
+        description: An array of Position id
+        type: array
+        items:
+          type: integer
+          description: The unique pid corresponds to a Position
+          
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Applicant ID
+      first_name:
+        type: string
+        description: First name of the applicant
+      last_name:
+        type: string
+        description: Last name of the applicant
+      courses_taed_before:
+        type: array
+        items:
+          type: string
+        description: Array of course codes of the courses the applicant has TAed before
+      preferences:
+        type: array
+        items:
+          $ref: '#/definitions/Preferences'
+        description: yoyo
+      summary:
+        type: string
+        description: Short bio of applicant.
+        
+  Preferences:
+    type: object
+    properties:
+      ^CSC[0-9]{3}$:
+        type: integer
+        description: Applicant's preference to TA the given course
+
+  Assignment:
+    type: object
+    description: Key-value mapping of applicant id to course codes
+    properties:
+      applicant_id:
+        description: Applicant ID
+        type: integer
+      assignments:
+        type: array
+        items:
+          type: string
+          description: Course code of the courses the given applicant has been assigned to
+     
+  Applicant:
+    type: object
+    description: A person applied to TAship
+    properties:
+      aid:
+        description: unique id for the applicant
+        type: integer
+      assignment:
+        description: An array of Position id
+        type: array
+        items:
+          type: integer
+          description: The unique pid corresponds to a Position
+      declineFlag:
+        type: boolean
+        description: True iff applicant has declined an offer before
+        
+  Position:
+    type: object
+    properties:
+      pid:
+        type: integer
+        description: The unique Position id for this Position.
+      occupied:
+        type: boolean
+        description: True iff this position has an ansignee.
+      course:
+        $ref: "#/definitions/Course"
+      assignee: 
+        $ref: '#/definitions/Applicant'
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

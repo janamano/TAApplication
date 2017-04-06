@@ -1,4 +1,5 @@
 var ApplicantList = require('../../models/Applicant');
+var Applications = require('../../models/Application');
 
 module.exports = function(app) {
 
@@ -141,13 +142,15 @@ module.exports = function(app) {
         Test calls: http//localhost:8080/filterApplicants?query=grad;takenPreq;TAed=CSC108
         */
         app.get('/filterApplicants/', function(req, res) {
-
+            
+            var courseUC = req.query.courseUC;
             var grad = req.query.query.includes('grad');
-            //var takenPreq = req.query.query.includes('takenPreq');
             var TAed = req.query.query.includes('TAed');
+            
             var index = req.query.query.indexOf('TAed') + 5;  // 5 = length of 'TAed='
+            
             var course = req.query.query.substring(index, index + 6);  // 6 = length of CourseCode: CSC108
-            console.log(course);
+            
             var callbackFunc =  function(err, applicants) {
                 if (err) {
                     res.status(400)
@@ -165,23 +168,49 @@ module.exports = function(app) {
                         });
                 }
             };
-            if (grad && TAed) {
-                ApplicantList.find(
-                    {$and: [
-                        {'studentInformation.programLevel': {$ne: 'Undergraduate'}},
-                        {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}}]},
-                        callbackFunc);
+            
+            // get all the applciants who applied to this course 
+            Applications.find({status: true, 'coursePref.courseCode': {$in: [courseUC]}}, function(err, applications) {
+                if (err) {
+                    res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+                } else {
 
-            } else if (grad) {
-                ApplicantList.find(
-                        {'studentInformation.programLevel': {$ne: 'Undergraduate'}},
-                        callbackFunc);
-            } else if (TAed) {
-                ApplicantList.find(
-                        {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}},
-                        callbackFunc);
-            }
+                    // store their utorids in a list
+                    var listOfApplicants = [];
+                    for (var i = 0; i < applications.length; i++) {
+                        listOfApplicants.push(applications[i].UTORid);
+                    }
 
+                    // the filter was set to both grad students only and previously taed
+                    if (grad && TAed) {
+                        ApplicantList.find(
+                            {$and: [
+                                {UTORid: listOfApplicants},
+                                {'studentInformation.programLevel': {$ne: 'Undergraduate'}},
+                                {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}}]},
+                                callbackFunc);        
+                    // 
+                    } else if (grad) {
+                        ApplicantList.find(
+                            {$and: [
+                                {UTORid: listOfApplicants},
+                                {'studentInformation.programLevel': {$ne: 'Undergraduate'}}]},
+                                callbackFunc);
+                    } else if (TAed) {
+                        ApplicantList.find(
+                            {$and: [
+                                {UTORid: listOfApplicants},
+                                {'studentInformation.TAHistory': {$elemMatch: {courseCode: course}}}]},
+                                callbackFunc);
+                    }
+
+                }
+            })
         });
 
         app.get('/getApplicantUtorid', function(req, res) {

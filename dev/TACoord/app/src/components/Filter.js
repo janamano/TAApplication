@@ -12,10 +12,10 @@ export default class Filter extends Component {
     });
 
     this.toggle = this.toggle.bind(this);
-    this.setFilter = this.setFilter.bind(this);
     }
 
     toggle(event) {
+        var t = this;
         var name = event.target.name;
        
         var newVal = event.target.value == "true";
@@ -30,11 +30,9 @@ export default class Filter extends Component {
                  taed: newVal
             });
         }
-
-    }
-    
-    setFilter() {
-        this.props.setFilter(this.state.grad, this.state.taed);
+        setTimeout(function() {
+            t.props.setFilter(t.state.grad, t.state.taed);
+        }, 100);
     }
 
     render() {
@@ -44,7 +42,6 @@ export default class Filter extends Component {
                 <Row>
                     <Input onChange={this.toggle} name='grad' type='checkbox' value={this.state.grad} label='Grad Students'/>
                     <Input onChange={this.toggle} name='ta' type='checkbox' value={this.state.taed} label='Previously TAd'/>
-                    <Button type='submit'  onClick={this.setFilter} >Apply Filter</Button>
                 </Row>
             </div>
         )

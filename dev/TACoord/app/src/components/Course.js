@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, CollapsibleItem, Modal, Collection } from "react-materialize";
+import { Row,
+         Col,
+         Button,
+         Collapsible,
+         CollapsibleItem,
+         Modal,
+         Collection,
+         CollectionItem } from "react-materialize";
 import Applicant from './Applicant';
 import Filter from './Filter';
 
@@ -13,16 +20,19 @@ export default class Course extends Component {
             applicants: [],
             applicantsCart: [],
             numberOfTAs: props.numberOfTAs,
-            code: this.props.code
+            code: this.props.code,
+            showCart: false
         };
 
 
         this.componentWillMount = this.componentWillMount.bind(this);
         this.toggleCart = this.toggleCart.bind(this);
         this.incTAs = this.incTAs.bind(this);
-        // this.setFilter = this.setFilter.bind(this);
+        this.setFilter = this.setFilter.bind(this);
         this.isAssigned = this.isAssigned.bind(this);
         this.getIndex = this.getIndex.bind(this);
+        this.toggleApplicantCart = this.toggleApplicantCart.bind(this);
+        
     }
     
     componentWillMount() {
@@ -59,7 +69,13 @@ export default class Course extends Component {
                 const applicants = data.data;
                 t.setState({
                     applicantsCart: applicants.map(function(applicant) {
-                        return {studentNumber : applicant.studentNumber}
+                        return {UTORid: applicant.UTORid,
+                                studentNumber: applicant.studentNumber,
+                                lastName: applicant.lastName,
+                                firstName: applicant.firstName,
+                                phoneNumber: applicant.phoneNumber,
+                                email: applicant.email,
+                                studentInformation: applicant.studentInformation}
                     })
                 });
             }
@@ -116,42 +132,68 @@ export default class Course extends Component {
         }
     }
 
-    // setFilter(grad, taed) {
-    //     var constructQuery = "?query=";
-    //     //query=grad;takenPreq;TAed=CSC108
-    //     if (grad && taed) {
-    //         constructQuery += "grad;TAed=" + this.props.code;
-    //     } else if (grad) {
-    //         constructQuery += "grad";            
-    //     } else if (taed) {
-    //         constructQuery += "TAed=" + this.props.code;                        
-    //     }
-        
-    //     if (constructQuery != "query=") {
-    //         // make fetch call
-    //         fetch('/filter' + "?" + constructQuery, {method: 'GET'})
-    //             .then(json)
-    //             .then(function(data) {
-    //                 // store this in the state courses to create course objects
-    //                 const applicants = data.data;
-    //                 t.setState({
-    //                     applicants: applicants.map(function(applicant) {
-    //                         return {UTORid: applicant.UTORid,
-    //                                 studentNumber: applicant.studentNumber,
-    //                                 lastName: applicant.lastName,
-    //                                 firstName: applicant.firstName,
-    //                                 phoneNumber: applicant.phoneNumber,
-    //                                 email: applicant.email,
-    //                                 studentInformation: applicant.studentInformation}
-    //                     })
-    //                 });
-    //             })
-    //             .catch(function(err) {
-    //             // fetch didnt work
-    //             throw err;
-    //         });
-    //     }
-    // }
+    setFilter(grad, taed) {
+        var t = this;
+        var constructQuery = "?query=";
+        //query=grad;takenPreq;TAed=CSC108
+        if (grad && taed) {
+            constructQuery += "grad;TAed=" + this.props.code;
+        } else if (grad) {
+            constructQuery += "grad";            
+        } else if (taed) {
+            constructQuery += "TAed=" + this.props.code;                        
+        }
+        if (constructQuery === '?query=') {
+            var query = '/getApplicants?course=' + t.state.code;
+            fetch(query, {method: 'GET'})
+                .then(json)
+                .then(function(data) {
+                    // store this in the state courses to create course objects
+                    const applicants = data.data;
+                    t.setState({
+                        applicants: applicants.map(function(applicant) {
+                            return {UTORid: applicant.UTORid,
+                                    studentNumber: applicant.studentNumber,
+                                    lastName: applicant.lastName,
+                                    firstName: applicant.firstName,
+                                    phoneNumber: applicant.phoneNumber,
+                                    email: applicant.email,
+                                    studentInformation: applicant.studentInformation}
+                        })
+                    });
+                })
+                .catch(function(err) {
+                // fetch didnt work
+                throw err;
+            });
+
+        } else {
+            var finalQuery = constructQuery + "&courseUC=" + this.state.code;
+            // make fetch call
+            fetch('/filter' + finalQuery, {method: 'GET'})
+                .then(json)
+                .then(function(data) {
+                    // store this in the state courses to create course objects
+                    const applicants = data.data;
+                    console
+                    t.setState({
+                        applicants: applicants.map(function(applicant) {
+                            return {UTORid: applicant.UTORid,
+                                    studentNumber: applicant.studentNumber,
+                                    lastName: applicant.lastName,
+                                    firstName: applicant.firstName,
+                                    phoneNumber: applicant.phoneNumber,
+                                    email: applicant.email,
+                                    studentInformation: applicant.studentInformation}
+                        })
+                    });
+                })
+                .catch(function(err) {
+                // fetch didnt work
+                throw err;
+            });
+        }
+    }
 
     incTAs(value) {
         let current = this.state.numberOfTAs;
@@ -161,7 +203,15 @@ export default class Course extends Component {
         });
         
     } 
-    
+
+    toggleApplicantCart() {
+        var t = this;
+        var show = this.state.showCart == true;
+        show = !show;
+        t.setState({
+            showCart: show
+        });
+    }    
     render() {
         let head = this.props.code + ": " + this.props.title;
         var style = {
@@ -176,20 +226,46 @@ export default class Course extends Component {
                 <p>Qualifications: {this.props.qualifications}</p>
                 <Collapsible>
                     <CollapsibleItem header="View Applicants">
-                        <Collection>
-                        {this.state.applicants.map(applicant =>
-                            <Applicant key={applicant.studentNumber}
-                                       applicantInfo={applicant}
-                                       prompt={this.isAssigned.bind(this)}
-                                       courseUnderConsideration={this.state.code}
-                                       toggleFunction={this.toggleCart.bind(this)}                                
-                                       numTAFunction={this.incTAs.bind(this)}
-                                       numberOfTAs={this.state.numberOfTAs} />
-                        )}
-                        </Collection>
+                        <Row>
+                            <Col s={8}>
+                                <Filter setFilter={this.setFilter.bind(this)} />
+                            </Col>
+                            <Col s={4}>
+                                <Button className='waves-effect btn blue darken-3' onClick={this.toggleApplicantCart.bind(this)} >Cart</Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col s={6}>
+                                <h5 className="light">Applicants</h5>
+                                <Collection>
+                                {this.state.applicants.map(applicant =>
+                                    <Applicant key={applicant.studentNumber}
+                                            applicantInfo={applicant}
+                                            prompt={this.isAssigned.bind(this)}
+                                            courseUnderConsideration={this.state.code}
+                                            toggleFunction={this.toggleCart.bind(this)}                                
+                                            numTAFunction={this.incTAs.bind(this)}
+                                            numberOfTAs={this.state.numberOfTAs} />
+                                )}
+                                </Collection>
+                            </Col>
+                            {this.state.showCart && <Col s={6}>
+                                <h5 className="light">Applicants Cart</h5>                            
+                                <Collection>
+                                    {this.state.applicantsCart.map(applicant =>
+                                        <Applicant key={applicant.studentNumber}
+                                            applicantInfo={applicant}
+                                            prompt={this.isAssigned.bind(this)}
+                                            courseUnderConsideration={this.state.code}
+                                            toggleFunction={this.toggleCart.bind(this)}                                
+                                            numTAFunction={this.incTAs.bind(this)}
+                                            numberOfTAs={this.state.numberOfTAs} />
+                                        )}
+                                </Collection>
+                                </Col>}                            
+                        </Row>
                     </CollapsibleItem>
                 </Collapsible>
-                
                 
         </CollapsibleItem>
         )

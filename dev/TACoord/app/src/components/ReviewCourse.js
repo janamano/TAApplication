@@ -22,6 +22,7 @@ export default class ReviewCourse extends Component {
         this.getCourseInfo = this.getCourseInfo.bind(this);
         this.removeApplicant = this.removeApplicant.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.incTAs = this.incTAs.bind(this);
     }
 
     getCourseInfo() {
@@ -42,7 +43,33 @@ export default class ReviewCourse extends Component {
             throw err;
         });
     }
-
+    incTAs(value) {
+        var t = this;
+        let current = t.state.numberOfTAs;
+        current += value;
+        
+        fetch('/changeNumTAs', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                number: current,
+                code: t.state.code
+            })
+        })
+        .then(json)
+        .then(function(data) {
+            t.setState({
+                numberOfTAs: current
+            });
+        })
+        .catch(function(error) {
+            throw error;
+        });
+    }
     removeApplicant(number) {
         var t = this;
         // reject applicant
@@ -70,7 +97,7 @@ export default class ReviewCourse extends Component {
                 t.setState({
                     assignedApplicants: applicants
                 });
-
+                t.incTAs(1);
                 // if the last of the applicants were removed, then remove this course's cart
                 if (applicants.length == 0) {
                     t.props.removeCourse(t.state.code);
@@ -80,8 +107,6 @@ export default class ReviewCourse extends Component {
             .catch(function(error) {
                 throw error;
             });
-
-        
     }
 
     onDrop(studentNumber) {

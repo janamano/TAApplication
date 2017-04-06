@@ -57,7 +57,7 @@ export default class RankGroup extends Component {
                         </div>
                         )
                         :
-                        <span style={style2}>No courses added to this rank yet</span>
+                        <span style={style2}>No courses added to this preference level yet</span>
                     }
                 </Collapsible>
             </div>

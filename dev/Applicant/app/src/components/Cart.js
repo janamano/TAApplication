@@ -237,6 +237,9 @@ export default class Cart extends Component {
                 .then(function(data) {
                     if (data.status === "success") {
                         Materialize.toast('Your application has been submitted', 2000);
+                        t.setState({
+                            submitted: true
+                        })
                     } else {
                         Materialize.toast('An error occurred while submitting', 2000);
                     }
@@ -275,6 +278,17 @@ export default class Cart extends Component {
                     UTORid={this.state.UTORid}
                     activePage={"Course Cart"}
                 />
+                {
+                    this.state.submitted ?
+                    <div>
+                        <p className="thin center">
+                            <b>You have already submitted your application, and thus can
+                            no longer update your details.</b>
+                        </p>
+                    </div>
+                    :
+                    null
+                }
                 <div style={style} className="cart">
                     <RankGroup rank={1} courses={this.state.rankings[1]} 
                         handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>

@@ -26,7 +26,6 @@ module.exports = function(app) {
 
     app.get('/getCourseInfo', function(req, res) {
         var course = req.query.course;
-        console.log('look for course code:' + course);
         CourseList.find({code: course}, function(err, responseCourse) {
             if (err) {
                 res.status(400)

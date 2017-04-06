@@ -42,13 +42,13 @@ export default class CourseInfo extends Component {
         return (
             <div className="course-info">
                 <div>
-                <span className="course-info-span">Instructor:</span> {instructor}
+                <span className="course-info-span"><b>Instructor</b>:</span> {instructor}
                 </div>
                 <div>
-                <span className="course-info-span">Number of TAs:</span> {numberOfTAs}
+                <span className="course-info-span"><b>Number of TAs</b>:</span> {numberOfTAs}
                 </div>
                 <div>
-                <span className="course-info-span">Qualifications:</span> {qualifications}
+                <span className="course-info-span"><b>Qualifications</b>:</span> {qualifications}
                 </div>
             </div>
         );

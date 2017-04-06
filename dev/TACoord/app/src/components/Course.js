@@ -88,14 +88,15 @@ export default class Course extends Component {
     toggleCart(student) {
         var t = this;
         var cart = t.state.applicantsCart;
-        var index = this.getIndex(cart, student);
+        var index = this.getIndex(cart, student.studentNumber);
     
         if (index > -1) {
             // if the student is in the cart, remove them
             cart.splice(index, 1);
+            
         } else {
             // otherwise add the student to cart
-            cart.push({studentNumber: student});
+            cart.push(student);
         }
         
         this.setState({

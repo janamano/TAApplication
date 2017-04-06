@@ -20,9 +20,23 @@ export default class Applicant extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            numberOfTAs: nextProps.numberOfTAs
+        var t = this;
+        t.setState({
+            numberOfTAs: nextProps.numberOfTAs,            
         });
+        var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
+        if (prompt === "ACCEPT") {
+            this.setState({
+                prompt: prompt,
+                color: 'green accent-4'
+            });
+        } else {
+            this.setState({
+                prompt: prompt,
+                color: 'red darken-2'
+            });
+        }
+        
     }
     componentWillMount() {
         var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
@@ -59,7 +73,9 @@ export default class Applicant extends Component {
 
         // add or remove this user from the list of accepted applicants (for review)
         if (typeof t.props.toggleFunction === 'function') {
-            t.props.toggleFunction(t.props.applicantInfo.studentNumber)
+            // t.props.toggleFunction(t.props.applicantInfo.studentNumber)
+            t.props.toggleFunction(t.props.applicantInfo)
+            
         }
 
         //

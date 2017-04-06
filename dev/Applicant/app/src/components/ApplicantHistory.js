@@ -84,6 +84,7 @@ export default class ApplicantHistory extends Component {
                     state: { 
                         UTORid: t.state.UTORid,
                         studentNumber: t.state.studentNumber,
+                        submitted: t.state.submitted
                     }
                 })
             })
@@ -161,7 +162,8 @@ export default class ApplicantHistory extends Component {
         };
 
         var style3 = {
-            fontSize: '1.4em'
+            fontSize: '1.4em',
+            marginLeft: "41.5%"
         }
 
         var style4 = {
@@ -173,11 +175,18 @@ export default class ApplicantHistory extends Component {
 
         var style5 = {
             marginLeft: "42%",
-            //paddingTop: "5%"
         }
 
         var style6 = {
             textAlign: 'center',
+        }
+
+        var style7 = {
+            marginLeft: "42.5%",
+        }
+
+        var style8 = {
+            marginLeft: "47%"
         }
 
         var t = this;
@@ -187,14 +196,25 @@ export default class ApplicantHistory extends Component {
                     <span className={"thin"} style={style5}>{obj.courseCode}</span>
                     <div style={style4}>
                         <Input s={6} style={style6}
+                            disabled={t.state.submitted}
                             ref="numTAd"
                             required 
                             defaultValue={obj.timesTAd}
                             onChange={(evt) => t.handleTimesChange(evt, obj.courseCode)}
                         />
                     </div>
-                    &emsp;&emsp;&emsp;&emsp;
-                    <Button onClick={(evt) => t.handleRemove(evt, obj.courseCode)} className="blue-grey darken-4 waves-effect waves-light"> Remove Course </Button>
+                    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    {
+                        t.state.submitted ?
+                        null
+                        :
+                        <Button 
+                            onClick={(evt) => t.handleRemove(evt, obj.courseCode)} 
+                            className="blue-grey darken-4 waves-effect waves-light"
+                        >
+                            Remove Course
+                        </Button>
+                    }
                 </CollectionItem>
             )
         });
@@ -208,13 +228,26 @@ export default class ApplicantHistory extends Component {
                     activePage={"Applicant History"}
                 />
                 <p />
-                <p style={style3} className='thin center'><b>Add courses TA'd in the past</b>: </p>
-                <AutosuggestBox addCourse={this.addCourse}/>
+                {
+                    this.state.submitted ?
+                    <div>
+                        <p className="thin center">
+                            <b>You have already submitted your application, and thus can
+                            no longer update your details.</b>
+                        </p>
+                        <p />
+                    </div>
+                    :
+                    <div>
+                        <p style={style3} className='thin'><b>Add courses TA'd in the past</b>: </p>
+                        <AutosuggestBox addCourse={this.addCourse}/>
+                    </div>
+                }
                 {
                     (t.state.TAHistory.length > 0) 
                     ? 
                     <div>
-                        <span className={"thin"}style={style5}><b>Course</b></span> &emsp;&emsp;
+                        <span className={"thin"}style={style7}><b>Course</b></span> &emsp;&emsp;
                         <span className={"thin"}><b>Number of Times TA'd</b></span>
                         <Collection>
                             {experience}
@@ -224,7 +257,13 @@ export default class ApplicantHistory extends Component {
                     null
                 }
                 <p />
-                <Button waves='light' style={style2} onClick={this.handleSubmit}>Save and Next</Button>
+                <Button 
+                    waves='light' 
+                    style={this.state.submitted ? style8 : style2}
+                    onClick={this.handleSubmit}
+                >
+                    {this.state.submitted ? "Next" : "Save and Next"}
+                </Button>
             </div>
         );
     }

@@ -18,6 +18,7 @@ export default class CourseSelection extends Component {
 
         const studentNumber = props.location.state.studentNumber;
         const UTORid = props.location.state.UTORid;
+        const submitted = props.location.state.submitted;
         this.state = {
             UTORid: UTORid,
             studentNumber: studentNumber,
@@ -29,7 +30,8 @@ export default class CourseSelection extends Component {
                 4: [],
                 5: [],
                 0: []
-            }
+            },
+            submitted: submitted
         };
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -215,6 +217,9 @@ export default class CourseSelection extends Component {
             textAlign: 'center',
             marginLeft: '45%',
         }
+        var style3 = {
+            marginLeft: "47%"
+        }
         return (
             <div>
                 <Nav 
@@ -223,6 +228,18 @@ export default class CourseSelection extends Component {
                     UTORid={this.state.UTORid}
                     activePage={"Course Selection"}
                 />
+                {
+                    this.state.submitted ?
+                    <div>
+                        <p className="thin center">
+                            <b>You have already submitted your application, and thus can
+                            no longer update your details.</b>
+                        </p>
+                        <p />
+                    </div>
+                    :
+                    null
+                }
                 <Collapsible style={style}>
                     {this.state.courses.map(course =>
                             <Course key={course.code} 
@@ -231,11 +248,19 @@ export default class CourseSelection extends Component {
                                     addToCart={this.addToCart}
                                     removeFromCart={this.removeFromCart}
                                     inCart={course.inCart}
+                                    applicationSubmitted={this.state.submitted}
                             />
                         )
                     }
                 </Collapsible>
-                <Button style={style2} waves='light' onClick={this.handleSave}>Save and Next</Button>
+                <Button 
+                    style={this.state.submitted ? style3 : style2}
+                    waves='light' 
+                    onClick={this.handleSave}
+                >
+                {this.state.submitted ? "Next" : "Save and Next"}
+                </Button>
+                <p />
             </div>
         );
     }

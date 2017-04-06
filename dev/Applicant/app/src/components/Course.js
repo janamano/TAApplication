@@ -9,35 +9,12 @@ export default class Course extends Component {
         this.state = {
             inCart: props.inCart,
             expanded: false,
+            applicationSubmitted: props.applicationSubmitted
         }
 
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.cartEvent = this.cartEvent.bind(this);
         this.add = this.add.bind(this);
         this.remove = this.remove.bind(this);
-    }
-
-    componentDidMount() {
-        var t = this;
-        /* 
-        TODO: once courses API is built, implement this fetch() 
-
-        fetch('/all-courses', { method: 'GET' })
-            .then(json)
-            .then(function(data) {
-                const courses = data.data;
-                t.setState({
-                    courses: courses
-                });
-            })
-            .catch(function(err) {
-                // Error :(
-                throw err;
-            });
-        */
-
-        // Until then...
-        
     }
 
     /* 
@@ -85,12 +62,12 @@ export default class Course extends Component {
         }
         if (this.state.inCart) {
             cart =
-                <Button style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
+                <Button disabled={this.state.applicationSubmitted} style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.remove)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         } else {
             cart =
-                <Button style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.add)}>
+                <Button disabled={this.state.applicationSubmitted} style={style2} waves='light' onClick={(evt) => this.cartEvent(evt, code, this.add)}>
                     {this.state.inCart ? "Remove From Cart" : "Add To Cart"}
                 </Button>;
         }

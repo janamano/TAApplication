@@ -135,28 +135,27 @@ export default class Courses extends Component {
         // TODO: implement lazy loading
         return (
             <div >
-            <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
-                <NavItem onClick={this.showPreview}>Preview</NavItem>                
-                <NavItem onClick={this.goToReview}>Review Changes</NavItem>
-            </Navbar>
-            <div>
-                <h2 style={headingStyle} className="thin">Open Courses</h2>
-                <Collapsible style={style}>    
-                    {this.state.courses.map(course =>
-                        <Course key={course.code}
-                                code={course.code}
-                                title={course.title}
-                                numberOfTAs={course.numberOfTAs}
-                                //hours={course.number}
-                                qualifications={course.qualifications}
-                                onChange={this.toggleCart.bind(this)}
-                        />
-                        )
-                    }
-                </Collapsible>
-            </div>
-
-
+                <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
+                    <NavItem onClick={this.showPreview}>Preview</NavItem>                
+                    <NavItem onClick={this.goToReview}>Review Changes</NavItem>
+                </Navbar>
+                <div>
+                    <h2 style={headingStyle} className="thin">Open Courses</h2>
+                    <Collapsible style={style}>    
+                        {this.state.courses.map(course =>
+                            <Course key={course.code}
+                                    code={course.code}
+                                    title={course.title}
+                                    numberOfTAs={course.numberOfTAs}
+                                    //hours={course.number}
+                                    qualifications={course.qualifications}
+                                    onChange={this.toggleCart.bind(this)}
+                            />
+                            )
+                        }
+                    </Collapsible>
+                </div>
+            
             </div>
         )    
     }

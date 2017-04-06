@@ -108,23 +108,21 @@ module.exports = function(app) {
     app.delete('/rejectApplicant/', function(req, res) {
         var studentNumber = req.body.studentNumber;
         var courseCode = req.body.courseCode;
-        console.log()
-        AssignmentList.findOneAndRemove({assignedApplicant: studentNumber, assignedCourse: [{code: courseCode}]}, function(err, assgnmnt){
+        
+        AssignmentList.findOneAndRemove({assignedApplicant: studentNumber, 'assignedCourse.code': courseCode}, function(err, assignment){
             if(err){
-                console.log("Reached error")
                 res.status(400)
                         .json({
                             status: 'error',
                             data: {},
                             message: err
                         });
-            }else{
-                console.log("Removed"+assgnmnt);
+            } else {
                 res.status(200)
                         .json({
                             status: 'success',
-                            data: assgnmnt,
-                            message: "Successfully filtered applicants"
+                            data: assignment,
+                            message: "Successfully deleted assignment"
                         });
             }
         });

@@ -80,10 +80,8 @@ export default class Applicant extends Component {
 
         //
         // CANT TEST BACKEND IS NOT WORKING FOR ME
-        var applicantQuery = "";
-        var numTAsQuery = ""
         if (stat === "ACCEPT") {
-            // this means that this applicant was just rejected
+            // // this means that this applicant was just rejected
             // fetch('/API', {
             //     method: 'DELETE',
             //     credentials: 'include',
@@ -103,29 +101,28 @@ export default class Applicant extends Component {
             // one more spot opened update
             numTAsQuery = "inc";
             t.props.numTAFunction(1);
-            //var newVal = this.state.numberOfTAs + 1;
         } else {
-            fetch('/createAssignment', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    course: t.props.courseUnderConsideration,
-                    applicant: t.props.applicantInfo.studentNumber,
-                    hour: 65
-                })
-            })
-            .then(json)
-            .then(function(data) {
+            // fetch('/createAssignment', {
+            //     method: 'POST',
+            //     credentials: 'include',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         course: t.props.courseUnderConsideration,
+            //         applicant: t.props.applicantInfo.studentNumber,
+            //         hour: 65
+            //     })
+            // })
+            // .then(json)
+            // .then(function(data) {
+            // })
+            // .catch(function(error) {
+            //     throw error;
+            // });
                 numTAsQuery = "dec"
                 t.props.numTAFunction(-1);
-            })
-            .catch(function(error) {
-                throw error;
-            });
         }
     }
 

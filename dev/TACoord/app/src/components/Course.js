@@ -9,6 +9,8 @@ import { Row,
          CollectionItem } from "react-materialize";
 import Applicant from './Applicant';
 import Filter from './Filter';
+import { Draggable, Droppable } from 'react-drag-and-drop'
+
 
 let utils = require('../utils.js');
 let json = utils.json;
@@ -32,6 +34,7 @@ export default class Course extends Component {
         this.isAssigned = this.isAssigned.bind(this);
         this.getIndex = this.getIndex.bind(this);
         this.toggleApplicantCart = this.toggleApplicantCart.bind(this);
+        this.onDrop = this.onDrop.bind(this);
         
     }
     
@@ -92,22 +95,65 @@ export default class Course extends Component {
     
         if (index > -1) {
             // if the student is in the cart, remove them
-            cart.splice(index, 1);
-            
+            // this means that this applicant was just rejected
+            // fetch('/API', {
+            //     method: 'DELETE',
+            //     credentials: 'include',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         applicant: student.studentNumber,
+            //         course: t.state.code
+            //     })
+            // })
+            // .then(json)
+            // .then(function(data) {
+            //     cart.splice(index, 1);
+            //     this.setState({
+            //         applicantsCart: cart
+            //     }); 
+            // })
+            // .catch(function(error) {
+            //     throw error;
+            // });
+
         } else {
             // otherwise add the student to cart
-            cart.push(student);
+            fetch('/createAssignment', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    course: t.state.code,
+                    applicant: student.studentNumber,
+                    hour: 65
+                })
+            })
+            .then(json)
+            .then(function(data) {
+                cart.push(student);
+                this.setState({
+                     applicantsCart: cart
+                }); 
+           })
+            .catch(function(error) {
+                throw error;
+            });
+
         }
-        
-        this.setState({
-                 applicantsCart: cart
-        });
     }
     
     // get the index of given student
     getIndex(list, student) {
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
+            console.log(item.studentNumber)
+            console.log(student)            
             if (item.studentNumber == student) {
               return i;
             }
@@ -212,7 +258,29 @@ export default class Course extends Component {
         t.setState({
             showCart: show
         });
-    }    
+    }   
+    onDrop(studentNumber) {
+        console.log()
+        var t = this;
+        var cart = t.state.applicantsCart;
+        var index = t.getIndex(cart, studentNumber.applicant);
+
+        if (index > -1) {
+            Materialize.toast("Applicant already in " + t.state.code, 3000);
+        } else {
+            // get the other information about the student
+            fetch('/getApplicantInfo?studentNumber=' +studentNumber.applicant, {method: 'GET'})
+            .then(json)
+            .then(function(data) {
+                const applicant = data.data;
+                t.toggleCart(applicant);
+                Materialize.toast("Added applicant to " + t.state.code, 3000);
+
+            })
+            .catch()
+        }
+    } 
+
     render() {
         let head = this.props.code + ": " + this.props.title;
         var style = {
@@ -235,34 +303,40 @@ export default class Course extends Component {
                                 <Button className='waves-effect btn blue darken-3' onClick={this.toggleApplicantCart.bind(this)} >Cart</Button>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row>           
                             <Col s={6}>
                                 <h5 className="light">Applicants</h5>
                                 <Collection>
                                 {this.state.applicants.map(applicant =>
-                                    <Applicant key={applicant.studentNumber}
-                                            applicantInfo={applicant}
-                                            prompt={this.isAssigned.bind(this)}
-                                            courseUnderConsideration={this.state.code}
-                                            toggleFunction={this.toggleCart.bind(this)}                                
-                                            numTAFunction={this.incTAs.bind(this)}
-                                            numberOfTAs={this.state.numberOfTAs} />
+                                    <Draggable key={applicant.studentNumber}
+                                               type='applicant'
+                                               data={applicant.studentNumber} >
+                                               <Applicant 
+                                                    applicantInfo={applicant}
+                                                    prompt={this.isAssigned.bind(this)}
+                                                    courseUnderConsideration={this.state.code}
+                                                    toggleFunction={this.toggleCart.bind(this)}                                
+                                                    numTAFunction={this.incTAs.bind(this)}
+                                                    numberOfTAs={this.state.numberOfTAs} />
+                                    </Draggable>
                                 )}
                                 </Collection>
                             </Col>
                             {this.state.showCart && <Col s={6}>
                                 <h5 className="light">Applicants Cart</h5>                            
-                                <Collection>
-                                    {this.state.applicantsCart.map(applicant =>
-                                        <Applicant key={applicant.studentNumber}
-                                            applicantInfo={applicant}
-                                            prompt={this.isAssigned.bind(this)}
-                                            courseUnderConsideration={this.state.code}
-                                            toggleFunction={this.toggleCart.bind(this)}                                
-                                            numTAFunction={this.incTAs.bind(this)}
-                                            numberOfTAs={this.state.numberOfTAs} />
-                                        )}
-                                </Collection>
+                                <Droppable types={['applicant']} onDrop={this.onDrop.bind(this)}>
+                                    <Collection>
+                                        {this.state.applicantsCart.map(applicant =>
+                                            <Applicant key={applicant.studentNumber}
+                                                applicantInfo={applicant}
+                                                prompt={this.isAssigned.bind(this)}
+                                                courseUnderConsideration={this.state.code}
+                                                toggleFunction={this.toggleCart.bind(this)}                                
+                                                numTAFunction={this.incTAs.bind(this)}
+                                                numberOfTAs={this.state.numberOfTAs} />
+                                            )}
+                                    </Collection>
+                                </Droppable>
                                 </Col>}                            
                         </Row>
                     </CollapsibleItem>

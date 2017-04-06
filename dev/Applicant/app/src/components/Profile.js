@@ -197,14 +197,15 @@ export default class Profile extends Component {
                     UTORid={this.state.UTORid}
                     activePage={"Profile"}
                 />
-                {this.state.submitted ? 
-                 <div>
-                     <p className="thin center">
-                         <b>You have already submitted your application, and thus can
-                         no longer update your details.</b>
-                    </p>
-                    <p />
-                 </div>
+                {
+                    this.state.submitted ? 
+                    <div>
+                        <p className="thin center">
+                            <b>You have already submitted your application, and thus can
+                            no longer update your details.</b>
+                        </p>
+                        <p />
+                    </div>
                  : 
                  null}
                 <form style={style} id="profileForm" onSubmit={this.handleSubmit}>

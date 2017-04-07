@@ -32,7 +32,8 @@ module.exports = function(app) {
         var applicant = req.body.applicant;  //student number  Number
         var course = req.body.course;  // course code  String
         var hours = req.body.hour;   // assigned hour Number
-
+        
+        console.log(req.body);
         // Check to see if there is remaining position in course.
         CourseList.find({$and: [{code: course}, {numberOfTAs: {$ne: 0}}]}, function(err, course) {
             if (err) {
@@ -43,14 +44,14 @@ module.exports = function(app) {
                         message: err
                     });
             } else {
-                console.log(req.body);
-                console.log(course);                
+                var courseToAdd = { "code": course.code, "title": course.title, "instructor": course.instructor, "numberOfTAs": course.numberOfTAs, "qualifications": course.qualifications }
                 // save the assignment
                 var assignment = new AssignmentList({
                     assignedApplicant: applicant,  // student number
                     assignedCourse: course,  // Course code
                     assignedHour: hours
                 });
+                console.log(course)
                 assignment.save();
                 res.status(200)
                     .json({

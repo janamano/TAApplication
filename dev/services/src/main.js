@@ -15,7 +15,7 @@ module.exports = server;
 /*DB Connection*/
 mongoose.connect("mongodb://localhost:27017/serverDB", function(err, db) {
   if(!err) {
-    console.log("We are connected");
+    console.log("Connected to DB instance");
   }
 });
 

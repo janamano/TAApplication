@@ -43,28 +43,37 @@ module.exports = function(app) {
                         message: err
                     });
             } else {
-                console.log(req.body);
-                console.log(course);                
                 // save the assignment
                 var assignment = new AssignmentList({
                     assignedApplicant: applicant,  // student number
                     assignedCourse: course,  // Course code
                     assignedHour: hours
                 });
-                assignment.save();
-                res.status(200)
-                    .json({
-                        status: 'success',
+                assignment.save(function (err) {
+                  if (err) {
+                     res.status(500)
+                     .json({
+                        status: 'error',
                         data: {},
-                        message: "assignment saved"
+                        message: err
                     });
+                  }
+                  else {
+                     res.status(200)
+                       .json({
+                           status: 'success',
+                           data: {},
+                           message: "assignment saved"
+                     });
+                  }
+               });
             }
         });
 
     });
 
     // /* Get a list of applicants assigned to a given course code
-    // Test Call http://localhost:8080/getApplicantsByCourse?course=CSC108*/
+    // Test Call http://localhost:8080/getAssignmentsByCourse?course=CSC108*/
     app.get('/getAssignmentsByCourse/', function(req, res) {
         var course = req.query.course;
         // 1. find the assignments that's related to this course.

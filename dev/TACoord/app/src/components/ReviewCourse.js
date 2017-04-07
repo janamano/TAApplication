@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button, Collapsible, CollapsibleItem, Modal, Collection } from "react-materialize";
+import { Row, Col, Button, Collapsible, CollapsibleItem, Modal, Collection } from "react-materialize";
 import ReviewApplicant from './ReviewApplicant';
 import { Draggable, Droppable } from 'react-drag-and-drop'
 
@@ -23,6 +23,7 @@ export default class ReviewCourse extends Component {
         this.removeApplicant = this.removeApplicant.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.incTAs = this.incTAs.bind(this);
+        this.makeToast = this.makeToast.bind(this);
     }
 
     getCourseInfo() {
@@ -118,6 +119,10 @@ export default class ReviewCourse extends Component {
         Materialize.toast("Removed applicant from " + t.state.code, 3000);
 
     }
+    makeToast() {
+        var t = this;
+        Materialize.toast('Offers for ' + t.state.code + ' sent!', 4000);
+    }
     render() {
         var style = {
             textAlign: 'left'
@@ -131,21 +136,27 @@ export default class ReviewCourse extends Component {
                     <p>Number of TAs: {this.state.numberOfTAs}</p>
                     <p>Qualifications: {this.state.courseQualifications}</p>
                 </Droppable>
-                <Collapsible>
-                    <CollapsibleItem header="View Applicants">
-                        <Collection>
-                            {this.state.assignedApplicants.map(applicant =>
-                               <Draggable key={applicant.studentNumber}
-                                          data={applicant.studentNumber}
-                                          type='applicant' >
-                                    <ReviewApplicant    studentNumber={applicant.studentNumber}
-                                                        removeApplicant={this.removeApplicant}
-                                                        />
-                                </Draggable>
-                            )}
-                        </Collection>
-                    </CollapsibleItem>
-                </Collapsible>
+                <hr/>
+                 <Row>
+                    <Col s={8}>
+                        <h4 className="light">Applicants in Cart</h4>
+
+                    </Col>
+                    <Col s={4}>
+                        <Button onClick={this.makeToast} className='waves-effect btn blue darken-3'>Send Out Offers</Button>
+                    </Col>
+                </Row>
+                <Collection>
+                    {this.state.assignedApplicants.map(applicant =>
+                        <Draggable key={applicant.studentNumber}
+                                    data={applicant.studentNumber}
+                                    type='applicant' >
+                            <ReviewApplicant    studentNumber={applicant.studentNumber}
+                                                removeApplicant={this.removeApplicant}
+                                                />
+                        </Draggable>
+                    )}
+                </Collection>
             </CollapsibleItem>  
 
         )

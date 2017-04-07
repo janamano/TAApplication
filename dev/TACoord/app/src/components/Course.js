@@ -36,6 +36,8 @@ export default class Course extends Component {
         this.onDropx = this.onDropx.bind(this);
         this.onDropr = this.onDropr.bind(this);
         this.getApplicants = this.getApplicants.bind(this);
+        this.getCourse = this.getCourse.bind(this);
+        
         
     }
     
@@ -321,6 +323,11 @@ export default class Course extends Component {
             throw err;
         });
     }
+
+    getCourse(student) {
+        var t = this
+        return t.state.code;
+    }
     render() {
         let head = this.props.code + ": " + this.props.title;
         var style = {
@@ -329,18 +336,27 @@ export default class Course extends Component {
         return (
 
         <CollapsibleItem style={style} header={ head }>
+            <Droppable types={['applicantc']} onDrop={this.onDropr.bind(this)}>
+        
                 <p>Course Code: {this.props.code}</p>
                 <p>Title: {this.props.title}</p>
                 <p>Number of TAs: {this.state.numberOfTAs}</p>
                 <p>Qualifications: {this.props.qualifications}</p>
+                </Droppable>
                 <Collapsible>
                     <CollapsibleItem onClick={this.getApplicants.bind(this)} header="View Applicants">
+                    
                         <Row>
+                           
                             <Col s={8}>
+                                <Droppable types={['applicantc']} onDrop={this.onDropr.bind(this)}>
                                 <Filter setFilter={this.setFilter.bind(this)} />
+                                </Droppable>
                             </Col>
                             <Col s={4}>
+                                <Droppable types={['applicant']} onDrop={this.onDropx.bind(this)}>                                
                                 <Button className='waves-effect btn blue darken-3' onClick={this.toggleApplicantCart.bind(this)} >Cart</Button>
+                                </Droppable>
                             </Col>
                         </Row>
                         <Row>           
@@ -354,6 +370,7 @@ export default class Course extends Component {
                                                     data={applicant.studentNumber} >
                                                     <Applicant 
                                                             applicantInfo={applicant}
+                                                            getCourse={this.getCourse.bind(this)}                                                            
                                                             prompt={this.isAssigned.bind(this)}
                                                             courseUnderConsideration={this.state.code}
                                                             toggleFunction={this.toggleCart.bind(this)}                                
@@ -373,6 +390,8 @@ export default class Course extends Component {
                                                        type='applicantc'
                                                        data={applicant.studentNumber} >
                                                        <Applicant key={applicant.studentNumber}
+                                                            getCourse={this.getCourse.bind(this)}                                                            
+                                                       
                                                             applicantInfo={applicant}
                                                             prompt={this.isAssigned.bind(this)}
                                                             courseUnderConsideration={this.state.code}

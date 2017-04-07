@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Button } from "react-materialize";
+import { Row, Button, Modal } from "react-materialize";
 import 'whatwg-fetch';
 
 import Nav from './Nav';
@@ -198,7 +198,7 @@ export default class Cart extends Component {
             })
             .then(json)
             .then(function(data) {
-                // TODO
+                Materialize.toast('Your application has been saved', 2000);
             })
             .catch(function(err) {
                 throw err;
@@ -269,6 +269,10 @@ export default class Cart extends Component {
             marginLeft: '40%',
             display: "inline-block"
         }
+        var style4 = {
+            fontSize: "1.4em",
+            fontWeight: "400"
+        }
 
         return (
             <div>
@@ -312,14 +316,26 @@ export default class Cart extends Component {
                     Save
                     </Button>
                     &emsp;&emsp;
-                    <Button 
-                        waves='light'  
-                        className="light-blue darken-4" 
-                        onClick={this.handleSubmit}
-                        disabled={this.state.submitted}
-                    >
-                    Submit
-                    </Button>
+                    <Modal
+                        header='Application Submission'
+                        bottomSheet
+                        actions={[<Button waves='light' modal='close' flat onClick={this.handleSubmit}>Submit Application</Button>, <Button waves='light' modal='close' flat>Cancel</Button>]}
+                        trigger={
+                            <Button 
+                                waves='light'  
+                                className="light-blue darken-4" 
+                                onClick={this.handleSubmit}
+                                disabled={this.state.submitted}
+                            >
+                            Submit
+                            </Button>
+                        }>
+                        <p className="thin" style={style4}>
+                            Are you sure you want to submit your application? 
+                            <br />
+                            You won't be able to change your application after submission.
+                        </p>
+                    </Modal>
                     </span>
                 <p></p>
             </div>

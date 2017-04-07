@@ -80,6 +80,26 @@ describe('Courses', function() {
       actual = response.body.data[1];
       assert(response, expected, actual);
       done();
+
+    });
+  });
+  
+  it('GET /courseInfo returns information for the requested course', function (done) {
+    chai.request(server).get('/getCourseInfo?course=CSC369').end(function (error, response) {
+    
+      expected = {
+        code: "CSC369",
+        title: "Operating Systems",
+        instructor: "Bogdan Simion",
+        numberOfTAs: 20,
+        qualifications: "Obtained at least A in CSC209 and CSC258",
+        __v: 0
+      };
+  
+      actual = response.body.data[0];
+      assert(response, expected, actual);
+      done();
+      
     });
   });
 });

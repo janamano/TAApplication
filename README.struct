@@ -8,23 +8,23 @@
 |   |   |   ├── client
 |   |   |   |   └── index.html					# index file for main applicant view 
 |   |   |   └── src
-|   |   |       ├── components					# view components
-|   |   |       |   ├── App.js						# main page component
-|   |   |       |   ├── ApplicantHistory.js				# applicant history component
-|   |   |       |   ├── AutosuggestBox.js				# course search autosuggestion box component
-|   |   |       |   ├── Cart.js						# main application cart component
-|   |   |       |   ├── CartCourse.js					# course cart component
-|   |   |       |   ├── Course.js					# main course component
-|   |   |       |   ├── CourseInfo.js					# course information component
-|   |   |       |   ├── CourseSelection.js				# course selection component
-|   |   |       |   ├── Login.js					# applicant login component
-|   |   |       |   ├── Nav.js						# header component
-|   |   |       |   ├── Profile.js					# applicant profile component
-|   |   |       |   ├── RankGroup.js					# course ranking/grouping component
-|   |   |       |   └── Ranking.js					# course ranking action component
-|   |   |       ├── index.js
-|   |   |       └── utils.js
-|   |   ├── package.json					# npm package versioning/documentation
+|   |   |       ├── components						# view components
+|   |   |       |   ├── App.js							# main page component
+|   |   |       |   ├── ApplicantHistory.js					# applicant history component
+|   |   |       |   ├── AutosuggestBox.js					# course search autosuggestion box component
+|   |   |       |   ├── Cart.js							# main application cart component
+|   |   |       |   ├── CartCourse.js						# course cart component
+|   |   |       |   ├── Course.js						# main course component
+|   |   |       |   ├── CourseInfo.js						# course information component
+|   |   |       |   ├── CourseSelection.js					# course selection component
+|   |   |       |   ├── Login.js						# applicant login component
+|   |   |       |   ├── Nav.js							# header component
+|   |   |       |   ├── Profile.js			 			# applicant profile component
+|   |   |       |   ├── RankGroup.js	 					# course ranking/grouping component
+|   |   |       |   └── Ranking.js						# course ranking action component
+|   |   |       ├── index.js						# set up for applicant view server
+|   |   |       └── utils.js						# applicant view server utility functions
+|   |   ├── package.json						# npm package versioning/documentation
 |   |   ├── README.md						# description of how to start running the applicant view
 |   |   └── server.js						# static applicant view server
 |   ├── services
@@ -39,34 +39,34 @@
 |   |   ├── package.json				# npm package versioning/documentation
 |   |   ├── README.md					# description of how to start running the backend services
 |   |   └── src
-|   | 	    ├── main.js
-|   | 	    ├── package.json
-|   | 	    ├── router
-|   | 	    |   ├── applicant.js
-|   | 	    |   ├── application.js
-|   | 	    |   ├── assignment.js
-|   | 	    |   └── courses.js
-|   |	    └── test
-|   |           └── test-server.js
+|   | 	    ├── main.js					# backend server
+|   | 	    ├── package.json				# npm package versioning/documentation
+|   | 	    ├── router					# router for backend server
+|   | 	    |   ├── applicant.js				# applicant routes
+|   | 	    |   ├── application.js				# application routes
+|   | 	    |   ├── assignment.js				# assignment routes
+|   | 	    |   └── courses.js					# course routes
+|   |	    └── test					# backend testing
+|   |           └── test-server.js				# backend API tests
 |   └── TACoord						# code for TA coordinator view
 |       ├── app
 |       |   ├── client
 |       |   |   └── index.html					# index file for main TA coordinator view
 |       |   └── src
-|       |       ├── components					# view components
-|       |       |   ├── App.js						# router component
-|       |       |   ├── Applicant.js					# applicant component
-|       |       |   ├── Course.js					# course component
-|       |       |   ├── Courses.js					# open courses component
-|       |       |   ├── Filter.js					# applicant filter component
-|       |       |   ├── Main.js						# main page component
-|       |       |   ├── Nav.js						# header component
-|       |       |   ├── Review.js					# main review page component
-|       |       |   ├── ReviewApplicant.js				# applicant review component
-|       |       |   └── ReviewCourse.js					# course review component
-|       |       ├── index.js
-|       |       └── utils.js
-|       ├── package.json					# npm package versioning/documentation
+|       |       ├── components						# view components
+|       |       |   ├── App.js							# router component
+|       |       |   ├── Applicant.js						# applicant component
+|       |       |   ├── Course.js						# course component
+|       |       |   ├── Courses.js						# open courses component
+|       |       |   ├── Filter.js						# applicant filter component
+|       |       |   ├── Main.js							# main page component
+|       |       |   ├── Nav.js							# header component
+|       |       |   ├── Review.js						# main review page component
+|       |       |   ├── ReviewApplicant.js					# applicant review component
+|       |       |   └── ReviewCourse.js						# course review component
+|       |       ├── index.js						# set up for applicant view server
+|       |       └── utils.js						# TA coordinator view server utility functions
+|       ├── package.json						# npm package versioning/documentation
 |       ├── README.md						# description of how to start running the TA coordinator view
 |       └── server.js						# static TA coordinator view server
 └── doc						# project documentation

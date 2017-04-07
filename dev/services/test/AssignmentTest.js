@@ -3,8 +3,8 @@ var chaiHttp = require('chai-http');
 var server = require('../src/main');
 var Applicant = require('../models/Applicant');
 var Assignment = require('../models/Assignment');
-chai.should();
 
+chai.should();
 chai.use(chaiHttp);
 
 var applicant = new Applicant({
@@ -94,6 +94,5 @@ describe('Assignments', function() {
             checkBasicStructure(response);
             done();
       });
-      
     });
 });

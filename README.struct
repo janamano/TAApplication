@@ -1,12 +1,12 @@
 # proj-TopOfTheHeap
 
 .
-├── README.struct					# this file
-├── dev							# project source code
-|   ├── Applicant
+├── README.struct				# this file
+├── dev						# project source code
+|   ├── Applicant					# code for applicant view
 |   |   ├── app
 |   |   |   ├── client
-|   |   |   |   └── index.html
+|   |   |   |   └── index.html					# main applicant view 
 |   |   |   └── src
 |   |   |       ├── components
 |   |   |       |   ├── App.js
@@ -24,20 +24,20 @@
 |   |   |       |   └── Ranking.js
 |   |   |       ├── index.js
 |   |   |       └── utils.js
-|   |   ├── package.json
-|   |   ├── README.md
-|   |   └── server.js
+|   |   ├── package.json					# npm package versioning/documentation
+|   |   ├── README.md						# description of how to start running the applicant view
+|   |   └── server.js						# static applicant view server
 |   ├── services
-|   |   ├── fake.js
+|   |   ├── fake.js					# script to test DB (populate/clean DB with fake data)
 |   |   ├── instructions
-|   |   |   └── procedure.txt
-|   |   ├── models
-|   |   |   ├── Applicant.js
-|   |   |   ├── Application.js
-|   |   |   ├── Assignment.js
-|   |   |   └── Courses.js
-|   |   ├── package.json
-|   |   ├── README.md
+|   |   |   └── procedure.txt				# instructions to test DB
+|   |   ├── models					# MongoDB schemas
+|   |   |   ├── Applicant.js					# Applicant schema
+|   |   |   ├── Application.js					# Application schema
+|   |   |   ├── Assignment.js					# Assignment schema
+|   |   |   └── Courses.js					# Course schema
+|   |   ├── package.json				# npm package versioning/documentation
+|   |   ├── README.md					# description of how to start running the backend services
 |   |   └── src
 |   | 	    ├── main.js
 |   | 	    ├── package.json
@@ -48,7 +48,7 @@
 |   | 	    |   └── courses.js
 |   |	    └── test
 |   |           └── test-server.js
-|   └── TACoord
+|   └── TACoord						# code for TA coordinator view
 |       ├── app
 |       |   ├── client
 |       |   |   └── index.html
@@ -66,23 +66,23 @@
 |       |       |   └── Review.js
 |       |       ├── index.js
 |       |       └── utils.js
-|       ├── package.json
-|       ├── README.md
-|       └── server.js
-└── doc							# project documentation
-   ├── phase1							# phase 1 of project
-   |   ├── API.yaml							# YAML API specification
-   |   ├── Api.md							# API design
-   |   ├── Arch.md							# description of main client and server components, and middleware
-   |   ├── Collaborate.md						# how team will work together
-   |   ├── Scope.md							# selection of use cases to act as area of focus
-   |   ├── Test.md							# approach for testing
-   |   ├── applicant.png						# diagram of applicant-side architecture
-   |   ├── coord.png							# diagram of TA coordinator-side architecture
-   |   └── system.png							# diagram of overarching system architecture
-   └── phase2							# phase 2 of project
-       ├── product.md							# technical product report for phase 2
-       └── screenshots							# screenshots of product, used in product.md
+|       ├── package.json					# npm package versioning/documentation
+|       ├── README.md						# description of how to start running the TA coordinator view
+|       └── server.js						# static TA coordinator view server
+└── doc						# project documentation
+   ├── phase1						# phase 1 of project
+   |   ├── API.yaml						# YAML API specification
+   |   ├── Api.md						# API design
+   |   ├── Arch.md						# description of main client and server components, and middleware
+   |   ├── Collaborate.md					# how team will work together
+   |   ├── Scope.md						# selection of use cases to act as area of focus
+   |   ├── Test.md						# approach for testing
+   |   ├── applicant.png					# diagram of applicant-side architecture
+   |   ├── coord.png						# diagram of TA coordinator-side architecture
+   |   └── system.png						# diagram of overarching system architecture
+   └── phase2						# phase 2 of project
+       ├── product.md						# technical product report for phase 2
+       └── screenshots						# screenshots of product, used in product.md
            ├── ApplicantHistory.png
 	   ├── CartView.png
 	   ├── completed_tasks.png

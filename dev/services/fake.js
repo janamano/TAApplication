@@ -1,17 +1,19 @@
+var util = require('./src/test/test-utils');
+
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var db = mongoose.connect('localhost', 'serverDB');
 
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
-var Assignment = require('./models/Assignment');
 var Application = require('./models/Application');
+var Assignment = require('./models/Assignment');
 
 // populate DB
 if (process.argv[2] == '-p') {
 
     console.log('Applicant population in progress');
-    var applicant1 = new Applicant({
+    util.addApplicant({
 	studentNumber: 1007192911,
 	UTORid: "bondj",
 	lastName: 'Bond',
@@ -31,7 +33,8 @@ if (process.argv[2] == '-p') {
 	    }]
 	}
     });
-    var applicant2 = new Applicant({
+    
+    util.addApplicant({
 	studentNumber: 1000192911,
 	UTORid: "manoha56",
 	lastName: 'Manoharan',
@@ -55,7 +58,8 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    var applicant3 = new Applicant({
+    
+    util.addApplicant({
 	studentNumber: 1123192911,
 	UTORid: "atheed12",
 	lastName: 'Thameem',
@@ -79,7 +83,8 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    var applicant4 = new Applicant({
+
+    util.addApplicant({
 	studentNumber: 1123873911,
 	UTORid: "sajid32",
 	lastName: 'Ahmed',
@@ -103,7 +108,8 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    var applicant5 = new Applicant({
+    
+    util.addApplicant({
 	studentNumber: 1123872340,
 	UTORid: "gautams",
 	lastName: 'Gautam',
@@ -127,7 +133,8 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    var applicant6 = new Applicant({
+    
+    util.addApplicant({
 	studentNumber: 1123802340,
 	UTORid: "alexyan",
 	lastName: 'Yan',
@@ -159,7 +166,8 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    var applicant7 = new Applicant({
+
+    util.addApplicant({
 	studentNumber: 1123872341,
 	UTORid: "gsc123",
 	lastName: 'Singh Cadiuex',
@@ -183,99 +191,100 @@ if (process.argv[2] == '-p') {
 			}]
 	}
     });
-    applicant1.save();
-    applicant2.save();
-    applicant3.save();
-    applicant4.save();
-    applicant5.save();
-    applicant6.save();
-    applicant7.save();
 
-    console.log('Course population in progress');    
-    var course1 = new Course({
+    console.log('Course population in progress');
+    var course1 = {
 	code: 'CSC108',
 	title: 'Introduction to Computer Programming',
 	instructor: 'Jennifer Campbell',
 	numberOfTAs: 40,
 	qualifications: 'Exellent OO programming skills, Python is an asset.'
-    });
+    };
+    util.addCourse(course1);
 
-    var course2 = new Course({
+    var course2 = {
 	code: 'CSC148',
 	title: 'Introduction to Computer Science',
 	instructor: 'Pit Franc',
 	numberOfTAs: 20,
 	qualifications: 'Obtained at least A in CSC108 and CSC148'
-    });
-    var course3 = new Course({
+    };
+    util.addCourse(course2);
+    
+    var course3 = {
 	code: 'CSC207',
 	title: 'Software Design',
 	instructor: 'Anya Tafliovich',
 	numberOfTAs: 20,
 	qualifications: 'Excellent OO skills nad Experience with Java'
-    });
-    var course4 = new Course({
+    };
+    util.addCourse(course3);
+    
+    var course4 = {
 	code: 'CSC209',
 	title: 'Systems Programming',
 	instructor: 'Bianca Schroeder',
 	numberOfTAs: 10,
 	qualifications: 'Excellent skills with C'
-    });
-    var course5 = new Course({
+    };
+    util.addCourse(course4);
+    
+    var course5 = {
 	code: 'CSC343',
 	title: 'Introduction to Databases',
 	instructor: 'Nick Koudas',
 	numberOfTAs: 30,
 	qualifications: 'Knowledge of databases and SQL'
-    });
-    var course6 = new Course({
+    };
+    util.addCourse(course5);
+    
+    var course6 = {
 	code: 'CSC301',
 	title: 'Introduction to Software Engineering',
 	instructor: 'Mathew Zaleski',
 	numberOfTAs: 10,
 	qualifications: 'Obtained at least A in CSC207 and CSC209'
-    });
-    var course7 = new Course({
+    };
+    util.addCourse(course6);
+    
+    var course7 = {
 	code: 'CSC309',
 	title: 'Programming on the Wb',
 	instructor: 'Amir Chinaei',
 	numberOfTAs: 20,
 	qualifications: 'Excellent knowledge of HTML, CSS, and JavaScript'
-    });
-    var course8 = new Course({
+    };
+    util.addCourse(course7);
+    
+    var course8 = {
 	code: 'CSC369',
 	title: 'Operating Systems',
 	instructor: 'Bogdan Simion',
 	numberOfTAs: 20,
 	qualifications: 'Obtained at least A in CSC209 and CSC258'
-    });
-    var course9 = new Course({
+    };
+    util.addCourse(course8);
+    
+    var course9 = {
 	code: 'CSC258',
 	title: 'Computer Organization',
 	instructor: 'Francisco Estrada',
 	numberOfTAs: 20,
 	qualifications: 'Obtained at least A in CSC258'
-    });
-    var course10 = new Course({
+    };
+    util.addCourse(course9);
+    
+    var course10 = {
 	code: 'CSC165',
 	title: 'Mathematical Expression and Reasoning for Computer Science',
 	instructor: 'David Liu',
 	numberOfTAs: 5,
 	qualifications: 'Must be good at reasoning and logic'
-    });
-    course1.save(); // csc108
-    course2.save(); // csc148
-    course3.save(); // csc207
-    course4.save(); // csc209
-    course5.save(); // csc343
-    course6.save(); // csc301
-    course7.save(); // csc309
-    course8.save(); // csc369
-    course9.save(); // csc258
-    course10.save(); // CSC165
-
+    };
+    util.addCourse(course10);
+    
     console.log('Application population in progress');
-    var application1 = new Application({
+    util.addApplication({
 	UTORid:'bondj',
 	session: 'Summer 2017',
 	coursePref: [
@@ -294,7 +303,7 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    var application2 = new Application({
+    util.addApplication({
 	UTORid:'gautams',
 	session: 'Summer 2017',
 	coursePref: [
@@ -313,7 +322,7 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    var application3 = new Application({
+    util.addApplication({
 	UTORid:'manoha56',
 	session: 'Summer 2017',
 	coursePref: [
@@ -332,7 +341,7 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    var application4 = new Application({
+    util.addApplication({
 	UTORid:'gsc123',
 	session: 'Summer 2017',
 	coursePref: [
@@ -351,7 +360,7 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    var application5 = new Application({
+    util.addApplication({
 	UTORid:'atheed12',
 	session: 'Summer 2017',
 	coursePref: [
@@ -370,7 +379,7 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    var application6 = new Application({
+    util.addApplication({
 	UTORid:'alexyan',
 	session: 'Summer 2017',
 	coursePref: [
@@ -388,8 +397,8 @@ if (process.argv[2] == '-p') {
 	    }],
 	status: true
     });
-
-    var application7 = new Application({
+    
+    util.addApplication({
 	UTORid:'sajid32',
 	session: 'Summer 2017',
 	coursePref: [
@@ -408,131 +417,98 @@ if (process.argv[2] == '-p') {
 	status: true
     });
 
-    application1.save();
-    application2.save();
-    application3.save();
-    application4.save();
-    application5.save();
-    application6.save();
-    application7.save();
-
     console.log('Assignment population in progress');    
-    var assignment1 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1007192911,
 	assignedCourse: course1,
 	assignedHour: 65
     });
 
-    var assignment2 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1007192911,
 	assignedCourse: course9,
 	assignedHour: 65
     });
 
-    var assignment3 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123872340,
 	assignedCourse: course2,
 	assignedHour: 65
     });
 
-    var assignment4 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123872340,
 	assignedCourse: course3,
 	assignedHour: 65
     });
 
-    var assignment5 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1000192911,
 	assignedCourse: course1,
 	assignedHour: 65
     });
 
-    var assignment6 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1000192911,
 	assignedCourse: course2,
 	assignedHour: 65
     });
 
-    var assignment7 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123872341,
 	assignedCourse: course4,
 	assignedHour: 65
     });
 
-    var assignment8 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123872341,
 	assignedCourse: course8,
 	assignedHour: 65
     });
 
-    var assignment9 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123192911,
 	assignedCourse: course4,
 	assignedHour: 65
     });
 
-    var assignment10 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123192911,
 	assignedCourse: course3,
 	assignedHour: 65
     });
 
-    var assignment11 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123802340,
 	assignedCourse: course2,
 	assignedHour: 65
     });
 
-    var assignment12 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123802340,
 	assignedCourse: course5,
 	assignedHour: 65
     });
 
-    var assignment13 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123873911,
 	assignedCourse: course1,
 	assignedHour: 65
     });
 
-    var assignment14 = new Assignment({
+    util.addAssignment({
 	assignedApplicant: 1123873911,
 	assignedCourse: course5,
 	assignedHour: 65
     });
-
-    assignment1.save();
-    assignment2.save();
-    assignment3.save();
-    assignment4.save();
-    assignment5.save();
-    assignment6.save();
-    assignment7.save();
-    assignment8.save();
-    assignment9.save();
-    assignment10.save();
-    assignment11.save();
-    assignment12.save();
-    assignment13.save();
-    assignment14.save();
 
     console.log('Process Complete!');
     
     // clean DB
 } else if (process.argv[2] == '-c'){
 
-    console.log('Cleaning applicant collection');
-    Applicant.remove({}).exec();
-    
-    console.log('Cleaning course collection');
-    Course.remove({}).exec();
-
-    console.log('Cleaning assignment collection');
-    Assignment.remove({}).exec();
-
-    console.log('Cleaning application collection');
-    Application.remove({}).exec();
-
+    console.log('Cleaning database');
+    util.cleanDB();
     console.log('Process Complete!');
 }
 

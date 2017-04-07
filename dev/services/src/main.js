@@ -9,6 +9,8 @@ mongoose.Promise = global.Promise;
 // The main instance of our HTTP server
 var server = require('http').Server(app);
 
+module.exports = server;
+
 /*DB Connection*/
 mongoose.connect("mongodb://localhost:27017/serverDB", function(err, db) {
   if(!err) {

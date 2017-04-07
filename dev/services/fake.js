@@ -516,6 +516,8 @@ if (process.argv[2] == '-p') {
     assignment13.save();
     assignment14.save();
 
+    console.log('Process Complete!');
+    
     // clean DB
 } else if (process.argv[2] == '-c'){
 
@@ -531,7 +533,9 @@ if (process.argv[2] == '-p') {
     console.log('Cleaning application collection');
     Application.remove({}).exec();
 
+    console.log('Process Complete!');
 }
-    
-console.log('Process Complete!');
-db.disconnect();
+
+// do not persist connection to DB
+if (process.argv.indexOf('-ps') == -1)
+    db.disconnect();

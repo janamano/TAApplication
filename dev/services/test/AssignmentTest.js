@@ -39,42 +39,61 @@ function checkBasicStructure(response) {
   response.body.status.should.equal('success');
   
   response.body.should.have.property('data');
-  response.body.data.should.be.a('object');
 }
 
 
 describe('Assignments', function() {
-    beforeEach(function(done) {
-        applicant.save(function(err) {
-            done();
-        });
+    beforeEach(function(onSetupComplete) {
+      applicant.save(function() {
+            var assignment = new Assignment({
+                  assignedApplicant: applicant,
+                  assignedCourse: 'CSC369',
+                  assignedHour: 42
+            });
+            assignment.save(function() {
+                  onSetupComplete();
+            });
+      });
     });
     
-    afterEach(function(tearDownComplete){
+    afterEach(function(onTearDownComplete){
         Assignment.collection.remove({assignedApplicant: 94132310751});
         Applicant.collection.remove({studentNumber: 94132310751});
-        tearDownComplete();
+        onTearDownComplete();
     });
         
     it('POST /saveAssignment assigns an applicant to the given course', function(done) {
-        requestBody = {
+      requestBody = {
             "applicant": "94132310751",
             "course": "CSC207",
             "hours": 40
-    };
+      };
     
-    chai.request(server).post('/saveAssignment').send(requestBody).end(function(error, response) {
-        checkBasicStructure(response);
-
-        Assignment.find({assignedApplicant: 94132310751}, function (err, assignments) {
-            if (err) {
-                chai.assert.fail(0, 1, 'Could not retrieve assignments');
-            }
-            else {
-                chai.assert.equal(1, assignments.length, 'Applicant was not assigned correctly');
-            }
-            done();
-        });
+      chai.request(server).post('/saveAssignment').send(requestBody).end(function(error, response) {
+          checkBasicStructure(response);
+  
+          Assignment.find({assignedApplicant: 94132310751}, function (err, assignments) {
+              if (err) {
+                  chai.assert.fail(0, 1, 'Could not retrieve assignments');
+              }
+              else {
+                  chai.assert.equal(1, assignments.length, 'Applicant was not assigned correctly');
+              }
+              done();
+          });
+      });
     });
-  });
+    
+    it('POST /rejectApplicant rejects an applicant from the given course', function(done) {
+      requestBody = {
+            studentNumber: 94132310751,
+            courseCode: 'CSC369'
+      };
+      
+      chai.request(server).delete('/rejectApplicant').send(requestBody).end(function(error, response) {
+            checkBasicStructure(response);
+            done();
+      });
+      
+    });
 });

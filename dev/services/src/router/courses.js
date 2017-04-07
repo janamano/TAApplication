@@ -48,7 +48,7 @@ module.exports = function(app) {
     /* return a list of courses that has open TA positions
     Test Call: http://localhost:8080/getOpenings*/
     app.get('/getOpenings', function(req, res) {
-        CourseList.find({remainingPosition: {$ne: 0}}, function(err, openCourse) {
+        CourseList.find({numberOfTAs: {$ne: 0}}, function(err, openCourse) {
             if (err) {
                 res.status(400)
                     .json({
@@ -62,6 +62,33 @@ module.exports = function(app) {
                         status: 'success',
                         data: openCourse,
                         message: "Successfully found all courses with open TA positions"
+                    });
+            }
+        });
+    });
+
+    app.post('/changeTAs/', function(req, res) {
+        var number = req.body.number;
+        var code = req.body.code;
+        console.log(req.body);
+
+        CourseList.findOneAndUpdate({code: code}, {numberOfTAs: number}, {new: true}, function(err, course){
+            if(err){
+                res.status(400)
+                    .json({
+                        status: 'error',
+                        data: {},
+                        message: err
+                    });
+            }else{
+                course.numberOfTAs = number;
+                course.save();
+
+                res.status(200)
+                    .json({
+                        status: 'success',
+                        data: course,
+                        message: "changed number of tas"
                     });
             }
         });

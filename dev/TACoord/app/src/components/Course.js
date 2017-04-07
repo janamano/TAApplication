@@ -40,6 +40,7 @@ export default class Course extends Component {
     }
     
     componentWillMount() {
+        var t = this;
         fetch('/getAssignments?course='+this.props.code, {method :'GET'})
         .then(json)
         .then(function(data) {
@@ -241,12 +242,31 @@ export default class Course extends Component {
     }
 
     incTAs(value) {
-        let current = this.state.numberOfTAs;
+        var t = this;
+        let current = t.state.numberOfTAs;
         current += value;
-        this.setState({
-            numberOfTAs: current
-        });
         
+        fetch('/changeNumTAs', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                number: current,
+                code: t.state.code
+            })
+        })
+        .then(json)
+        .then(function(data) {
+            t.setState({
+                numberOfTAs: current
+            });
+        })
+        .catch(function(error) {
+            throw error;
+        });
     } 
 
     toggleApplicantCart() {
@@ -272,6 +292,7 @@ export default class Course extends Component {
                 const applicant = data.data;
                 t.toggleCart(applicant);
                 Materialize.toast("Added " + applicant.firstName + " to " + t.state.code, 3000);
+                t.incTAs(-1);
 
             })
             .catch(function(err) {
@@ -292,6 +313,8 @@ export default class Course extends Component {
             const applicant = data.data;
             t.toggleCart(applicant);
             Materialize.toast("Removed " + applicant.firstName + " from " + t.state.code, 3000);
+            t.incTAs(1);
+            
 
         })
             .catch(function(err) {

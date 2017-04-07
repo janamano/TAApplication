@@ -13,7 +13,6 @@ module.exports = function(app) {
                         message: err
                     });
             } else{
-                console.log("Sending resp");
                 res.status(200)
                     .json({
                         status: 'success',

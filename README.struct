@@ -6,22 +6,22 @@
 |   ├── Applicant					# code for applicant view
 |   |   ├── app
 |   |   |   ├── client
-|   |   |   |   └── index.html					# main applicant view 
+|   |   |   |   └── index.html					# index file for main applicant view 
 |   |   |   └── src
-|   |   |       ├── components
-|   |   |       |   ├── App.js
-|   |   |       |   ├── ApplicantHistory.js
-|   |   |       |   ├── AutosuggestBox.js
-|   |   |       |   ├── CartCourse.js
-|   |   |       |   ├── Cart.js
-|   |   |       |   ├── CourseInfo.js
-|   |   |       |   ├── Course.js
-|   |   |       |   ├── CourseSelection.js
-|   |   |       |   ├── Login.js
-|   |   |       |   ├── Nav.js
-|   |   |       |   ├── Profile.js
-|   |   |       |   ├── RankGroup.js
-|   |   |       |   └── Ranking.js
+|   |   |       ├── components					# view components
+|   |   |       |   ├── App.js						# main page component
+|   |   |       |   ├── ApplicantHistory.js				# applicant history component
+|   |   |       |   ├── AutosuggestBox.js				# course search autosuggestion box component
+|   |   |       |   ├── Cart.js						# main application cart component
+|   |   |       |   ├── CartCourse.js					# course cart component
+|   |   |       |   ├── Course.js					# main course component
+|   |   |       |   ├── CourseInfo.js					# course information component
+|   |   |       |   ├── CourseSelection.js				# course selection component
+|   |   |       |   ├── Login.js					# applicant login component
+|   |   |       |   ├── Nav.js						# header component
+|   |   |       |   ├── Profile.js					# applicant profile component
+|   |   |       |   ├── RankGroup.js					# course ranking/grouping component
+|   |   |       |   └── Ranking.js					# course ranking action component
 |   |   |       ├── index.js
 |   |   |       └── utils.js
 |   |   ├── package.json					# npm package versioning/documentation
@@ -30,7 +30,7 @@
 |   ├── services
 |   |   ├── fake.js					# script to test DB (populate/clean DB with fake data)
 |   |   ├── instructions
-|   |   |   └── procedure.txt				# instructions to test DB
+|   |   |   └── procedure.txt				# description of how to test DB
 |   |   ├── models					# MongoDB schemas
 |   |   |   ├── Applicant.js					# Applicant schema
 |   |   |   ├── Application.js					# Application schema
@@ -51,19 +51,19 @@
 |   └── TACoord						# code for TA coordinator view
 |       ├── app
 |       |   ├── client
-|       |   |   └── index.html
+|       |   |   └── index.html					# index file for main TA coordinator view
 |       |   └── src
-|       |       ├── components
-|       |       |   ├── App.js
-|       |       |   ├── Applicant.js
-|       |       |   ├── Course.js
-|       |       |   ├── Courses.js
-|       |       |   ├── Filter.js
-|       |       |   ├── Main.js
-|       |       |   ├── Nav.js
-|       |       |   ├── ReviewApplicant.js
-|       |       |   ├── ReviewCourse.js
-|       |       |   └── Review.js
+|       |       ├── components					# view components
+|       |       |   ├── App.js						# router component
+|       |       |   ├── Applicant.js					# applicant component
+|       |       |   ├── Course.js					# course component
+|       |       |   ├── Courses.js					# open courses component
+|       |       |   ├── Filter.js					# applicant filter component
+|       |       |   ├── Main.js						# main page component
+|       |       |   ├── Nav.js						# header component
+|       |       |   ├── Review.js					# main review page component
+|       |       |   ├── ReviewApplicant.js				# applicant review component
+|       |       |   └── ReviewCourse.js					# course review component
 |       |       ├── index.js
 |       |       └── utils.js
 |       ├── package.json					# npm package versioning/documentation

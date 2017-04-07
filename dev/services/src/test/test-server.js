@@ -81,7 +81,7 @@ it('should list no open courses on /getOpenings GET when DB is empty',
 	       expect(res).to.have.status(200); // response status
 
 	       expect(res.body.data).to.be.instanceof(Array);
-	       expect(res.body.data).to.be.empty;
+	       expect(res.body.data).to.be.empty; // no courses returned
 	       
 	       done();
 	   });
@@ -101,7 +101,7 @@ it('should list exactly one open course on /getOpenings GET',
 		   expect(res).to.have.status(200); // response status
 
 		   expect(res.body.data).to.be.instanceof(Array);
-		   expect(res.body.data).to.have.length(1);
+		   expect(res.body.data).to.have.length(1); // only 1 course returned
 		   
 		   // check that openings have expected properties
 		   expect(res.body.data).to.have.deep.property('[0].code',
@@ -151,6 +151,7 @@ it('should list all open courses on /getOpenings GET',
 		   expect(res).to.have.status(200); // response status
 
 		   expect(res.body.data).to.be.instanceof(Array);
+		   // correct number of courses returned
 		   expect(res.body.data).to.have.length(courseIds.length);
 		   
 		   // check that openings have expected properties
@@ -177,8 +178,8 @@ it('should list all open courses on /getOpenings GET',
 
        recAdd(0, serverCall);
    });
-
-/*it('should list multiple applicants for one course on /getApplicantsByCourse GET',
+/*
+it('should list multiple applicants for one course on /getApplicantsByCourse GET',
    function(done) {
        chai.request(server) 
            .get('/getApplicantsByCourse')
@@ -220,20 +221,47 @@ it('should list multiple assignments on /getAssignments GET',
 	       done();
 	   });
    });
-
+*/
 it('should list single UTORid for one applicant on /getApplicantUtorid GET',
    function(done) {
-       chai.request(server) 
-	   .get('/getApplicantUtorid')
-	   .end(function(err, res){
+       util.cleanDB();
+
+       // add applicants recursively to DB       
+       function recAdd(i, then){
+	   if (i < applicants.length){
 	       
-	       expect(res).to.have.status(200); // response status
-	       expect(res.body).to.be.an('object');
+	       util.addApplicant(applicants[i], function(err, data){
+		   if (!err){
+		       // if we have added all applicants, call the callback function
+		       if (i == applicants.length-1)
+			   then();
+		       else
+			   recAdd(i+1, then);
+		   }
+	       });
+	   }
+       };
 
-	       done();
-	   });
+       // perform server call and check result
+       function serverCall(){		   
+
+	   chai.request(server) 
+	       .get('/getApplicantUtorid')
+	       .query({studentNum: parseInt(applicants[0].studentNumber)})
+	       .end(function(err, res){
+		   console.log(res.body.data);
+		   expect(res).to.have.status(200); // response status
+		   
+		   // check that applicant has expected property
+		   expect(res.body.data).to.equal(applicants[0].UTORid);
+		   
+		   done();
+	       });
+       };
+
+       recAdd(0, serverCall);
    });
-
+/*
 it('should list single applicant for one student number on /getApplicantByStudentNumber GET',
    function(done) {
        chai.request(server) 

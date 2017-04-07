@@ -1,0 +1,186 @@
+[
+    {
+	"studentNumber": "1007192911",
+	"UTORid": "bondj",
+	"lastName": "Bond",
+	"firstName": "James",
+	"phoneNumber": "+16471119111",
+	"email": "007@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "PhD",
+	    "year": "2",
+	    "programName": "Computer Science",
+	    "workStatus": "Legally Entitled",
+	    "studentStatus": "Full-Time",
+	    "TAHistory": [{
+		"courseCode": "CSC108",
+		"timesTAd": "10"
+	    }]
+	}
+    },
+
+    {
+	"studentNumber": "1000192911",
+	"UTORid": "manoha56",
+	"lastName": "Manoharan",
+	"firstName": "Janarthanan",
+	"phoneNumber": "+16471112331",
+	"email": "janamano@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "Undergraduate",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Full-Time",  
+	    "TAHistory": [
+		{
+		    "courseCode": "CSC108",    
+		    "timesTAd": "2"
+		},
+		{
+		    "courseCode": "CSC148",    
+		    "timesTAd": "2"
+		}]
+	}
+    },
+    
+    {
+	"studentNumber": "1123192911",
+	"UTORid": "atheed12",
+	"lastName": "Thameem",
+	"firstName": "Atheed",
+	"phoneNumber": "+16471231234",
+	"email": "athameem@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "Undergraduate",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Full-Time",  
+	    "TAHistory": [{
+		"courseCode": "CSC343",    
+		"timesTAd": "2"
+	    },
+			  {
+			      "courseCode": "CSC148",    
+			      "timesTAd": "2"
+			  }]
+	}
+    },
+
+    {
+	"studentNumber": "1123873911",
+	"UTORid": "sajid32",
+	"lastName": "Ahmed",
+	"firstName": "Sajid",
+	"phoneNumber": "+16472231234",
+	"email": "sajid123@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "Masters",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Full-Time",  
+	    "TAHistory": [
+		{
+		    "courseCode": "CSC443",    
+		    "timesTAd": "4"
+		},
+		{
+		    "courseCode": "CSC343",    
+		    "timesTAd": "2"
+		}]
+	}
+    },
+    
+    {
+	"studentNumber": "1123872340",
+	"UTORid": "gautams",
+	"lastName": "Gautam",
+	"firstName": "Siddharth",
+	"phoneNumber": "+16473231234",
+	"email": "sid123@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "Masters",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Full-Time",  
+	    "TAHistory": [
+		{
+		    "courseCode": "CSC148",    
+		    "timesTAd": 1
+		},
+		{
+		    "courseCode": "CSC343",    
+		    "timesTAd": "2"
+		}]
+	}
+    },
+    
+    {
+	"studentNumber": "1123802340",
+	"UTORid": "alexyan",
+	"lastName": "Yan",
+	"firstName": "Alex",
+	"phoneNumber": "+16473232134",
+	"email": "yanman@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "PhD",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Part-Time",  
+	    "TAHistory": [
+		{
+		    "courseCode": "CSC148",    
+		    "timesTAd": "1"
+		},
+		{
+		    "courseCode": "CSC343",    
+		    "timesTAd": "2"
+		},
+		{
+		    "courseCode": "CSC108",    
+		    "timesTAd": "6"
+		},
+		{
+		    "courseCode": "CSC207",    
+		    "timesTAd": "5"
+		}]
+	}
+    },
+
+    {
+	"studentNumber": "1123872341",
+	"UTORid": "gsc123",
+	"lastName": "Singh Cadiuex",
+	"firstName": "Gabrielle",
+	"phoneNumber": "+16471111234",
+	"email": "gscgscgsc@gmail.com",
+
+	"studentInformation": {
+	    "programLevel": "Masters",   
+	    "year": "3",
+	    "programName": "Computer Science",    
+	    "workStatus": "Legally Entitled",    
+	    "studentStatus": "Full-Time",  
+	    "TAHistory": [
+		{
+		    "courseCode": "CSC148",    
+		    "timesTAd": "1"
+		},
+		{
+		    "courseCode": "CSC207",    
+		    "timesTAd": "10"
+		}]
+	}
+    }
+]
+

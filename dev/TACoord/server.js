@@ -212,7 +212,9 @@ app.post('/changeNumTAs', function(req, res) {
 
 app.delete('/reject', function(req, res) {
     makeDeleteRequest('/rejectApplicant/', req.body, req, res);
-})
+});
+
+module.exports = app;
 
 const server = app.listen(4000, function() {
     const host = server.address().address;

@@ -144,6 +144,7 @@ export default class Review extends Component {
             </div>
                 <h3 style={headingStyle} className='thin'> Considered Applicants</h3>
                 <Collapsible popout style={style} accordion={true}>
+
                     {this.state.courseCarts.map(course =>
                         <ReviewCourse key={course.code}
                                         code={course.code}

@@ -25,6 +25,7 @@ export default class ReviewApplicant extends Component {
 
       this.componentWillMount = this.componentWillMount.bind(this);
       this.removeApplicant = this.removeApplicant.bind(this);
+      this.makeToast = this.makeToast.bind(this);
     }
 
     componentWillMount() {
@@ -60,6 +61,10 @@ export default class ReviewApplicant extends Component {
     removeApplicant() {
         this.props.removeApplicant(this.state.studentNumber);
     }
+    makeToast() {
+        var t = this;
+        Materialize.toast('Offer sent to ' + t.state.applicantName, 4000);
+    }
     render() {
         
         // dont remove this: or else it wont work
@@ -70,6 +75,9 @@ export default class ReviewApplicant extends Component {
             TAHistory.push(history[i]);
         }
 
+        var buttonStyle = {
+            marginRight: '5px'
+        }
 
         return (
             <Modal header={ this.state.applicantName}
@@ -82,8 +90,7 @@ export default class ReviewApplicant extends Component {
                   <p>Student Number: { this.state.studentNumber}</p>
                   <p>Contact Information: Email: {this.state.email}, Phone Number: {this.state.phoneNumber}</p>
                   <h4 className="thin">Student Info</h4>
-                  <p>Program: {this.state.programName},
-                     {this.state.programLevel}</p>
+                  <p>Program: {this.state.programName}, {this.state.programLevel}</p>
                   <p>Year: {this.state.year}</p>
                   <p>Work Status: {this.state.workStatus}</p>
                   <h4 className="thin">Student History</h4>
@@ -91,6 +98,8 @@ export default class ReviewApplicant extends Component {
                       <p key={entry.courseCode}>Course: {entry.courseCode}, Times TAd: {entry.timesTAd} </p> )}
                   <div className="modal-footer">
                   <Button id="button" className="modal-action modal-close waves-effect red darken-3 btn" onClick={this.removeApplicant}>Remove Assignment</Button>
+                  <Button style={buttonStyle} id="button" className="modal-action modal-close waves-effect green accent-3 btn" onClick={this.makeToast}>Send Offer</Button>
+                  
                   </div>
             </Modal> 
         )

@@ -23,7 +23,7 @@
 |   |   |       |   ├── RankGroup.js	 					# course ranking/grouping component
 |   |   |       |   └── Ranking.js						# course ranking action component
 |   |   |       ├── index.js						# set up for applicant view server
-|   |   |       └── utils.js						# applicant view server utility functions
+|   |   |       └── utils.js						# utilities for applicant view server
 |   |   ├── package.json						# npm package versioning/documentation
 |   |   ├── README.md						# description of how to start running the applicant view
 |   |   └── server.js						# static applicant view server
@@ -47,7 +47,8 @@
 |   | 	    |   ├── assignment.js				# assignment routes
 |   | 	    |   └── courses.js					# course routes
 |   |	    └── test					# backend testing
-|   |           └── test-server.js				# backend API tests
+|   |           ├── test-server.js				# backend API tests
+|   |           └── test-utils.js				# utilities for backend API testing
 |   └── TACoord						# code for TA coordinator view
 |       ├── app
 |       |   ├── client
@@ -65,7 +66,7 @@
 |       |       |   ├── ReviewApplicant.js					# applicant review component
 |       |       |   └── ReviewCourse.js						# course review component
 |       |       ├── index.js						# set up for applicant view server
-|       |       └── utils.js						# TA coordinator view server utility functions
+|       |       └── utils.js						# utilities for TA coordinator view server
 |       ├── package.json						# npm package versioning/documentation
 |       ├── README.md						# description of how to start running the TA coordinator view
 |       └── server.js						# static TA coordinator view server

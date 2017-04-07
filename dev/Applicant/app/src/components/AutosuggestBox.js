@@ -112,7 +112,8 @@ export default class AutosuggestBox extends Component {
 
         const theme = {
             container: {
-                position: 'relative'
+                position: 'relative',
+                marginLeft: "5%"
             },
             input: {
                 width: 240,

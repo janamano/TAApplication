@@ -15,6 +15,7 @@ export default class Cart extends Component {
 
         const studentNumber = props.location.state.studentNumber;
         const UTORid = props.location.state.UTORid;
+        const submitted = props.location.state.submitted;
 
         this.state = {
             studentNumber: studentNumber,
@@ -28,7 +29,8 @@ export default class Cart extends Component {
                 5: [],
                 0: []
             },
-            allCourses: []
+            allCourses: [],
+            submitted: submitted
         }
 
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -172,7 +174,8 @@ export default class Cart extends Component {
     handleSave() {
         var t = this;
 
-        fetch('/save-rankings', {
+        if (!t.state.submitted) {
+            fetch('/save-rankings', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -200,49 +203,54 @@ export default class Cart extends Component {
             .catch(function(err) {
                 throw err;
             });
+        }
     }
 
     handleSubmit() {
         var t = this;
+
         fetch('/save-rankings', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                rankings: {
+                    1: t.state.rankings[1].map(function(course) { return course.code }),
+                    2: t.state.rankings[2].map(function(course) { return course.code }),
+                    3: t.state.rankings[3].map(function(course) { return course.code }),
+                    4: t.state.rankings[4].map(function(course) { return course.code }),
+                    5: t.state.rankings[5].map(function(course) { return course.code }),
+                    0: t.state.rankings[0].map(function(course) { return course.code })
                 },
-                body: JSON.stringify({
-                    rankings: {
-                        1: t.state.rankings[1].map(function(course) { return course.code }),
-                        2: t.state.rankings[2].map(function(course) { return course.code }),
-                        3: t.state.rankings[3].map(function(course) { return course.code }),
-                        4: t.state.rankings[4].map(function(course) { return course.code }),
-                        5: t.state.rankings[5].map(function(course) { return course.code }),
-                        0: t.state.rankings[0].map(function(course) { return course.code })
-                    },
-                    utorid: t.state.UTORid,
-                    status: false,
-                    session: "Fall 2017"
+                utorid: t.state.UTORid,
+                status: false,
+                session: "Fall 2017"
+            })
+        })
+        .then(json)
+        .then(function(data) {
+            fetch('/submit-application?utorid=' + t.state.UTORid, { method: 'GET' })
+                .then(json)
+                .then(function(data) {
+                    if (data.status === "success") {
+                        Materialize.toast('Your application has been submitted', 2000);
+                        t.setState({
+                            submitted: true
+                        })
+                    } else {
+                        Materialize.toast('An error occurred while submitting', 2000);
+                    }
                 })
-            })
-            .then(json)
-            .then(function(data) {
-                fetch('/submit-application?utorid=' + t.state.UTORid, { method: 'GET' })
-                    .then(json)
-                    .then(function(data) {
-                        if (data.status === "success") {
-                            Materialize.toast('Your application has been submitted', 2000);
-                        } else {
-                            Materialize.toast('An error occurred while submitting', 2000);
-                        }
-                    })
-                    .catch(function(err) {
-                        throw err;
-                    });
-            })
-            .catch(function(err) {
-                throw err;
-            });
+                .catch(function(err) {
+                    throw err;
+                });
+        })
+        .catch(function(err) {
+            throw err;
+        });
     }
 
     render() {
@@ -270,18 +278,48 @@ export default class Cart extends Component {
                     UTORid={this.state.UTORid}
                     activePage={"Course Cart"}
                 />
+                {
+                    this.state.submitted ?
+                    <div>
+                        <p className="thin center">
+                            <b>You have already submitted your application, and thus can
+                            no longer update your details.</b>
+                        </p>
+                    </div>
+                    :
+                    null
+                }
                 <div style={style} className="cart">
-                    <RankGroup rank={1} courses={this.state.rankings[1]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={2} courses={this.state.rankings[2]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={3} courses={this.state.rankings[3]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={4} courses={this.state.rankings[4]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={5} courses={this.state.rankings[5]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
-                    <RankGroup rank={0} courses={this.state.rankings[0]} handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups}/>
+                    <RankGroup rank={1} courses={this.state.rankings[1]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
+                    <RankGroup rank={2} courses={this.state.rankings[2]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
+                    <RankGroup rank={3} courses={this.state.rankings[3]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
+                    <RankGroup rank={4} courses={this.state.rankings[4]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
+                    <RankGroup rank={5} courses={this.state.rankings[5]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
+                    <RankGroup rank={0} courses={this.state.rankings[0]} 
+                        handleRemove={this.handleRemove} refreshRanks={this.refreshRankGroups} submitted={this.state.submitted}/>
                 </div>
                 <span style={style3}>
-                    <Button waves='light' onClick={this.handleSave}>Save</Button>
+                    <Button 
+                        waves='light' 
+                        onClick={this.handleSave}
+                        disabled={this.state.submitted}
+                    >
+                    Save
+                    </Button>
                     &emsp;&emsp;
-                    <Button waves='light'  className="light-blue darken-4" onClick={this.handleSubmit}>Submit</Button>
+                    <Button 
+                        waves='light'  
+                        className="light-blue darken-4" 
+                        onClick={this.handleSubmit}
+                        disabled={this.state.submitted}
+                    >
+                    Submit
+                    </Button>
                     </span>
                 <p></p>
             </div>

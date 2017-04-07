@@ -60,18 +60,30 @@ export default class Nav extends Component {
             .then(function(data) {
                 if (data.status === "success") {
                     const student = data.data[0];
-                    
-                    hashHistory.push({
-                        pathname: `/history`,
-                        state: { 
-                            UTORid: t.props.UTORid,
-                            studentNumber: t.props.stunum,
-                            TAHistory: (typeof student.studentInformation != 'undefined' && 
-                                    typeof student.studentInformation.TAHistory != 'undefined') 
-                                    ? 
-                                student.studentInformation.TAHistory : []
-                        }
-                    });
+
+                    fetch('/get-application?utorid=' + t.props.UTORid, { method: 'GET' })
+                        .then(json)
+                        .then(function(data) {
+                            let isSubmitted = false;
+                            if (data.data.length > 0 && data.data[0].status == true) {
+                                isSubmitted = true;
+                            }
+                            hashHistory.push({
+                                pathname: `/history`,
+                                state: { 
+                                    UTORid: t.props.UTORid,
+                                    studentNumber: t.props.stunum,
+                                    TAHistory: (typeof student.studentInformation != 'undefined' && 
+                                            typeof student.studentInformation.TAHistory != 'undefined') 
+                                            ? 
+                                        student.studentInformation.TAHistory : [],
+                                    submitted: isSubmitted
+                                }
+                            });
+                        })
+                        .catch(function(err) {
+                            throw err;
+                        });
                 } else {
                     throw "err";
                 }
@@ -83,24 +95,50 @@ export default class Nav extends Component {
 
     goToSelection() {
         var t = this;
-        hashHistory.push({
-            pathname: `/courseselection`,
-            state: { 
-                UTORid: t.props.UTORid,
-                studentNumber: t.props.stunum,
-            }
-        })
+
+        fetch('/get-application?utorid=' + t.props.UTORid, { method: 'GET' })
+            .then(json)
+            .then(function(data) {
+                let isSubmitted = false;
+                if (data.data.length > 0 && data.data[0].status == true) {
+                    isSubmitted = true;
+                }
+                hashHistory.push({
+                    pathname: `/courseselection`,
+                    state: { 
+                        UTORid: t.props.UTORid,
+                        studentNumber: t.props.stunum,
+                        submitted: isSubmitted
+                    }
+                })
+            })
+            .catch(function(err) {
+                throw err;
+            });
     }
 
     goToCart() {
         var t = this;
-        hashHistory.push({
-            pathname: `/cart`,
-            state: { 
-                UTORid: t.props.UTORid,
-                studentNumber: t.props.stunum,
-            }
-        });
+
+        fetch('/get-application?utorid=' + t.props.UTORid, { method: 'GET' })
+            .then(json)
+            .then(function(data) {
+                let isSubmitted = false;
+                if (data.data.length > 0 && data.data[0].status == true) {
+                    isSubmitted = true;
+                }
+                hashHistory.push({
+                    pathname: `/cart`,
+                    state: { 
+                        UTORid: t.props.UTORid,
+                        studentNumber: t.props.stunum,
+                        submitted: isSubmitted
+                    }
+                });
+            })
+            .catch(function(err) {
+                throw err;
+            });
     }
 
     logout() {
@@ -109,7 +147,7 @@ export default class Nav extends Component {
     
     render() {
         var style = {
-            paddingLeft: '40%',
+            paddingLeft: '43%',
             marginBottom: '2%'
         }
         var style2 = {

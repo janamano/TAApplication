@@ -2,10 +2,28 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var server = require('../main');
 var expect = chai.expect;
+var fs = require('fs');
 
 var util = require('./test-utils');
 
 chai.use(chaiHttp);
+
+// fake data files
+var applicantFile = './test/applicants.json';
+var courseFile = './test/courses.json';
+var applicationFile = './test/applications.json';
+var assignmentFile = './test/assignments.json';
+
+// get fake data
+var data = fs.readFileSync(applicantFile);
+var applicants = JSON.parse(data);
+data = fs.readFileSync(courseFile);
+var courses = JSON.parse(data);
+data = fs.readFileSync(applicationFile);
+var applications = JSON.parse(data);
+data = fs.readFileSync(assignmentFile);
+var assignments = JSON.parse(data);
+
 
 // descriptions of test cases
 
@@ -72,13 +90,7 @@ it('should list no open courses on /getOpenings GET when DB is empty',
 it('should list exactly one open course on /getOpenings GET',
    function(done) {
        util.cleanDB();
-       var course = {
-	   code: 'CSC165',
-	   title: 'Mathematical Expression and Reasoning for Computer Science',
-	   instructor: 'David Liu',
-	   numberOfTAs: 5,
-	   qualifications: 'Must be good at reasoning and logic'
-       };
+       var course = courses["course1"];
        
        util.addCourse(course, function(err, data){
 	   
@@ -99,7 +111,7 @@ it('should list exactly one open course on /getOpenings GET',
 		   expect(res.body.data).to.have.deep.property('[0].instructor',
 							       course.instructor);
 		   expect(res.body.data).to.have.deep.property('[0].numberOfTAs',
-							       course.numberOfTAs);
+							       parseInt(course.numberOfTAs));
 		   expect(res.body.data).to.have.deep.property('[0].qualifications',
 							       course.qualifications);
 		   
@@ -111,81 +123,59 @@ it('should list exactly one open course on /getOpenings GET',
 it('should list all open courses on /getOpenings GET',
    function(done) {
        util.cleanDB();
-       var courses = [{
-	   code: 'CSC309',
-	   title: 'Programming on the Wb',
-	   instructor: 'Amir Chinaei',
-	   numberOfTAs: 20,
-	   qualifications: 'Excellent knowledge of HTML, CSS, and JavaScript'
-       },
-		      {
-			  code: 'CSC369',
-			  title: 'Operating Systems',
-			  instructor: 'Bogdan Simion',
-			  numberOfTAs: 20,
-			  qualifications: 'Obtained at least A in CSC209 and CSC258'
-		      },
-		      {
-			  code: 'CSC258',
-			  title: 'Computer Organization',
-			  instructor: 'Francisco Estrada',
-			  numberOfTAs: 20,
-			  qualifications: 'Obtained at least A in CSC258'
-		      }];
 
-       util.addCourse(courses[0], function(err, data){
-	   util.addCourse(courses[1], function(err, data){
-	       util.addCourse(courses[2], function(err, data){
-		   
-		   chai.request(server) 
-		       .get('/getOpenings')
-		       .end(function(err, res){
-
-			   expect(res).to.have.status(200); // response status
-
-			   expect(res.body.data).to.be.instanceof(Array);
-			   expect(res.body.data).to.have.length(3);
-			   
-			   // check that openings have expected properties
-			   expect(res.body.data).to.have.deep.property('[0].code',
-								       courses[0].code);
-			   expect(res.body.data).to.have.deep.property('[0].title',
-								       courses[0].title);
-			   expect(res.body.data).to.have.deep.property('[0].instructor',
-								       courses[0].instructor);
-			   expect(res.body.data).to.have.deep.property('[0].numberOfTAs',
-								       courses[0].numberOfTAs);
-			   expect(res.body.data).to.have.deep.property('[0].qualifications',
-								       courses[0].qualifications);
-
-
-			   expect(res.body.data).to.have.deep.property('[1].code',
-								       courses[1].code);
-			   expect(res.body.data).to.have.deep.property('[1].title',
-								       courses[1].title);
-			   expect(res.body.data).to.have.deep.property('[1].instructor',
-								       courses[1].instructor);
-			   expect(res.body.data).to.have.deep.property('[1].numberOfTAs',
-								       courses[1].numberOfTAs);
-			   expect(res.body.data).to.have.deep.property('[1].qualifications',
-								       courses[1].qualifications);
-
-			   expect(res.body.data).to.have.deep.property('[2].code',
-								       courses[2].code);
-			   expect(res.body.data).to.have.deep.property('[2].title',
-								       courses[2].title);
-			   expect(res.body.data).to.have.deep.property('[2].instructor',
-								       courses[2].instructor);
-			   expect(res.body.data).to.have.deep.property('[2].numberOfTAs',
-								       courses[2].numberOfTAs);
-			   expect(res.body.data).to.have.deep.property('[2].qualifications',
-								       courses[2].qualifications);
-
-			   done();
-		       });
+       // add courses recursively to DB
+       var courseIds = Object.keys(courses);
+       
+       function recAdd(i, then){
+	   if (i < courseIds.length){
+	       
+	       util.addCourse(courses[courseIds[i]], function(err, data){
+		   if (!err){
+		       // if we have added all courses, call the callback function
+		       if (i == courseIds.length-1)
+			   then();
+		       else
+			   recAdd(i+1, then);
+		   }
 	       });
-	   });
-       });
+	   }
+       };
+
+       // perform server call and check result
+       function serverCall(){		   
+	   chai.request(server) 
+	       .get('/getOpenings')
+	       .end(function(err, res){
+
+		   expect(res).to.have.status(200); // response status
+
+		   expect(res.body.data).to.be.instanceof(Array);
+		   expect(res.body.data).to.have.length(courseIds.length);
+		   
+		   // check that openings have expected properties
+		   // note that we need two indices, since our course object is an associative
+		   //   array, while the course object from the server is a simple array
+		   var i, j = 0;
+		   for (i in courses){
+		       expect(res.body.data).to.have.deep.property('[' + j + '].code',
+								   courses[i].code);
+		       expect(res.body.data).to.have.deep.property('[' + j + '].title',
+								   courses[i].title);
+		       expect(res.body.data).to.have.deep.property('[' + j + '].instructor',
+								   courses[i].instructor);
+		       expect(res.body.data).to.have.deep.property('[' + j + '].numberOfTAs',
+								   parseInt(courses[i].numberOfTAs));
+		       expect(res.body.data).to.have.deep.property('[' + j + '].qualifications',
+								   courses[i].qualifications);
+		       j++;
+		   }
+
+		   done();
+	       });
+       };
+
+       recAdd(0, serverCall);
    });
 
 /*it('should list multiple applicants for one course on /getApplicantsByCourse GET',

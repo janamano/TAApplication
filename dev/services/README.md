@@ -19,5 +19,4 @@ To test:
 * **If running for the first time:** `npm install mocha`
 * `node fake.js -p` to populate the running database instance.
 * `node fake.js -c` to clean the running database instance.
-* **Server should no longer be running**
-  `mocha` to run tests in `proj-TopOfTheHeap/dev/services/src/test`
+* (**Server should no longer be running**) `mocha` to run tests in `proj-TopOfTheHeap/dev/services/src/test`

@@ -1,0 +1,84 @@
+[{
+    "assignedApplicant": "1007192911",
+    "assignedCourse": "course1",
+    "assignedHour": "65"
+},
+
+ {
+     "assignedApplicant": "1007192911",
+     "assignedCourse": "course9",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123872340",
+     "assignedCourse": "course2",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123872340",
+     "assignedCourse": "course3",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1000192911",
+     "assignedCourse": "course1",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1000192911",
+     "assignedCourse": "course2",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123872341",
+     "assignedCourse": "course4",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123872341",
+     "assignedCourse": "course8",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123192911",
+     "assignedCourse": "course4",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123192911",
+     "assignedCourse": "course3",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123802340",
+     "assignedCourse": "course2",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123802340",
+     "assignedCourse": "course5",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123873911",
+     "assignedCourse": "course1",
+     "assignedHour": "65"
+ },
+
+ {
+     "assignedApplicant": "1123873911",
+     "assignedCourse": "course5",
+     "assignedHour": "65"
+ }
+]

@@ -1,0 +1,133 @@
+[{
+    "UTORid":"bondj",
+    "session": "Summer 2017",
+    "coursePref": [
+	{
+	    "courseCode": "CSC258", "rank": "1"
+	},
+	{
+	    "courseCode": "CSC108", "rank": "2"
+	},
+	{
+	    "courseCode": "CSC148", "rank": "3"
+	},
+	{
+	    "courseCode": "CSC165", "rank": "4"
+	}],
+    "status": "true"
+},
+
+ {
+     "UTORid":"gautams",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC301", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC148", "rank": "2"
+	 },
+	 {
+	     "courseCode": "CSC108", "rank": "3"
+	 },
+	 {
+	     "courseCode": "CSC207", "rank": "4"
+	 }],
+     "status": "true"
+ },
+
+ {
+     "UTORid":"manoha56",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC258", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC108", "rank": "2"
+	 },
+	 {
+	     "courseCode": "CSC148", "rank": "3"
+	 },
+	 {
+	     "courseCode": "CSC309", "rank": "4"
+	 }],
+     "status": "true"
+ },
+
+ {
+     "UTORid":"gsc123",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC209", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC207", "rank": "2"
+	 },
+	 {
+	     "courseCode": "CSC148", "rank": "3"
+	 },
+	 {
+	     "courseCode": "CSC369", "rank": "4"
+	 }],
+     "status": "true"
+ },
+
+ {
+     "UTORid":"atheed12",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC209", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC207", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC343", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC369", "rank": "1"
+	 }],
+     "status": "true"
+ },
+
+ {
+     "UTORid":"alexyan",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC148", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC209", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC343", "rank": "1"
+	 },
+	 {
+	     "courseCode": "CSC369", "rank": "1"
+	 }],
+     "status": "true"
+ },
+ 
+ {
+     "UTORid":"sajid32",
+     "session": "Summer 2017",
+     "coursePref": [
+	 {
+	     "courseCode": "CSC108", "rank": "5"
+	 },
+	 {
+	     "courseCode": "CSC309", "rank": "4"
+	 },
+	 {
+	     "courseCode": "CSC343", "rank": "3"
+	 },
+	 {
+	     "courseCode": "CSC367", "rank": "1"
+	 }],
+     "status": "true"
+ }
+]

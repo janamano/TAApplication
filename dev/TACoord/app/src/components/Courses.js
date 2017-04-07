@@ -129,19 +129,23 @@ export default class Courses extends Component {
             marginLeft: '15%'
         }
         var navStyle = {
-            textAlign: 'center',
             marginTop: '0px'      
+        }
+        var style2 = {
+            textAlign: 'center',
+            
         }
         // TODO: implement lazy loading
         return (
-            <div >
+            <div>
+            <div className="navbar-fixed">
                 <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
-                    <NavItem onClick={this.showPreview}>Preview</NavItem>                
                     <NavItem onClick={this.goToReview}>Review Changes</NavItem>
                 </Navbar>
+            </div>
                 <div>
                     <h2 style={headingStyle} className="thin">Open Courses</h2>
-                    <Collapsible style={style}>    
+                    <Collapsible  style={style}>    
                         {this.state.courses.map(course =>
                             <Course key={course.code}
                                     code={course.code}

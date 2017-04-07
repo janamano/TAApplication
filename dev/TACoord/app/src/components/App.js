@@ -22,10 +22,6 @@ export default class App extends Component {
                 <Route path='/' component={Courses}/>
                 <Route path='/review' component={Review}/>                
             </Router>
-            // <div>
-            //     <Nav heading="TA Coordinator System"/>
-            //     <Courses />
-            // </div>
         );
     }
 }

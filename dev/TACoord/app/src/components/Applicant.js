@@ -11,7 +11,8 @@ export default class Applicant extends Component {
         this.state = {
             prompt: "",
             numberOfTAs: props.numberOfTAs,
-            color: 'green accent-4'
+            color: 'green accent-4',
+            rank: 0
         };
 
       this.componentWillMount = this.componentWillMount.bind(this);
@@ -39,6 +40,7 @@ export default class Applicant extends Component {
         
     }
     componentWillMount() {
+        var t = this;
         var prompt = this.props.prompt(this.props.applicantInfo.studentNumber);
         if (prompt === "ACCEPT") {
             this.setState({
@@ -50,6 +52,21 @@ export default class Applicant extends Component {
                 color: 'red darken-2'
             });
         }
+        
+        var course = t.props.getCourse('lol');
+
+        fetch('/getRank?student='+t.props.applicantInfo.UTORid+'&course='+course, {method: 'GET'})
+        .then(json)
+        .then(function(data) {
+            if (data.status === 'success') {
+                t.setState({
+                    rank: data.data
+                });
+            }
+        })
+        .catch(function(err) {
+            throw err;
+        });
     }
     
     toggleCart() {
@@ -77,60 +94,20 @@ export default class Applicant extends Component {
             t.props.toggleFunction(t.props.applicantInfo)
             
         }
-
-        //
-        // CANT TEST BACKEND IS NOT WORKING FOR ME
+        
         if (stat === "ACCEPT") {
-            // // this means that this applicant was just rejected
-            // fetch('/API', {
-            //     method: 'DELETE',
-            //     credentials: 'include',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         applicant: t.props.applicantInfo.studentNumber,
-            //         course: t.props.courseUnderConsideration
-            //     })
-            // })
-            // .catch(function(error) {
-            //     throw error;
-            // });
-
-            // one more spot opened update
-            numTAsQuery = "inc";
+            // this means that this applicant was just rejected
             t.props.numTAFunction(1);
         } else {
-            // fetch('/createAssignment', {
-            //     method: 'POST',
-            //     credentials: 'include',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         course: t.props.courseUnderConsideration,
-            //         applicant: t.props.applicantInfo.studentNumber,
-            //         hour: 65
-            //     })
-            // })
-            // .then(json)
-            // .then(function(data) {
-            // })
-            // .catch(function(error) {
-            //     throw error;
-            // });
-                numTAsQuery = "dec"
-                t.props.numTAFunction(-1);
+            t.props.numTAFunction(-1);
         }
     }
 
 
     render() {
         let app = this.props.applicantInfo;
-
-        let head = this.props.applicantInfo.firstName + " " + this.props.applicantInfo.lastName;
+        let ranking = this.props.getRanking;
+        let head = this.state.rank + " " +  this.props.applicantInfo.firstName + " " + this.props.applicantInfo.lastName;
         let className = "modal-action modal-close waves-effect btn " + this.state.color 
         return (
             <Modal header={ head }

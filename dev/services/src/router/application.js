@@ -150,4 +150,36 @@ module.exports = function(app) {
             }
         })
     });
+
+    app.get('/getRanking/', function(req, res) {
+        var student = req.query.student;
+        var course = req.query.course;
+
+        applications.findOne({UTORid: student}, function(err, app) {
+            if (err) {
+                res.status(400)
+                .json({
+                    status: 'error',
+                    data: {},
+                    message: 'error occured'
+                });
+            } else {
+                var preferences = app.coursePref;
+                var rank = 0;
+                for (var i = 0; i < preferences.length; i++) {
+                    if (preferences[i].courseCode === course) {
+                        rank = preferences[i].rank;
+                    }
+                }
+
+                res.status(200)
+                .json({
+                    status: 'success',
+                    data: rank,
+                    message: 'got rank'
+                });
+            }
+        })
+        
+    });
 };

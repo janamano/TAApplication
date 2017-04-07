@@ -1,0 +1,81 @@
+{
+    "course1" : {
+	"code": "CSC108",
+	"title": "Introduction to Computer Programming",
+	"instructor": "Jennifer Campbell",
+	"numberOfTAs": "40",
+	"qualifications": "Exellent OO programming skills, Python is an asset."
+    },
+
+    "course2" : {
+	"code": "CSC148",
+	"title": "Introduction to Computer Science",
+	"instructor": "Pit Franc",
+	"numberOfTAs": "20",
+	"qualifications": "Obtained at least A in CSC108 and CSC148"
+    },
+    
+    "course3" : {
+	"code": "CSC207",
+	"title": "Software Design",
+	"instructor": "Anya Tafliovich",
+	"numberOfTAs": "20",
+	"qualifications": "Excellent OO skills nad Experience with Java"
+    },
+    
+    "course4" : {
+	"code": "CSC209",
+	"title": "Systems Programming",
+	"instructor": "Bianca Schroeder",
+	"numberOfTAs": "10",
+	"qualifications": "Excellent skills with C"
+    },
+    
+    "course5" : {
+	"code": "CSC343",
+	"title": "Introduction to Databases",
+	"instructor": "Nick Koudas",
+	"numberOfTAs": "30",
+	"qualifications": "Knowledge of databases and SQL"
+    },
+    
+    "course6" : {
+	"code": "CSC301",
+	"title": "Introduction to Software Engineering",
+	"instructor": "Mathew Zaleski",
+	"numberOfTAs": "10",
+	"qualifications": "Obtained at least A in CSC207 and CSC209"
+    },
+    
+    "course7" : {
+	"code": "CSC309",
+	"title": "Programming on the Wb",
+	"instructor": "Amir Chinaei",
+	"numberOfTAs": "20",
+	"qualifications": "Excellent knowledge of HTML, CSS, and JavaScript"
+    },
+    
+    "course8" : {
+	"code": "CSC369",
+	"title": "Operating Systems",
+	"instructor": "Bogdan Simion",
+	"numberOfTAs": "20",
+	"qualifications": "Obtained at least A in CSC209 and CSC258"
+    },
+
+    "course9" : {
+	"code": "CSC258",
+	"title": "Computer Organization",
+	"instructor": "Francisco Estrada",
+	"numberOfTAs": "20",
+	"qualifications": "Obtained at least A in CSC258"
+    },
+    
+    "course10" : {
+	"code": "CSC165",
+	"title": "Mathematical Expression and Reasoning for Computer Science",
+	"instructor": "David Liu",
+	"numberOfTAs": "5",
+	"qualifications": "Must be good at reasoning and logic"
+    }
+}

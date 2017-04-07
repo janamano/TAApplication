@@ -132,6 +132,8 @@ app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });
 
+module.exports = app;
+
 const server = app.listen(4000, function() {
     const host = server.address().address;
     const port = server.address().port;

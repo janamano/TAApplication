@@ -60,4 +60,17 @@ describe('Applicants', function() {
             done();
       });
     });
+    
+    it('POST /saveTAHistory saves courses previously TA by the given applicant', function(done) {
+      requestBody = {
+        UTORid: 'bondj',
+        studentNumber: 1007192911,
+        TAHistory: applicant.studentInformation.TAHistory
+      };
+
+      chai.request(server).post('/saveTAHistory').send(requestBody).end(function(error, response) {
+            checkBasicStructure(response);
+            done();
+      });        
+    });
 });

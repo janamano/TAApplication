@@ -77,52 +77,12 @@ export default class Applicant extends Component {
             t.props.toggleFunction(t.props.applicantInfo)
             
         }
-
-        //
-        // CANT TEST BACKEND IS NOT WORKING FOR ME
+        
         if (stat === "ACCEPT") {
-            // // this means that this applicant was just rejected
-            // fetch('/API', {
-            //     method: 'DELETE',
-            //     credentials: 'include',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         applicant: t.props.applicantInfo.studentNumber,
-            //         course: t.props.courseUnderConsideration
-            //     })
-            // })
-            // .catch(function(error) {
-            //     throw error;
-            // });
-
-            // one more spot opened update
-            numTAsQuery = "inc";
+            // this means that this applicant was just rejected
             t.props.numTAFunction(1);
         } else {
-            // fetch('/createAssignment', {
-            //     method: 'POST',
-            //     credentials: 'include',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({
-            //         course: t.props.courseUnderConsideration,
-            //         applicant: t.props.applicantInfo.studentNumber,
-            //         hour: 65
-            //     })
-            // })
-            // .then(json)
-            // .then(function(data) {
-            // })
-            // .catch(function(error) {
-            //     throw error;
-            // });
-                numTAsQuery = "dec"
-                t.props.numTAFunction(-1);
+            t.props.numTAFunction(-1);
         }
     }
 

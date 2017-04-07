@@ -496,19 +496,19 @@ var assignment14 = new Assignment({
 	assignedHour: 65
 });
 
-assignment1.save();
-assignment2.save();
-assignment3.save();
-assignment4.save();
-assignment5.save();
-assignment6.save();
-assignment7.save();
-assignment8.save();
-assignment9.save();
-assignment10.save();
-assignment11.save();
-assignment12.save();
-assignment13.save();
-assignment14.save();
+// assignment1.save();
+// assignment2.save();
+// assignment3.save();
+// assignment4.save();
+// assignment5.save();
+// assignment6.save();
+// assignment7.save();
+// assignment8.save();
+// assignment9.save();
+// assignment10.save();
+// assignment11.save();
+// assignment12.save();
+// assignment13.save();
+// assignment14.save();
 
 console.log('Process Complete!');

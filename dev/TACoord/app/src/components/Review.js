@@ -47,26 +47,23 @@ export default class Review extends Component {
                 const assignments = data.data;
                 
                 var cart = [];
-                console.log(assignments);
                 // go through each assignment
                 for(var i = 0; i < assignments.length; i++) {
                     var assignment = assignments[i];
-                   
+                    var course = assignment.assignedCourse[0].code
                     // check if the course assosiated with this assignment is already in the cart
-                    if ( t.containsCourse(assignment.assignedCourse.code, cart)) {
+                    if ( t.containsCourse(course, cart)) {
                         // if it , then add it the applicant to its list of applicants
-                        cart[t.index(assignment.assignedCourse.code, cart)].applicants.push({studentNumber: assignment.assignedApplicant});
+                        cart[t.index(course, cart)].applicants.push({studentNumber: assignment.assignedApplicant});
                     } else {
                         // otherwise create a new entry
-                        cart.push({code: assignment.assignedCourse.code, applicants: [{studentNumber:assignment.assignedApplicant}] });
+                        cart.push({code: course, applicants: [{studentNumber:assignment.assignedApplicant}] });
                     }
 
                 }
 
                 t.setState({
                     courseCarts: cart
-                }, function() {
-                    //console.log(t.state.courseCarts)
                 });
             })
             .catch(function(error) {
@@ -100,7 +97,6 @@ export default class Review extends Component {
         var carts = this.state.courseCarts;
         var i = 0;
         while (i < carts.length && carts[i].code != code) {
-            console.log(carts[i].code);
             i++;
         }
 
@@ -136,7 +132,7 @@ export default class Review extends Component {
             textAlign: 'left'
         }
         var navStyle = {
-            textAlign: 'center' ,
+            // textAlign: 'center' ,
             marginTop:'0px'     
         }
         return (
@@ -152,7 +148,7 @@ export default class Review extends Component {
                         <ReviewCourse key={course.code}
                                         code={course.code}
                                         assignedApplicants={course.applicants}
-                                        removeCourse={this.removeCourse}
+                                        removeCourse={this.removeCourse.bind(this)}
                         />
                     )}
                 </Collapsible>

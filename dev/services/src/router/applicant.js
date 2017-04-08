@@ -13,7 +13,7 @@ module.exports = function(app) {
                         message: err
                     });
         	} else {
-        		console.log("Sending resp");
+        		
                 res.status(200)
                     .json({
                         status: 'error',
@@ -26,7 +26,6 @@ module.exports = function(app) {
 
     app.get('/getApplicantByStudentNumber', function(req, res) {
         var studNum = req.query.studentNumber;
-        console.log(studNum)
         ApplicantList.findOne({studentNumber: studNum}, function(err, applicant){
         	if (err) {
                 res.status(400)
@@ -60,7 +59,7 @@ module.exports = function(app) {
                         message: "No student with these credential was found"
                     });
             } else {
-                console.log("Sending resp");
+                
 
                 if (appProf.length > 0) {
                     res.status(200)
@@ -92,7 +91,7 @@ module.exports = function(app) {
                         message: err
                     });
             }else {
-                console.log("Sending resp");
+                
                 if (appProf.length > 0) {
                     res.status(200)
                         .json({
@@ -114,7 +113,7 @@ module.exports = function(app) {
      /*Test Call: http://localhost:8080/getApplicantTAHist?studentNum=1000192911 */
     app.get('/getApplicantTAHist/', function(req, res) {
         var studNum = req.query.studentNum;
-        console.log(req.query);
+        
         ApplicantList.find({studentNumber: studNum}, function(err, appTAProf){
             if (err) {
                 res.status(400)
@@ -124,7 +123,7 @@ module.exports = function(app) {
                         message: err
                     });
             } else {
-                console.log("Sending resp");
+                
                 var appl = appTAProf[0];
                 res.status(200)
                     .json({
@@ -215,7 +214,7 @@ module.exports = function(app) {
 
         app.get('/getApplicantUtorid', function(req, res) {
             var studNum = req.query.studentNum;
-            console.log(req.query);
+            
             ApplicantList.find({studentNumber: studNum}, function(err, appTAProf){
                 if (err) {
                     res.status(400)
@@ -225,7 +224,7 @@ module.exports = function(app) {
                             message: err
                         });
                 } else {
-                    console.log("Sending resp");
+                    
                     var appl = appTAProf[0];
                     res.status(200)
                         .json({

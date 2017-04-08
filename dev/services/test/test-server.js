@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-var server = require('../main');
+var server = require('../src/main');
 var expect = chai.expect;
 var fs = require('fs');
 
@@ -255,52 +255,6 @@ it('should list multiple applicants on /getApplicantsList GET ' +
 
        recAdd(0, serverCall);
    });
-
-
-/*
-it('should list multiple applicants for one course on /getApplicantsByCourse GET',
-   function(done) {
-       chai.request(server) 
-           .get('/getApplicantsByCourse')
-           .end(function(err, res){
-
-	       expect(res).to.have.status(200); // response status
-	       expect(res.body).to.be.an('object');
-
-	       // check that applicants have expected properties
-	       expect(res.body).to.have.property('studentNumber');
-	       expect(res.body).to.have.property('UTORid');
-	       expect(res.body).to.have.property('lastName');
-	       expect(res.body).to.have.property('firstName');
-	       expect(res.body).to.have.property('phoneNumber');
-	       expect(res.body).to.have.property('email');
-	       expect(res.body).to.have.property('studentInformation');
-	       expect(res.body).to.have.deep.property('studentInformation.phoneNumber');
-	       expect(res.body).to.have.deep.property('studentInformation.year');
-	       expect(res.body).to.have.deep.property('studentInformation.programName');
-	       expect(res.body).to.have.deep.property('studentInformation.workStatus');
-	       expect(res.body).to.have.deep.property('studentInformation.studentStatus');
-	       expect(res.body).to.have.deep.property('studentInformation.TAHistory');
-	       expect(res.body).to.have.deep.property('studentInformation.TAHistory[0].courseCode');
-	       expect(res.body).to.have.deep.property('studentInformation.TAHistory[0].timesTAd');
-	       
-	       done();
-	   });
-   });
-
-it('should list multiple assignments on /getAssignments GET',
-   function(done) {
-       chai.request(server) 
-           .get('/getAssignments')
-           .end(function(err, res){
-
-	       expect(res).to.have.status(200); // response status
-	       expect(res.body).to.be.an('object');
-
-	       done();
-	   });
-   });
-*/
 
 // currently fails because there is no check of whether the applicant was found
 it('should list no UTORid for non-existent student number on /getApplicantUtorid GET', 

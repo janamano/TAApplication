@@ -3,10 +3,10 @@ var exports = module.exports = {};
 var chai = require('chai');
 var expect = chai.expect;
 
-var Applicant = require('../../models/Applicant');
-var Course = require('../../models/Courses');
-var Application = require('../../models/Application');
-var Assignment = require('../../models/Assignment');
+var Applicant = require('../models/Applicant');
+var Course = require('../models/Courses');
+var Application = require('../models/Application');
+var Assignment = require('../models/Assignment');
 
 exports.addApplicant = function(a, func){
     new Applicant(a).save(func);

@@ -11,6 +11,7 @@ var server = require('http').Server(app);
 // server configuration file
 var config = require('./_config');
 
+// Added for exposing our server instance to the test suite
 module.exports = server;
 
 /*DB Connection*/

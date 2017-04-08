@@ -287,7 +287,7 @@ var application1 = new Application({
 		{
 			courseCode: 'CSC165', rank: 4
 		}],
-	status: true
+	status: false
 });
 
 var application2 = new Application({

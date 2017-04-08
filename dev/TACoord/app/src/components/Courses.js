@@ -140,13 +140,12 @@ export default class Courses extends Component {
             <div>
             <div className="navbar-fixed">
                 <Navbar style={navStyle} className="fixed indigo darken-4" brand="TA Coordinator System" right>
-                    <NavItem onClick={this.showPreview}>Preview</NavItem>                
                     <NavItem onClick={this.goToReview}>Review Changes</NavItem>
                 </Navbar>
             </div>
                 <div>
                     <h2 style={headingStyle} className="thin">Open Courses</h2>
-                    <Collapsible style={style}>    
+                    <Collapsible  style={style}>    
                         {this.state.courses.map(course =>
                             <Course key={course.code}
                                     code={course.code}

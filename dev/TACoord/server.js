@@ -197,6 +197,10 @@ app.get('/filter', function(req, res) {
     makeGetRequest('/filterApplicants/', req.query, req, res);
 });
 
+app.get('/getRank', function(req, res) {
+    makeGetRequest('/getRanking/', req.query, req, res);
+});
+
 app.post('/createAssignment', function(req, res) {
     makePostRequest('/saveAssignment/', req.body, req, res);
 });

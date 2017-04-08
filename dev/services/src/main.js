@@ -8,15 +8,19 @@ app.use(bodyParser.urlencoded( {extended: true} ));
 mongoose.Promise = global.Promise;
 // The main instance of our HTTP server
 var server = require('http').Server(app);
+// server configuration file
+var config = require('./_config');
 
 // Added for exposing our server instance to the test suite
 module.exports = server;
 
 /*DB Connection*/
-mongoose.connect("mongodb://localhost:27017/serverDB", function(err, db) {
-  if(!err) {
-    console.log("Connected to DB instance");
-  }
+mongoose.connect(config.mongoURI[app.settings.env], function(err, db) {
+    if(err) {
+	console.log('Error connecting to the database. ' + err);
+    } else {
+	console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
+    }
 });
 
 /* -- TODO: Attach request handlers for endpoints - */

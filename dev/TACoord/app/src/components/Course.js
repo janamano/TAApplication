@@ -96,7 +96,9 @@ export default class Course extends Component {
     toggleCart(student) {
         var t = this;
         var cart = t.state.applicantsCart;
+        var applicants = t.state.applicants;
         var index = this.getIndex(cart, student.studentNumber);
+        var indexInApp = this.getIndex(applicants, student.studentNumber);
     
         if (index > -1) {
             // if the student is in the cart, remove them
@@ -116,8 +118,10 @@ export default class Course extends Component {
             .then(json)
             .then(function(data) {
                 cart.splice(index, 1);
+                applicants.push(student);
                 t.setState({
-                    applicantsCart: cart
+                    applicantsCart: cart,
+                    applicants: applicants
                 }); 
             })
             .catch(function(error) {
@@ -142,8 +146,11 @@ export default class Course extends Component {
             .then(json)
             .then(function(data) {
                 cart.push(student);
+                applicants.splice(indexInApp, 1);
+                
                 t.setState({
-                     applicantsCart: cart
+                     applicantsCart: cart,
+                     applicants: applicants
                 }); 
            })
             .catch(function(error) {

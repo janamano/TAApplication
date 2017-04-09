@@ -5,16 +5,23 @@ var expect = chai.expect;
 chai.should();
 var random = require('random-js');
 
-var Applicant = require('../models/Applicant');
-var Course = require('../models/Courses');
-var Application = require('../models/Application');
-var Assignment = require('../models/Assignment');
+exports.Applicant = require('../models/Applicant');
+exports.Course = require('../models/Courses');
+exports.Application = require('../models/Application');
+exports.Assignment = require('../models/Assignment');
+
+// fake data files (paths are relative to location from which script is run)
+exports.applicantFile = './test/testData/applicants.json';
+exports.courseFile = './test/testData/courses.json';
+exports.applicationFile = './test/testData/applications.json';
+exports.assignmentFile = './test/testData/assignments.json';
+
 
 /* Functions to set-up testing database */
 
 // add single applicant to DB
 exports.addApplicant = function(a, func){
-    new Applicant(a).save(func);
+    new exports.Applicant(a).save(func);
 };
 
 // add applicants recursively to DB
@@ -34,7 +41,7 @@ exports.addApplicants = function(i, applicants, func){
 
 // add single course to DB
 exports.addCourse = function(a, func){
-    new Course(a).save(func);
+    new exports.Course(a).save(func);
 };
 
 // add courses recursively to DB       
@@ -59,7 +66,7 @@ exports.addCourses = function(i, courses, func){
 
 // add single application to DB
 exports.addApplication = function(a, func){
-    new Application(a).save(func);
+    new exports.Application(a).save(func);
 };
 
 // add applications recursively to DB
@@ -79,7 +86,7 @@ exports.addApplications = function(i, applications, func){
 
 // add single assignment to DB
 exports.addAssignment = function(a, func){
-    new Assignment(a).save(func);
+    new exports.Assignment(a).save(func);
 };
 
 // add assignments recursively to DB
@@ -105,10 +112,10 @@ exports.cleanCollection = function(c, func){
 // clean all collections of DB
 exports.cleanDB = function(func){
     exports.cleanCollection(
-	Applicant, () => exports.cleanCollection(
-	    Course, () => exports.cleanCollection(
-		Application, () => exports.cleanCollection(
-		    Assignment, func
+	exports.Applicant, () => exports.cleanCollection(
+	    exports.Course, () => exports.cleanCollection(
+		exports.Application, () => exports.cleanCollection(
+		    exports.Assignment, func
 		))));
 };
 

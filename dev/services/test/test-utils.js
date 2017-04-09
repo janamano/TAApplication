@@ -204,4 +204,7 @@ exports.randSample = function(pop, size){
     return random.sample(random.engines.nativeMath, pop, size);
 };
 
+exports.randPick = function(pop){
+    return random.pick(random.engines.nativeMath, pop);
+};
 /* END: misc. functions */

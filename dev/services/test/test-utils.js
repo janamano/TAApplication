@@ -2,11 +2,15 @@ var exports = module.exports = {};
 
 var chai = require('chai');
 var expect = chai.expect;
+chai.should();
+var random = require('random-js');
 
 var Applicant = require('../models/Applicant');
 var Course = require('../models/Courses');
 var Application = require('../models/Application');
 var Assignment = require('../models/Assignment');
+
+/* Functions to set-up testing database */
 
 // add single applicant to DB
 exports.addApplicant = function(a, func){
@@ -108,6 +112,10 @@ exports.cleanDB = function(func){
 		))));
 };
 
+/* END: functions to set-up testing database */
+
+/* functions to examine server responses */
+
 // expect course a to have same properties and values as course b
 exports.compareCourses = function(a, b){
     expect(a).to.have.property('code', b.code);
@@ -116,6 +124,43 @@ exports.compareCourses = function(a, b){
     expect(a).to.have.property('numberOfTAs', parseInt(b.numberOfTAs));
     expect(a).to.have.property('qualifications', b.qualifications);
 };
+
+exports.checkBasicStructure = function(response) {
+  
+  response.should.have.status(200);
+  
+  response.should.be.json;
+  response.body.should.be.a('object');
+  
+  response.body.should.have.property('status');
+  response.body.status.should.equal('success');
+  
+  response.body.should.have.property('data');
+  response.body.data.should.be.a('array');
+}
+
+exports.checkCourseAttributes = function(expected, actual) {
+    actual.should.have.property('_id');
+    actual.should.have.property('code');
+    actual.should.have.property('title');
+    actual.should.have.property('instructor');
+    actual.should.have.property('numberOfTAs');
+    actual.should.have.property('qualifications');
+    actual.should.have.property('__v');
+
+    // These value checks will be of more use once we use 'hooks' to
+    // populate the database with test data before running each test
+    actual.code.should.equal(expected.code);
+    actual.title.should.equal(expected.title);
+    actual.instructor.should.equal(expected.instructor);
+    actual.numberOfTAs.should.equal(expected.numberOfTAs);
+    actual.qualifications.should.equal(expected.qualifications);
+}
+
+exports.assert = function(response, expectedData, actualData) {
+  exports.checkBasicStructure(response);
+  exports.checkCourseAttributes(expectedData, actualData);
+}
 
 // expect applicant a to have same properties and values as applicant b
 exports.compareApplicants = function(a, b){
@@ -146,3 +191,17 @@ exports.compareApplicants = function(a, b){
 					parseInt(b.studentInformation.TAHistory[i].timesTAd));
     }
 };
+
+/* END: functions to examine server responses */
+
+/* misc. functions */
+
+exports.randInt = function(min, max){
+    return random.integer(min, max)(random.engines.nativeMath);
+};
+
+exports.randSample = function(pop, size){
+    return random.sample(random.engines.nativeMath, pop, size);
+};
+
+/* END: misc. functions */

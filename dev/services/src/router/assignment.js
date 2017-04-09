@@ -15,7 +15,7 @@ module.exports = function(app) {
                         message: err
                     });
             } else{
-                
+                console.log("Sending resp");
                 res.status(200)
                     .json({
                         status: 'success',
@@ -33,7 +33,7 @@ module.exports = function(app) {
         var course = req.body.course;  // course code  String
         var hours = req.body.hour;   // assigned hour Number
         
-        
+        console.log(req.body);
         // Check to see if there is remaining position in course.
         CourseList.find({$and: [{code: course}, {numberOfTAs: {$ne: 0}}]}, function(err, course) {
             if (err) {

@@ -3,7 +3,7 @@ var applicants = require('../../models/Applicant');
 module.exports = function(app) {
      /*Test Call: http://localhost:8080/getApplication?utorid=bondj */
     app.get('/getApplication/', function(req, res) {
-        
+        console.log("Reached");
         var utorId = req.query.utorid;
         applications.find({ UTORid: utorId }, function(err, application){
         	if (err) {
@@ -14,7 +14,7 @@ module.exports = function(app) {
                         message: err
                     });
         	} else {
-        		
+        		console.log("Sending resp");
                 res.status(200)
                     .json({
                         status: 'success',
@@ -29,8 +29,8 @@ module.exports = function(app) {
         var ssn = req.body.session;
         var sts = req.body.status;
         
-        
-        
+        console.log(req.body);
+        console.log(req.body.utorid);
     
         /* Get all the course rank combinations and adds them to a list */
         var courseRankComb = [];
@@ -40,13 +40,13 @@ module.exports = function(app) {
                         courseCode: String(req.body.rankings[i][j]),
                         rank: i
                     }
-                    
+                    console.log(crsRank);
                     
                     courseRankComb.push(crsRank);
                 }
             }
-            
-            
+            console.log("COURSE RANK COMBO")
+            console.log(courseRankComb);
         applications.findOne({UTORid: utorId}, function(err, applcn){
             if(err){
                 res.status(400)
@@ -57,7 +57,7 @@ module.exports = function(app) {
                     });
             }else{
                 if(applcn == null){
-                    
+                    console.log("Doesnt exist in db. Creating application.");
                 /* Creates application and saves it */
                     var newapplication = new applications({
                         UTORid: utorId,
@@ -73,8 +73,8 @@ module.exports = function(app) {
                             message: "assignment saved"
                         });
                 }else{
-                    
-                    
+                    console.log("Application exists. Modifying")
+                    console.log(applcn);
                     applcn.status= sts;
                     applcn.session = ssn;
                     applcn.coursePref = courseRankComb;
@@ -104,7 +104,7 @@ module.exports = function(app) {
             }else{
                 application.status = true;
                 application.save();
-                
+                console.log("Sending resp");
                 res.status(200)
                     .json({
                         status: 'success',

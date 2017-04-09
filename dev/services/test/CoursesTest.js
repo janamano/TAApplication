@@ -11,20 +11,14 @@ var util = require('./test-utils');
 
 chai.use(chaiHttp);
 
-// fake data files (paths are relative to location from which script is run)
-var applicantFile = './test/testData/applicants.json';
-var courseFile = './test/testData/courses.json';
-var applicationFile = './test/testData/applications.json';
-var assignmentFile = './test/testData/assignments.json';
-
 // get fake data
-var data = fs.readFileSync(applicantFile);
+var data = fs.readFileSync(util.applicantFile);
 var applicants = JSON.parse(data);
-data = fs.readFileSync(courseFile);
+var data = fs.readFileSync(util.courseFile);
 var courses = JSON.parse(data);
-data = fs.readFileSync(applicationFile);
+var data = fs.readFileSync(util.applicationFile);
 var applications = JSON.parse(data);
-data = fs.readFileSync(assignmentFile);
+var data = fs.readFileSync(util.assignmentFile);
 var assignments = JSON.parse(data);
 
 
@@ -232,8 +226,8 @@ describe('Courses tests', function() {
 	   function(done) {
 	       // create one course that is not open
 	       var courseID = util.randPick(Object.keys(courses)); // random course added
-	       var fullCourse = JSON.parse(JSON.stringify(courses[courseID]));
-	       fullCourse.numberOfTAs = 0;
+	       var coursesCopy = JSON.parse(JSON.stringify(courses));
+	       coursesCopy[courseID].numberOfTAs = 0;
 	       
 	       function serverCall(){		   
 		   chai.request(server) 
@@ -267,11 +261,8 @@ describe('Courses tests', function() {
 		       });
 	       };
 
-	       // add full course
-	       util.addCourse(fullCourse, function(){
-		   // add open courses
-		   util.addCourses(1, courses, serverCall);
-	       }); 
+	       // add courses
+	       util.addCourses(0, coursesCopy, serverCall);
 	   });
 
 	it('should list all/all courses on /getOpenings GET',

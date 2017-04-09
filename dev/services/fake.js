@@ -1,11 +1,23 @@
-process.env.NODE_ENV = 'development'; // dev environment by default
+// process command-line argument to select testing/dev environment
+// use dev environment by default
+process.env.NODE_ENV = (process.argv.indexOf('-t') == -1) ? 'development' : 'test'; 
+// server configuration file
+var config = require('./src/_config');
 
 var util = require('./test/test-utils');
 var fs = require('fs');
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-var db = mongoose.connect('localhost', 'serverDB');
+
+/*DB Connection*/
+var db = mongoose.connect(config.mongoURI[process.env.NODE_ENV], function(err) {
+    if(err) {
+	console.log('Error connecting to the database. ' + err);
+    } else {
+	console.log('Connected to Database: ' + config.mongoURI[process.env.NODE_ENV]);
+    }
+});
 
 var Applicant = require('./models/Applicant');
 var Course = require('./models/Courses');
@@ -56,41 +68,23 @@ if (process.argv.indexOf('--help') != -1 || process.argv.indexOf('-h') != -1) {
     db.disconnect();
     
 } else {
-    // use testing environment
-    if (process.argv.indexOf('-t') != -1)
-	process.env.NODE_ENV = 'test';
+    var p = function(func){
+	if (process.argv.indexOf('-p') != -1)
+	    return () => { populate(func) };
 
-    var p = process.argv.indexOf('-p') != -1;
-    var c = process.argv.indexOf('-c') != -1;
+	return func;
+    };
+    
+    var c = function(func){
+	if (process.argv.indexOf('-c') != -1)
+	    return () => { clean(func); };
+
+	return func;
+    };
     
     // persist connection to DB
-    var ps = process.argv.indexOf('-ps') != -1;
+    var ps = (process.argv.indexOf('-ps') != -1) ? (() => {}) : db.disconnect;
 
-    if (p) {
-	// populate and then clean DB
-	if (c) {
-
-	    // persist connection to DB
-	    if (ps)
-		populate(() => clean());
-	    else
-		populate(() => clean(() => db.disconnect()));
-	    
-	// populate DB and persist connection
-	} else if (ps) {
-	    populate(clean);
-
-	// just populate DB
-	} else {
-	    populate(() => db.disconnect());
-	}
-	
-    } else if (c) {
-	// clean DB and persist connection
-	if (ps)
-	    clean();
-	// just clean DB
-	else
-	    clean(() => db.disconnect());
-    }
+    // invoke chained functions
+    p(c(ps))();
 }

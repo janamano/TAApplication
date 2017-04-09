@@ -10,7 +10,7 @@ var Assignment = require('../models/Assignment');
 
 // add single applicant to DB
 exports.addApplicant = function(a, func){
-    new Applicant(a).save().then(func);
+    new Applicant(a).save(func);
 };
 
 // add applicants recursively to DB
@@ -30,7 +30,7 @@ exports.addApplicants = function(i, applicants, func){
 
 // add single course to DB
 exports.addCourse = function(a, func){
-    new Course(a).save().then(func);
+    new Course(a).save(func);
 };
 
 // add courses recursively to DB       
@@ -55,7 +55,7 @@ exports.addCourses = function(i, courses, func){
 
 // add single application to DB
 exports.addApplication = function(a, func){
-    new Application(a).save().then(func);
+    new Application(a).save(func);
 };
 
 // add applications recursively to DB
@@ -75,7 +75,7 @@ exports.addApplications = function(i, applications, func){
 
 // add single assignment to DB
 exports.addAssignment = function(a, func){
-    new Assignment(a).save().then(func);
+    new Assignment(a).save(func);
 };
 
 // add assignments recursively to DB
@@ -95,7 +95,7 @@ exports.addAssignments = function(i, assignments, func){
 
 // clean DB collection
 exports.cleanCollection = function(c, func){
-    c.remove({}).exec().then(func);
+    c.remove({}, func);
 };
 
 // clean all collections of DB
@@ -104,7 +104,7 @@ exports.cleanDB = function(func){
 	Applicant, () => exports.cleanCollection(
 	    Course, () => exports.cleanCollection(
 		Application, () => exports.cleanCollection(
-		    Assignment, () => func()
+		    Assignment, func
 		))));
 };
 

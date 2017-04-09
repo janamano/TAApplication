@@ -227,28 +227,75 @@ describe('Courses tests', function() {
     });
 
     describe('GET tests: /getCourseList', function() {
-	/*
-	  it('GET /courseList returns list of all courses', function(done) {
-	  
-	  chai.request(server).get('/getCourseList').end(function(error, response) {
-	  
-	  expected = {
-          code: "CSC207",
-          title: "Software Design",
-          instructor: "Anya Tafliovich",
-          numberOfTAs: 20,
-          qualifications: "Excellent OO skills nad Experience with Java",
-          __v: 0
-	  };
-	  
-	  actual = response.body.data[0];      
-	  assert(response, expected, actual);
-	  
-	  done();
-	  });
-	  });
-	*/
-	
+	it('should list no open courses on /getCourseList GET when DB is empty',
+	   function(done) {
+	       chai.request(server)
+		   .get('/getCourseList')
+		   .end(function(err, res){
+
+		       expect(res).to.have.status(200); // response status
+
+		       expect(res.body.data).to.be.instanceof(Array);
+		       expect(res.body.data).to.be.empty; // no courses returned
+		       
+		       done();
+		   });
+	   });
+
+	it('should list exactly one/one course on /getCourseList GET',
+	   function(done) {
+	       var courseID = 'course1';
+	       var course = courses[courseID];
+	       
+	       util.addCourse(course, function(err, data){
+		   
+		   chai.request(server) 
+		       .get('/getCourseList')
+		       .end(function(err, res){
+
+			   expect(res).to.have.status(200); // response status
+
+			   expect(res.body.data).to.be.instanceof(Array);
+			   expect(res.body.data).to.have.length(1); // only 1 course returned
+			   
+			   // check that opening has expected properties
+			   util.compareCourses(res.body.data[0], course);
+			   
+			   done();
+		       });
+	       });
+	   });
+
+	it('should list all/all courses on /getCourseList GET',
+	   function(done) {
+	       
+	       // perform server call and check result
+	       function serverCall(){		   
+		   chai.request(server) 
+		       .get('/getCourseList')
+		       .end(function(err, res){
+
+			   expect(res).to.have.status(200); // response status
+
+			   expect(res.body.data).to.be.instanceof(Array);
+			   // correct number of courses returned
+			   expect(res.body.data).to.have.length(Object.keys(courses).length);
+			   
+			   // check that openings have expected properties
+			   // note that we need two indices, since our course object is an associative
+			   //   array, while the course object from the server is a simple array
+			   var i, j = 0;
+			   for (i in courses){
+			       util.compareCourses(res.body.data[j], courses[i]);
+			       j++;
+			   }
+
+			   done();
+		       });
+	       };
+
+	       util.addCourses(0, courses, serverCall);
+	   });
     });
 
 

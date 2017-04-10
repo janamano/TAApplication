@@ -81,7 +81,7 @@ module.exports = function(app) {
     app.get('/getAssignmentsByCourse/', function(req, res) {
         var course = req.query.course;
         // 1. find the assignments that's related to this course.
-        AssignmentList.find({'assignedCourse.code': course}, function(err, assignments) {
+        AssignmentList.find({'assignedCourse': course}, function(err, assignments) {
             if (err) {
                 res.status(400)
                     .json({
@@ -122,7 +122,7 @@ module.exports = function(app) {
         var studentNumber = req.body.studentNumber;
         var courseCode = req.body.courseCode;
         
-        AssignmentList.findOneAndRemove({assignedApplicant: studentNumber, 'assignedCourse.code': courseCode}, function(err, assignment){
+        AssignmentList.findOneAndRemove({assignedApplicant: studentNumber, 'assignedCourse': courseCode}, function(err, assignment){
             if(err){
                 res.status(400)
                         .json({

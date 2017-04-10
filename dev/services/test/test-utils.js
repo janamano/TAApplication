@@ -212,6 +212,13 @@ exports.compareApplicants = function(a, b){
     }
 };
 
+// expect assignment a to have same properties and values as assignment b
+exports.compareAssignments = function(a, b){
+    expect(a).to.have.property('assignedApplicant', parseInt(b.assignedApplicant));
+    expect(a).to.have.property('assignedHour', Number(b.assignedHour));
+};
+
+
 /* END: functions to examine server responses */
 
 /* misc. functions */

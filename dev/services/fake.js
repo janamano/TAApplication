@@ -43,10 +43,6 @@ var populate = function(func){
 
     var data = fs.readFileSync(assignmentFile);
     var assignments = JSON.parse(data);
-    // match courseID in assignment to course itself
-    var i;
-    for (i = 0; i < assignments.length; i++)
-	assignments.assignedCourse = courses[assignments.assignedCourse];
     
     util.addApplicants(
 	0, applicants, util.addCourses(

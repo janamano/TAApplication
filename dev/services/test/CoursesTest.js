@@ -20,10 +20,6 @@ var data = fs.readFileSync(util.applicationFile);
 var applications = JSON.parse(data);
 var data = fs.readFileSync(util.assignmentFile);
 var assignments = JSON.parse(data);
-// match courseID in assignment to course itself
-var i;
-for (i = 0; i < assignments.length; i++)
-    assignments.assignedCourse = courses[assignments.assignedCourse];
 
 
 describe('Courses tests', function() {
@@ -34,7 +30,7 @@ describe('Courses tests', function() {
    
     describe('GET tests: /getCourseList', function() {
 
-	it('should list no open courses on /getCourseList GET when DB is empty',
+	it('should list courses on /getCourseList GET when DB is empty',
 	   function(done) {
 	       chai.request(server)
 		   .get('/getCourseList')
@@ -51,8 +47,7 @@ describe('Courses tests', function() {
 
 	it('should list exactly one/one course on /getCourseList GET',
 	   function(done) {
-	       var courseID = util.randPick(Object.keys(courses)); // random course added
-	       var course = courses[courseID];
+	       var course = util.randPick(courses); // random course added
 	       
 	       util.addCourse(course, function(err, data){
 		   
@@ -88,13 +83,14 @@ describe('Courses tests', function() {
 			   // correct number of courses returned
 			   expect(res.body.data).to.have.length(Object.keys(courses).length);
 			   
-			   // check that openings have expected properties
-			   // note that we need two indices, since our course object is an associative
-			   //   array, while the course object from the server is a simple array
-			   var i, j = 0;
-			   for (i in courses){
-			       util.compareCourses(res.body.data[j], courses[i]);
-			       j++;
+			   // check that courses have expected properties
+			   var i, course;
+			   for (i = 0; i < courses.length; i++){
+			       course = res.body.data.find(
+				   (course) => (course.code == courses[i].code));
+			       expect(course).to.not.be.undefined;
+			       
+			       util.compareCourses(course, courses[i]);
 			   }
 
 			   done();
@@ -132,22 +128,22 @@ describe('Courses tests', function() {
 
 	it('should list correct course information for course on /getCourseInfo GET',
 	   function(done) {
-	       var courseID = util.randPick(Object.keys(courses)); // random course added
+	       var course = util.randPick(courses); // random course added
 	       
 	       // perform server call and check result
 	       function serverCall(){		   
 
 		   chai.request(server) 
 		       .get('/getCourseInfo')
-		       .query({course: courses[courseID].code})
+		       .query({course: course.code})
 		       .end(function(err, res){
 			   expect(res).to.have.status(200); // response status
 
 			   expect(res.body.data).to.be.instanceof(Array);
 			   expect(res.body.data).to.have.length(1); // only 1 course returned
 			   
-			   // check that applicant has expected property
-			   util.compareCourses(res.body.data[0], courses[courseID]);
+			   // check that course has expected properties
+			   util.compareCourses(res.body.data[0], course);
 			   
 			   done();
 		       });
@@ -177,8 +173,7 @@ describe('Courses tests', function() {
 
 	it('should list exactly one/one course on /getOpenings GET',
 	   function(done) {
-	       var courseID = util.randPick(Object.keys(courses)); // random course added
-	       var course = courses[courseID];
+	       var course = util.randPick(courses); // random course added
 	       
 	       util.addCourse(course, function(err, data){
 		   
@@ -204,7 +199,7 @@ describe('Courses tests', function() {
 	       // create courses that are not open
 	       var fullCourses = JSON.parse(JSON.stringify(courses));
 	       var i;
-	       for (i in fullCourses)
+	       for (i = 0; i < courses.length; i++)
 		   fullCourses[i].numberOfTAs = 0;
 	       
 	       function serverCall(){		   
@@ -228,9 +223,9 @@ describe('Courses tests', function() {
 	it('should list exactly (n-1) open/n courses on /getOpenings GET',
 	   function(done) {
 	       // create one course that is not open
-	       var courseID = util.randPick(Object.keys(courses)); // random course added
+	       var fullCourse = util.randInt(0, courses.length-1);
 	       var coursesCopy = JSON.parse(JSON.stringify(courses));
-	       coursesCopy[courseID].numberOfTAs = 0;
+	       coursesCopy[fullCourse].numberOfTAs = 0;
 	       
 	       function serverCall(){		   
 		   chai.request(server) 
@@ -241,30 +236,26 @@ describe('Courses tests', function() {
 
 			   expect(res.body.data).to.be.instanceof(Array);
 			   // correct number of courses returned
-			   expect(res.body.data).to.have.length(Object.keys(courses).length-1);
-			   
-			   // check that openings have expected properties
-			   // note that we need two indices, since we don't know the order in
-			   //   which the courses will be returned
-			   var i, j;
-			   for (i in courses){
-			       // skip first course, since it should be full
-			       if (i != courseID){
-				   for (j = 0; j < res.body.data.length; j++){
-				       if (res.body.data[j].code == courses[i].code){
-					   util.compareCourses(res.body.data[j], courses[i]);
-					   break;
-				       }
-				   }
-				   expect(j).to.be.below(res.body.data.length);
+			   expect(res.body.data).to.have.length(courses.length-1);
+
+			   // check that courses have expected properties
+			   var i, course;
+			   for (i = 0; i < coursesCopy.length-1; i++){
+			       // skip full course
+			       if (coursesCopy[i].code != coursesCopy[fullCourse].code){
+				   
+				   course = res.body.data.find(
+				       (course) => (course.code == coursesCopy[i].code));
+				   expect(course).to.not.be.undefined;
+			       
+				   util.compareCourses(course, coursesCopy[i]);
 			       }
-			   }			   
+			   }
 
 			   done();
 		       });
 	       };
 
-	       // add courses
 	       util.addCourses(0, coursesCopy, serverCall);
 	   });
 
@@ -281,15 +272,16 @@ describe('Courses tests', function() {
 
 			   expect(res.body.data).to.be.instanceof(Array);
 			   // correct number of courses returned
-			   expect(res.body.data).to.have.length(Object.keys(courses).length);
+			   expect(res.body.data).to.have.length(courses.length);
 			   
 			   // check that openings have expected properties
-			   // note that we need two indices, since our course object is an associative
-			   //   array, while the course object from the server is a simple array
-			   var i, j = 0;
-			   for (i in courses){
-			       util.compareCourses(res.body.data[j], courses[i]);
-			       j++;
+			   var i, course;
+			   for (i = 0; i < courses.length; i++){
+			       course = res.body.data.find(
+				   (course) => (course.code == courses[i].code));
+			       expect(course).to.not.be.undefined;
+			       
+			       util.compareCourses(course, courses[i]);
 			   }
 
 			   done();
@@ -302,12 +294,12 @@ describe('Courses tests', function() {
 	it('should list some open/all courses on /getOpenings GET',
 	   function(done) {
       	       // create courses that are not open (randomize the number and selection of courses)
-	       var numFullCourses = util.randInt(2, Object.keys(courses).length-2);
-	       var fullCourses = util.randSample(Object.keys(courses), numFullCourses);
+	       var numFullCourses = util.randInt(2, courses.length-2);
 	       var coursesCopy = JSON.parse(JSON.stringify(courses));
+	       var fullCourses = util.randSample(coursesCopy, numFullCourses);
 	       var i;
 	       for (i = 0; i < numFullCourses; i++)
-		   coursesCopy[fullCourses[i]].numberOfTAs = 0;
+		   fullCourses[i].numberOfTAs = 0;
 	       
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -319,26 +311,22 @@ describe('Courses tests', function() {
 
 			   expect(res.body.data).to.be.instanceof(Array);
 			   // correct number of courses returned
-			   expect(res.body.data).to.have.length(
-			       Object.keys(courses).length - numFullCourses);
+			   expect(res.body.data).to.have.length(courses.length - numFullCourses);
 
 			   // check that openings have expected properties
-			   // note that we need two indices, since we don't know the order in
-			   //   which the courses will be returned
-			   var i, j;
-			   for (i in coursesCopy){
-			       if (coursesCopy[i] > 0){
-				   for (j = 0; j < res.body.data.length; j++){
-				       if (res.body.data[j].code == courses[i].code){
-					   util.compareCourses(res.body.data[j], courses[i]);
-					   break;
-				       }
-				   }
-				   expect(j).to.be.below(res.body.data.length);
+			   var i, course;
+			   for (i = 0; i < coursesCopy.length; i++){
+			       if (coursesCopy[i].numberOfTAs != 0){
+			       
+				   course = res.body.data.find(
+				       (course) => (course.code == coursesCopy[i].code));
+				   expect(course).to.not.be.undefined;
+			       
+				   util.compareCourses(course, coursesCopy[i]);
 			       }
-			   }		   
+			   }
 
-			   done();
+			   done();  
 		       });
 	       };
 

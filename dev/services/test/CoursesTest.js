@@ -20,6 +20,10 @@ var data = fs.readFileSync(util.applicationFile);
 var applications = JSON.parse(data);
 var data = fs.readFileSync(util.assignmentFile);
 var assignments = JSON.parse(data);
+// match courseID in assignment to course itself
+var i;
+for (i = 0; i < assignments.length; i++)
+    assignments.assignedCourse = courses[assignments.assignedCourse];
 
 
 describe('Courses tests', function() {
@@ -104,7 +108,6 @@ describe('Courses tests', function() {
 
     describe('GET tests: /getCourseInfo', function() {
 
-	// currently fails because there is no check of whether the course was found
 	it('should list no course for non-existent course code on /getCourseInfo GET', 
 	   function(done) {
 	       

@@ -23,7 +23,7 @@ var assignments = JSON.parse(data);
 // match courseID in assignment to course itself
 var i;
 for (i = 0; i < assignments.length; i++)
-    assignments.assignedCourse = courses[assignments.assignedCourse];
+    assignments[i].assignedCourse = courses[assignments[i].assignedCourse];
 
 
 describe('Applicants tests', function(){
@@ -88,9 +88,14 @@ describe('Applicants tests', function(){
 			   expect(res.body.data).to.have.length(applicants.length);
 			   
 			   // check that applicants have expected properties
-			   var i;
-			   for (i = 0; i < applicants.length; i++)
-			       util.compareApplicants(res.body.data[i], applicants[i]);
+			   var i, app;
+			   for (i = 0; i < applicants.length; i++){
+			       app = res.body.data.find(
+				   (app) => (app.UTORid == applicants[i].UTORid));
+			       expect(app).to.not.be.undefined;
+			       
+			       util.compareApplicants(app, applicants[i]);
+			   }
 
 			   done();
 		       });
@@ -130,7 +135,7 @@ describe('Applicants tests', function(){
 	it('should list correct applicant for applicant on /getApplicantByStudentNumber GET',
 	   function(done) {	
                var applicant = util.randPick(applicants); // random applicant selected
-       
+	       
 	       // perform server call and check result
 	       function serverCall(){		   
 
@@ -194,13 +199,15 @@ describe('Applicants tests', function(){
 			       applicant.studentInformation.TAHistory.length);
 			   
 			   // check that TA history object has expected properties
-			   var i;
+			   var i, course;
 			   for (i = 0; i < applicant.studentInformation.TAHistory.length; i++){
-			       expect(res.body.data[i]).to.have.property(
-				   'courseCode',
-				   applicant.studentInformation.TAHistory[i].courseCode);
+			       // find corresponding course
+			       course = res.body.data.find(
+				   (course) => (course.courseCode ==
+						applicant.studentInformation.TAHistory[i].courseCode));
+			       expect(course).to.not.be.undefined;
 			       
-			       expect(res.body.data[i]).to.have.property(
+			       expect(course).to.have.property(
 				   'timesTAd',
 				   parseInt(applicant.studentInformation.TAHistory[i].timesTAd));
 			   }
@@ -418,7 +425,7 @@ describe('Applicants tests', function(){
 			   done();
 		       });
 	       };
-	       
+	
 	       util.addApplicants(0, applicants, serverCall); 
 	   });
     });
@@ -454,6 +461,6 @@ describe('Applicants tests', function(){
 	       };
 
 	       util.addApplicants(0, applicants, serverCall); 
-	});
+	   });
     });
 });

@@ -321,7 +321,7 @@ module.exports = function(app) {
         var studentNumber = req.body.studentNumber;
         var TAHistory = req.body.TAHistory;
         ApplicantList.findOne({studentNumber: studentNumber}, function(err, student){
-            if(err){
+            if(err || student == null){
                 res.status(400)
                     .json({
                         status: 'error',

@@ -26,28 +26,6 @@ for (i = 0; i < assignments.length; i++)
     assignments.assignedCourse = courses[assignments.assignedCourse];
 
 
-var applicant = new util.Applicant({
-    studentNumber: 94132310751,
-    UTORid: "job",
-    lastName: 'Jobs',
-    firstName: 'Steve',
-    phoneNumber: '+16471119111',
-    email: 'sj@stevejobs.com',
-
-    studentInformation: {
-	programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
-	year: 2,
-	programName: 'Computer Science',    /* E.g Computer Science */
-	workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
-	studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
-	TAHistory: [{
-	    courseCode: 'CSC369',    /* Courses TA'd in the past*/
-	    timesTAd: 10
-	}]
-    }
-});
-
-
 describe('Applicants tests', function(){
     // hook to clean DB before each test is run
     beforeEach('clean DB', function(done) {
@@ -423,7 +401,7 @@ describe('Applicants tests', function(){
 	it('POST /saveApplicant saves an applicant profile',
 	   function(done) {
 
-	        // random applicant selected
+	       // random applicant selected
                var applicant = JSON.parse(JSON.stringify(util.randPick(applicants)));
 
 	       applicant.lastName = applicant.firstName = applicant.phoneNumber =
@@ -446,18 +424,36 @@ describe('Applicants tests', function(){
     });
 
     describe('POST tests: /saveTAHistory', function() {
+	
 	it('POST /saveTAHistory saves courses previously TA by the given applicant',
 	   function(done) {
-	    requestBody = {
-		UTORid: 'bondj',
-		studentNumber: 1007192911,
-		TAHistory: applicant.studentInformation.TAHistory
-	    };
 
-	    chai.request(server).post('/saveTAHistory').send(requestBody).end(function(error, response) {
-		util.checkBasicStructureApplicantResp(response);
-		done();
-	    });        
+	       // random applicant selected
+               var applicant = JSON.parse(JSON.stringify(util.randPick(applicants)));
+	       
+	       requestBody = {
+		   UTORid: applicant.UTORid,
+		   studentNumber: applicant.studentNumber,
+		   TAHistory: applicant.studentInformation.TAHistory
+	       };
+
+	       // add course to TA history
+	       var course = courses[util.randPick(Object.keys(courses))].code;	       
+	       requestBody.TAHistory.push({course : 1});
+
+	       // perform server call and check result
+	       function serverCall(){		   
+
+		   chai.request(server)
+		       .post('/saveTAHistory')
+		       .send(requestBody)
+		       .end(function(error, response) {
+			   util.checkBasicStructureApplicantResp(response);
+			   done();
+		       });
+	       };
+
+	       util.addApplicants(0, applicants, serverCall); 
 	});
     });
 });

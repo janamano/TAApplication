@@ -125,6 +125,7 @@ describe('Applicants tests', function(){
     // NOTE: /getApplicant is not tested because it is identical in concept to this route
     describe('GET tests: /getApplicantByStudentNumber', function() {
 
+	// currently fails because there is no check of whether the applicant was found
 	it('should list no applicants for non-existent student number ' +
 	   'on /getApplicantByStudentNumber GET',
 	   function(done) {
@@ -416,16 +417,32 @@ describe('Applicants tests', function(){
 	   });
     });
 
+
     describe('POST tests: /saveApplicant', function() {
 	
 	it('POST /saveApplicant saves an applicant profile',
 	   function(done) {
-	    
-	    chai.request(server).post('/saveApplicant').send(applicant).end(function(error, response) {
-		util.checkBasicStructureApplicant(response);
-		done();
-	    });
-	});
+
+	        // random applicant selected
+               var applicant = JSON.parse(JSON.stringify(util.randPick(applicants)));
+
+	       applicant.lastName = applicant.firstName = applicant.phoneNumber =
+		   applicant.email = applicant.studentInformation.programName = '0';
+
+	       // perform server call and check result
+	       function serverCall(){		   
+		   
+		   chai.request(server)
+		       .post('/saveApplicant')
+		       .send(applicant)
+		       .end(function(error, response) {
+			   util.checkBasicStructureApplicantResp(response);
+			   done();
+		       });
+	       };
+	       
+	       util.addApplicants(0, applicants, serverCall); 
+	   });
     });
 
     describe('POST tests: /saveTAHistory', function() {
@@ -438,7 +455,7 @@ describe('Applicants tests', function(){
 	    };
 
 	    chai.request(server).post('/saveTAHistory').send(requestBody).end(function(error, response) {
-		util.checkBasicStructureApplicant(response);
+		util.checkBasicStructureApplicantResp(response);
 		done();
 	    });        
 	});

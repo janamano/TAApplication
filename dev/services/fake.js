@@ -5,7 +5,6 @@ process.env.NODE_ENV = (process.argv.indexOf('-t') == -1) ? 'development' : 'tes
 var config = require('./src/_config');
 
 var util = require('./test/test-utils');
-var fs = require('fs');
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -19,36 +18,13 @@ var db = mongoose.connect(config.mongoURI[process.env.NODE_ENV], function(err) {
     }
 });
 
-var Applicant = require('./models/Applicant');
-var Course = require('./models/Courses');
-var Application = require('./models/Application');
-var Assignment = require('./models/Assignment');
-
-var applicantFile = './test/testData/applicants.json';
-var courseFile = './test/testData/courses.json';
-var applicationFile = './test/testData/applications.json';
-var assignmentFile = './test/testData/assignments.json';
-
 
 var populate = function(func){
-    
-    var data = fs.readFileSync(applicantFile);
-    var applicants = JSON.parse(data);
-
-    var data = fs.readFileSync(courseFile);
-    var courses = JSON.parse(data);
-
-    var data = fs.readFileSync(applicationFile);
-    var applications = JSON.parse(data);
-
-    var data = fs.readFileSync(assignmentFile);
-    var assignments = JSON.parse(data);
-    
     util.addApplicants(
-	0, applicants, util.addCourses(
-		0, courses, util.addApplications(
-			0, applications, util.addAssignments(
-			    0, assignments, func))));
+	0, util.applicants, util.addCourses(
+		0, util.courses, util.addApplications(
+			0, util.applications, util.addAssignments(
+			    0, util.assignments, func))));
 };
 
 var clean = function(func){

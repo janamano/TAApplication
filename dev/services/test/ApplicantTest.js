@@ -5,26 +5,10 @@ var chaiHttp = require('chai-http');
 var server = require('../src/main');
 var expect = chai.expect;
 chai.should();
-var fs = require('fs');
 
 var util = require('./test-utils');
 
 chai.use(chaiHttp);
-
-// get fake data
-var data = fs.readFileSync(util.applicantFile);
-var applicants = JSON.parse(data);
-var data = fs.readFileSync(util.courseFile);
-var courses = JSON.parse(data);
-var data = fs.readFileSync(util.applicationFile);
-var applications = JSON.parse(data);
-var data = fs.readFileSync(util.assignmentFile);
-var assignments = JSON.parse(data);
-// match courseID in assignment to course itself
-var i;
-for (i = 0; i < assignments.length; i++)
-    assignments[i].assignedCourse = courses[assignments[i].assignedCourse];
-
 
 describe('Applicants tests', function(){
     // hook to clean DB before each test is run
@@ -51,7 +35,7 @@ describe('Applicants tests', function(){
 
 	it('should list exactly one/one applicant on /getApplicantsList GET',
 	   function(done) {
-               var applicant = util.randPick(applicants); // random applicant added
+               var applicant = util.randPick(util.applicants); // random applicant added
 	       
 	       util.addApplicant(applicant, function(err, data){
 		   
@@ -85,23 +69,23 @@ describe('Applicants tests', function(){
 
 			   expect(res.body.data).to.be.instanceof(Array);
 			   // correct number of applicants returned
-			   expect(res.body.data).to.have.length(applicants.length);
+			   expect(res.body.data).to.have.length(util.applicants.length);
 			   
 			   // check that applicants have expected properties
 			   var i, app;
-			   for (i = 0; i < applicants.length; i++){
+			   for (i = 0; i < util.applicants.length; i++){
 			       app = res.body.data.find(
-				   (app) => (app.UTORid == applicants[i].UTORid));
+				   (app) => (app.UTORid == util.applicants[i].UTORid));
 			       expect(app).to.not.be.undefined;
 			       
-			       util.compareApplicants(app, applicants[i]);
+			       util.compareApplicants(app, util.applicants[i]);
 			   }
 
 			   done();
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
     });
 
@@ -129,12 +113,12 @@ describe('Applicants tests', function(){
 		       });
 	       };
 	       
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
 
 	it('should list correct applicant for applicant on /getApplicantByStudentNumber GET',
 	   function(done) {	
-               var applicant = util.randPick(applicants); // random applicant selected
+               var applicant = util.randPick(util.applicants); // random applicant selected
 	       
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -152,7 +136,7 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
     });
 
@@ -178,13 +162,13 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
 
 	it('should list correct TA history for applicant on /getApplicantTAHist GET',
 	   function(done) {
 	       
-               var applicant = util.randPick(applicants); // random applicant selected
+               var applicant = util.randPick(util.applicants); // random applicant selected
 
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -216,7 +200,7 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
     });
 
@@ -226,10 +210,10 @@ describe('Applicants tests', function(){
 	   function(done) {
 
 	       // random course selected
-	       var course = courses[util.randPick(Object.keys(courses))].code;
+	       var course = util.randPick(util.courses).code;
 
 	       var filteredApplicants =
-		   util.filterApplicants(applications, applicants, course, true);
+		   util.filterApplicants(util.applications, util.applicants, course, true);
 
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -259,9 +243,9 @@ describe('Applicants tests', function(){
 	       };
 
 	       util.addApplicants(
-		   0, applicants, util.addCourses(
-		       0, courses, util.addApplications(
-			   0, applications, serverCall)));
+		   0, util.applicants, util.addCourses(
+		       0, util.courses, util.addApplications(
+			   0, util.applications, serverCall)));
 	   });
 
 	it('should list all applicants who have previously TAed ' +
@@ -269,11 +253,12 @@ describe('Applicants tests', function(){
 	   function(done) {
 
 	       // random courses selected
-	       var course = courses[util.randPick(Object.keys(courses))].code;
-	       var courseTAed = courses[util.randPick(Object.keys(courses))].code;
+	       var course = util.randPick(util.courses).code;
+	       var courseTAed = util.randPick(util.courses).code;
 	       
 	       var filteredApplicants =
-		   util.filterApplicants(applications, applicants, course, false, courseTAed);
+		   util.filterApplicants(util.applications, util.applicants, course, false,
+					 courseTAed);
 
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -303,9 +288,9 @@ describe('Applicants tests', function(){
 	       };
 
 	       util.addApplicants(
-		   0, applicants, util.addCourses(
-		       0, courses, util.addApplications(
-			   0, applications, serverCall)));
+		   0, util.applicants, util.addCourses(
+		       0, util.courses, util.addApplications(
+			   0, util.applications, serverCall)));
 	   });
 
 	it('should list all grad applicants who have previously TAed ' +
@@ -313,11 +298,12 @@ describe('Applicants tests', function(){
 	   function(done) {
 
 	       // random courses selected
-	       var course = courses[util.randPick(Object.keys(courses))].code;
-	       var courseTAed = courses[util.randPick(Object.keys(courses))].code;
+	       var course = util.randPick(util.courses).code;
+	       var courseTAed = util.randPick(util.courses).code;
 	       
 	       var filteredApplicants =
-		   util.filterApplicants(applications, applicants, course, true, courseTAed);
+		   util.filterApplicants(util.applications, util.applicants, course, true,
+					 courseTAed);
 
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -347,9 +333,9 @@ describe('Applicants tests', function(){
 	       };
 
 	       util.addApplicants(
-		   0, applicants, util.addCourses(
-		       0, courses, util.addApplications(
-			   0, applications, serverCall)));
+		   0, util.applicants, util.addCourses(
+		       0, util.courses, util.addApplications(
+			   0, util.applications, serverCall)));
 	   });
     });
 
@@ -374,13 +360,13 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
 
 	it('should list correct UTORid for applicant on /getApplicantUtorid GET',
 	   function(done) {
 
-               var applicant = util.randPick(applicants); // random applicant selected
+               var applicant = util.randPick(util.applicants); // random applicant selected
 	       
 	       // perform server call and check result
 	       function serverCall(){		   
@@ -398,7 +384,7 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall);
+	       util.addApplicants(0, util.applicants, serverCall);
 	   });
     });
 
@@ -409,7 +395,7 @@ describe('Applicants tests', function(){
 	   function(done) {
 
 	       // random applicant selected
-               var applicant = JSON.parse(JSON.stringify(util.randPick(applicants)));
+               var applicant = JSON.parse(JSON.stringify(util.randPick(util.applicants)));
 
 	       applicant.lastName = applicant.firstName = applicant.phoneNumber =
 		   applicant.email = applicant.studentInformation.programName = '0';
@@ -426,7 +412,7 @@ describe('Applicants tests', function(){
 		       });
 	       };
 	
-	       util.addApplicants(0, applicants, serverCall); 
+	       util.addApplicants(0, util.applicants, serverCall); 
 	   });
     });
 
@@ -436,7 +422,7 @@ describe('Applicants tests', function(){
 	   function(done) {
 
 	       // random applicant selected
-               var applicant = JSON.parse(JSON.stringify(util.randPick(applicants)));
+               var applicant = JSON.parse(JSON.stringify(util.randPick(util.applicants)));
 	       
 	       requestBody = {
 		   UTORid: applicant.UTORid,
@@ -445,7 +431,7 @@ describe('Applicants tests', function(){
 	       };
 
 	       // add course to TA history
-	       var course = courses[util.randPick(Object.keys(courses))].code;	       
+	       var course = util.randPick(util.courses).code;	       
 	       requestBody.TAHistory.push({course : 1});
 
 	       // perform server call and check result
@@ -460,7 +446,7 @@ describe('Applicants tests', function(){
 		       });
 	       };
 
-	       util.addApplicants(0, applicants, serverCall); 
+	       util.addApplicants(0, util.applicants, serverCall); 
 	   });
     });
 });

@@ -3,6 +3,7 @@ var exports = module.exports = {};
 var chai = require('chai');
 var expect = chai.expect;
 chai.should();
+var fs = require('fs');
 var random = require('random-js');
 
 exports.Applicant = require('../models/Applicant');
@@ -15,6 +16,16 @@ exports.applicantFile = './test/testData/applicants.json';
 exports.courseFile = './test/testData/courses.json';
 exports.applicationFile = './test/testData/applications.json';
 exports.assignmentFile = './test/testData/assignments.json';
+
+// parsed fake data
+var data = fs.readFileSync(exports.applicantFile);
+exports.applicants = JSON.parse(data);
+var data = fs.readFileSync(exports.courseFile);
+exports.courses = JSON.parse(data);
+var data = fs.readFileSync(exports.applicationFile);
+exports.applications = JSON.parse(data);
+var data = fs.readFileSync(exports.assignmentFile);
+exports.assignments = JSON.parse(data);
 
 
 /* Functions to set-up testing database */

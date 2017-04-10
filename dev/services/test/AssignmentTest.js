@@ -77,7 +77,7 @@ describe('Assignments tests', function() {
 	it('should list exactly one/one assignment on /getAssignments GET',
 	   function(done) {
 	       var assignment = util.randPick(util.assignments); // random assignment added
-	       
+
 	       // perform server call and check result
 	       function serverCall(){
 		   chai.request(server) 
@@ -95,7 +95,7 @@ describe('Assignments tests', function() {
 			   done();
 		       });
 	       };
-	       
+	       // duplicate course & applicant, SOMETIMES, when assignment is added
 	       util.addCourses(
 		   0, util.courses, util.addApplicants(
 		       0, util.applicants, util.addApplications(
@@ -142,35 +142,177 @@ describe('Assignments tests', function() {
     });
 
     describe('GET tests: /getAssignmentsByCourse', function() {
-	
-	it('should list multiple assignments for one course on /getAssignmentsByCourse GET');
-	
+
+	it('should list no assignments for one course on /getAssignmentsByCourse GET',
+	   function(done) {
+	       var course = util.randPick(util.courses).code; // random course selected
+
+	       // find assignments to all other courses
+	       var otherAssignments = util.assignments.filter(
+		   (ass) => (ass.assignedCourse != course));
+	       
+	       // perform server call and check result
+	       function serverCall(){
+		   chai.request(server) 
+		       .get('/getAssignmentsByCourse')
+		       .query({'course': course})
+		       .end(function(err, res){
+
+			   expect(res).to.have.status(200); // response status
+
+			   expect(res.body.data).to.be.instanceof(Array);
+			   expect(res.body.data).to.be.empty; // no assignments returned
+			   
+			   done();
+		       });
+	       };
+
+	       util.addCourses(
+		   0, util.courses, util.addApplicants(
+		       0, util.applicants, util.addApplications(
+			   0, util.applications, util.addAssignments(
+			       0, otherAssignments, serverCall))));
+	   });
+
+	it('should list one/one assignment for one course on /getAssignmentsByCourse GET',
+	   function(done) {
+	       var assignment = util.randPick(util.assignments); // random assignment selected
+	       var course = assignment.assignedCourse;
+	       var applicant = util.applicants.find(
+		   (app) => (app.studentNumber == assignment.assignedApplicant));
+
+	       // find assignments to all other courses
+	       var otherAssignments = util.assignments.filter(
+		   (ass) => (ass.assignedCourse != course));
+	       // add first assignment to this course
+	       otherAssignments.push(assignment)
+	       
+	       // perform server call and check result
+	       function serverCall(){
+		   chai.request(server) 
+		       .get('/getAssignmentsByCourse')
+		       .query({'course': course})
+		       .end(function(err, res){
+
+			   expect(res).to.have.status(200); // response status
+
+			   expect(res.body.data).to.be.instanceof(Array);
+			   // only one assignment (applicant) returned
+			   expect(res.body.data).to.have.length(1);
+
+			   util.compareApplicants(res.body.data[0], applicant);
+			   
+			   done();
+		       });
+	       };
+
+	       util.addCourses(
+		   0, util.courses, util.addApplicants(
+		       0, util.applicants, util.addApplications(
+			   0, util.applications, util.addAssignments(
+			       0, otherAssignments, serverCall))));
+	   });
+	/*
+	it('should list multiple assignments for one course on /getAssignmentsByCourse GET',
+	   function(done) {
+      	       // randomize the number and selection of assignments
+
+	       // find courses with multiple assignments
+	       var multAssignment = (function(){
+		   var sorted = util.assignments.sort(
+		       (a, b) => (a.assignedCourse < b.assignedCourse));
+
+		   var i, count = 0;
+		   for (i = 1; i < sorted.length;){
+		       while (sorted[i] == sorted[i-1])
+		       )();
+		       
+	       var numFullCourses = util.randInt(2, util.courses.length-2);
+	       var coursesCopy = JSON.parse(JSON.stringify(util.courses));
+	       var fullCourses = util.randSample(coursesCopy, numFullCourses);
+
+	       
+	       var assignment = util.randPick(util.assignments); // random assignment selected
+	       var course = assignment.assignedCourse;
+	       var applicant = util.applicants.find(
+		   (app) => (app.studentNumber == assignment.assignedApplicant));
+
+	       // find assignments to all other courses
+	       var otherAssignments = util.assignments.filter(
+		   (ass) => (ass.assignedCourse != course));
+	       // add first assignment to this course
+	       otherAssignments.push(assignment)
+	       
+	       // perform server call and check result
+	       function serverCall(){
+		   chai.request(server) 
+		       .get('/getAssignmentsByCourse')
+		       .query({'course': course})
+		       .end(function(err, res){
+
+			   expect(res).to.have.status(200); // response status
+
+			   expect(res.body.data).to.be.instanceof(Array);
+			   // only one assignment (applicant) returned
+			   expect(res.body.data).to.have.length(1);
+
+			   util.compareApplicants(res.body.data[0], applicant);
+			   
+			   done();
+		       });
+	       };
+
+	       util.addCourses(
+		   0, util.courses, util.addApplicants(
+		       0, util.applicants, util.addApplications(
+			   0, util.applications, util.addAssignments(
+			       0, otherAssignments, serverCall))));
+	   });*/
     });
 
     
     describe('POST tests: /saveAssignment', function() {
 
-	it('POST /saveAssignment assigns an applicant to the given course', function(done) {
+	it('POST /saveAssignment assigns an applicant to the given course',
+	   function(done) {
+
+	       // generate random assignment
+	       var course, applicant;
+	       do {
+		   course = util.randPick(util.courses);
+		   applicant = util.randPick(util.applicants);
+
+		   // ensure that the fake assignment doesn't already exist
+	       } while (util.assignments.find((ass) => (ass.assignedApplicant == applicant &&
+							ass.assignedCourse == course)));
+	       
 	    requestBody = {
-		"applicant": "94132310751",
-		"course": "CSC207",
+		"applicant": applicant.studentNumber,
+		"course": course.code,
 		"hours": 40
 	    };
 	    
-	    chai.request(server).post('/saveAssignment').send(requestBody).end(function(error, response) {
-		util.checkBasicStructureApplicantResp(response);
+	       chai.request(server)
+		   .post('/saveAssignment')
+		   .send(requestBody)
+		   .end(function(error, response) {
+		       util.checkBasicStructureApplicantResp(response);
 		
-		util.Assignment.find({assignedApplicant: 94132310751}, function (err, assignments) {
-		    if (err) {
-			chai.assert.fail(0, 1, 'Could not retrieve assignments');
-		    }
-		    else {
-			chai.assert.equal(1, assignments.length, 'Applicant was not assigned correctly');
-		    }
-		    done();
-		});
-	    });
-	});
+		       util.Assignment.find(
+			   {assignedApplicant: applicant.studentNumber},
+			   function (err, assignments) {
+			       if (err) {
+				   chai.assert.fail(0, 1, 'Could not retrieve assignments');
+			       }
+			       else {
+				   chai.assert.equal(1, assignments.length,
+						     'Applicant was not assigned correctly');
+			       }
+			   });
+		       
+		       done();
+		   });
+	   });
     });
 
     

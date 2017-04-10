@@ -132,7 +132,7 @@ exports.compareCourses = function(a, b){
     expect(a).to.have.property('qualifications', b.qualifications);
 };
 
-exports.checkBasicStructure = function(response) {
+exports.checkBasicStructureCourseResp = function(response) {
   
   response.should.have.status(200);
   
@@ -144,6 +144,19 @@ exports.checkBasicStructure = function(response) {
   
   response.body.should.have.property('data');
   response.body.data.should.be.a('array');
+}
+
+exports.checkBasicStructureApplicantResp = function(response) {
+    
+    response.should.have.status(200);
+    
+    response.should.be.json;
+    response.body.should.be.a('object');
+    
+    response.body.should.have.property('status');
+    response.body.status.should.equal('success');
+    
+    response.body.should.have.property('data');
 }
 
 exports.checkCourseAttributes = function(expected, actual) {
@@ -165,7 +178,7 @@ exports.checkCourseAttributes = function(expected, actual) {
 }
 
 exports.assert = function(response, expectedData, actualData) {
-  exports.checkBasicStructure(response);
+  exports.checkBasicStructureCourse(response);
   exports.checkCourseAttributes(expectedData, actualData);
 }
 
@@ -212,6 +225,28 @@ exports.randSample = function(pop, size){
 };
 
 exports.randPick = function(pop){
-    return random.pick(random.engines.nativeMath, pop);
+    return random.pick(random.engines.nativeMath, pop, 1, pop.length);
 };
+
+// BUG HERE: doesn't differentiate between courses in different sessions, since I'm not sure how
+//   to find the session of current interest
+exports.filterApplicants = function(applications, applicants, courseCode, grad, TAed){
+    return applicants.filter(
+	function(applicant) {
+	    if (grad && applicant.studentInformation.programLevel == 'Undergraduate')
+		return false;
+
+	    if (TAed && !(applicant.studentInformation.TAHistory.find(
+		(c) => (c.courseCode == TAed && c.timesTAd > 0))))
+		return false;
+	    
+	    var application = applications.find((a) => (a.UTORid == applicant.UTORid));
+	    
+	     // check that application was submitted
+	    return (application && Boolean(application.status) &&
+		    // check whether this course was applied to
+		    application.coursePref.some((course) => (course.courseCode == courseCode)));
+	});
+};
+
 /* END: misc. functions */

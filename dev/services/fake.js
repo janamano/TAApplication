@@ -1,70 +1,65 @@
-var util = require('./src/test/test-utils');
-var fs = require('fs');
+// process command-line argument to select testing/dev environment
+// use dev environment by default
+process.env.NODE_ENV = (process.argv.indexOf('-t') == -1) ? 'development' : 'test'; 
+// server configuration file
+var config = require('./src/_config');
+
+var util = require('./test/test-utils');
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-var db = mongoose.connect('localhost', 'serverDB');
 
-var Applicant = require('./models/Applicant');
-var Course = require('./models/Courses');
-var Application = require('./models/Application');
-var Assignment = require('./models/Assignment');
-
-var applicantFile = './src/test/applicants.json';
-var courseFile = './src/test/courses.json';
-var applicationFile = './src/test/applications.json';
-var assignmentFile = './src/test/assignments.json';
-
-// populate DB
-if (process.argv[2] == '-p') {
-
-    console.log('Applicant population in progress');
-    var data = fs.readFileSync(applicantFile);
-    var applicants = JSON.parse(data);
-
-    var i;
-    for (i = 0; i < applicants.length; i++)
-	util.addApplicant(applicants[i]);
-
-    console.log('Course population in progress');
-    var data = fs.readFileSync(courseFile);
-    var courses = JSON.parse(data);
-
-    var i;
-    for (i in courses)
-	util.addCourse(courses[i]);
-    
-    console.log('Application population in progress');
-    var data = fs.readFileSync(applicationFile);
-    var applications = JSON.parse(data);
-
-    var i;
-    for (i = 0; i < applications.length; i++)
-	util.addApplication(applications[i]);
-
-    console.log('Assignment population in progress');    
-    var data = fs.readFileSync(assignmentFile);
-    var assignments = JSON.parse(data);
-
-    var i, a;
-    for (i = 0; i < assignments.length; i++){
-	// get the corresponding course from the course data
-	a = assignments[i];
-	a.assignedCourse = courses[a.assignedCourse];
-	
-	util.addAssignment(a);
+/*DB Connection*/
+var db = mongoose.connect(config.mongoURI[process.env.NODE_ENV], function(err) {
+    if(err) {
+	console.log('Error connecting to the database. ' + err);
+    } else {
+	console.log('Connected to Database: ' + config.mongoURI[process.env.NODE_ENV]);
     }
+});
 
-    console.log('Process Complete!');
-    
-    // clean DB
-} else if (process.argv[2] == '-c'){
 
-    console.log('Cleaning database');
-    util.cleanDB();
-    console.log('Process Complete!');
-}
+var populate = function(func){
+    util.addApplicants(
+	0, util.applicants, util.addCourses(
+		0, util.courses, util.addApplications(
+			0, util.applications, util.addAssignments(
+			    0, util.assignments, func))));
+};
 
-// do not persist connection to DB
-if (process.argv.indexOf('-ps') == -1)
+var clean = function(func){
+    util.cleanDB(func);
+};
+
+// process command-line arguments
+
+if (process.argv.indexOf('--help') != -1 || process.argv.indexOf('-h') != -1) {
+    console.log('Usage: fake.js [-t] [-ps] [-p] [-c]\n' +
+		'-t \tuse testing environment (dummy database)\n' +
+		'-ps \tpersist database connection after running script\n' +
+		'-p \tpopulate database with fake data\n' +
+		'-c \tclean database');
+
     db.disconnect();
+    
+} else {
+    var p = function(func){
+	if (process.argv.indexOf('-p') != -1)
+	    return () => { populate(func) };
+
+	return func;
+    };
+    
+    var c = function(func){
+	if (process.argv.indexOf('-c') != -1)
+	    return () => { clean(func); };
+
+	return func;
+    };
+    
+    // persist connection to DB
+    var ps = (process.argv.indexOf('-ps') != -1) ? (() => {}) : db.disconnect;
+
+    // invoke chained functions
+    p(c(ps))();
+}

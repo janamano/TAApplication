@@ -26,7 +26,7 @@ module.exports = function(app) {
     app.get('/getCourseInfo', function(req, res) {
         var course = req.query.course;
         CourseList.find({code: course}, function(err, responseCourse) {
-            if (err) {
+            if (err || responseCourse.length == 0) {
                 res.status(400)
                     .json({
                         status: 'error',
@@ -69,7 +69,7 @@ module.exports = function(app) {
     app.post('/changeTAs/', function(req, res) {
         var number = req.body.number;
         var code = req.body.code;
-        console.log(req.body);
+        
 
         CourseList.findOneAndUpdate({code: code}, {numberOfTAs: number}, {new: true}, function(err, course){
             if(err){

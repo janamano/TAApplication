@@ -296,48 +296,74 @@ describe('Assignments tests', function() {
 	       } while (util.assignments.find((ass) => (ass.assignedApplicant == applicant &&
 							ass.assignedCourse == course)));
 	       
-	    requestBody = {
-		"applicant": applicant.studentNumber,
-		"course": course.code,
-		"hours": 40
-	    };
-	    
-	       chai.request(server)
-		   .post('/saveAssignment')
-		   .send(requestBody)
-		   .end(function(error, response) {
-		       util.checkBasicStructureApplicantResp(response);
-		
-		       util.Assignment.find(
-			   {assignedApplicant: applicant.studentNumber},
-			   function (err, assignments) {
-			       if (err) {
-				   chai.assert.fail(0, 1, 'Could not retrieve assignments');
-			       }
-			       else {
-				   chai.assert.equal(1, assignments.length,
-						     'Applicant was not assigned correctly');
-			       }
-			   });
-		       
-		       done();
-		   });
+	       var requestBody = {
+		   "applicant": applicant.studentNumber,
+		   "course": course.code,
+		   "hours": 40
+	       };
+
+	       // perform server call and check result
+	       function serverCall(){
+		   chai.request(server)
+		       .post('/saveAssignment')
+		       .send(requestBody)
+		       .end(function(error, response) {
+			   util.checkBasicStructureApplicantResp(response);
+			   
+			   util.Assignment.find(
+			       {assignedApplicant: applicant.studentNumber},
+			       function (err, assignments) {
+				   if (err) {
+				       chai.assert.fail(0, 1, 'Could not retrieve assignments');
+				   }
+				   else {
+				       chai.assert.equal(1, assignments.length,
+							 'Applicant was not assigned correctly');
+				   }
+			       });
+			   
+			   done();
+		       });
+	       };
+	       
+	       util.addCourses(
+		   0, util.courses, util.addApplicants(
+		       0, util.applicants, util.addApplications(
+			   0, util.applications, util.addAssignments(
+			       0, util.assignments, serverCall))));
 	   });
     });
 
     
     describe('POST tests: /rejectApplicant', function() {
 	
-	it('POST /rejectApplicant rejects an applicant from the given course', function(done) {
-	    requestBody = {
-		studentNumber: 94132310751,
-		courseCode: 'CSC369'
-	    };
-	    
-	    chai.request(server).delete('/rejectApplicant').send(requestBody).end(function(error, response) {
-		util.checkBasicStructureApplicantResp(response);
-		done();
-	    });
-	});
+	it('POST /rejectApplicant rejects an applicant from the given course',
+	   function(done) {
+
+	       var assignment = util.randPick(util.assignments); // random assignment selected
+
+	       var requestBody = {
+		   studentNumber: assignment.assignedApplicant,
+		   courseCode: assignment.assignedCourse
+	       };
+
+	       // perform server call and check result
+	       function serverCall(){
+		   chai.request(server)
+		       .delete('/rejectApplicant')
+		       .send(requestBody)
+		       .end(function(error, response) {
+			   util.checkBasicStructureApplicantResp(response);
+			   done();
+		       });
+
+	       };
+	       
+	       util.addCourses(
+		   0, util.courses, util.addApplicants(
+		       0, util.applicants, util.addApplications(
+			   0, util.applications, util.addAssignments(
+			       0, util.assignments, serverCall))));
+	   });
     });
 });

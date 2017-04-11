@@ -212,51 +212,61 @@ describe('Assignments tests', function() {
 			   0, util.applications, util.addAssignments(
 			       0, otherAssignments, serverCall))));
 	   });
-	/*
+	
 	it('should list multiple assignments for one course on /getAssignmentsByCourse GET',
 	   function(done) {
-      	       // randomize the number and selection of assignments
-
+      	       
+	       var assignmentsCopy = JSON.parse(JSON.stringify(util.assignments));
+	       
 	       // find courses with multiple assignments
-	       var multAssignment = (function(){
-		   var sorted = util.assignments.sort(
-		       (a, b) => (a.assignedCourse < b.assignedCourse));
+	       var multAssignments = (function(courseList){
+		   assignmentsCopy.sort((a, b) => (a.assignedCourse > b.assignedCourse));
 
 		   var i, count = 0;
-		   for (i = 1; i < sorted.length;){
-		       while (sorted[i] == sorted[i-1])
-		       )();
+		   for (i = 1; i < assignmentsCopy.length; i++){
+
+		       while (i < assignmentsCopy.length && assignmentsCopy[i].assignedCourse ==
+			      assignmentsCopy[i-1].assignedCourse)
+			   count++, i++;
 		       
-	       var numFullCourses = util.randInt(2, util.courses.length-2);
-	       var coursesCopy = JSON.parse(JSON.stringify(util.courses));
-	       var fullCourses = util.randSample(coursesCopy, numFullCourses);
+		       if (count > 0){
+			   courseList.push(assignmentsCopy.slice(i-count-1, i));
+			   count = 0;
+		       }
+		   }
+		   return courseList;
+	       })([]);
 
-	       
-	       var assignment = util.randPick(util.assignments); // random assignment selected
-	       var course = assignment.assignedCourse;
-	       var applicant = util.applicants.find(
-		   (app) => (app.studentNumber == assignment.assignedApplicant));
+	       // select random course
+	       var assignment = util.randPick(multAssignments);
 
-	       // find assignments to all other courses
-	       var otherAssignments = util.assignments.filter(
-		   (ass) => (ass.assignedCourse != course));
-	       // add first assignment to this course
-	       otherAssignments.push(assignment)
-	       
 	       // perform server call and check result
 	       function serverCall(){
 		   chai.request(server) 
 		       .get('/getAssignmentsByCourse')
-		       .query({'course': course})
+		       .query({'course': assignment[0].assignedCourse})
 		       .end(function(err, res){
 
 			   expect(res).to.have.status(200); // response status
 
 			   expect(res.body.data).to.be.instanceof(Array);
-			   // only one assignment (applicant) returned
-			   expect(res.body.data).to.have.length(1);
+			   // correct number of assignments (applicants) returned
+			   expect(res.body.data).to.have.length(assignment.length);
 
-			   util.compareApplicants(res.body.data[0], applicant);
+			   // correct applicants returned
+			   var i, app;
+			   for (i = 0; i < assignment.length; i++){
+
+			       app1 = util.applicants.find(
+				   (app) => (app.studentNumber == assignment[0].assignedApplicant));
+			       expect(app1).to.not.be.undefined;
+
+			       app2 = res.body.data.find(
+				   (app) => (app.studentNumber == assignment[0].assignedApplicant));
+			       expect(app2).to.not.be.undefined;
+
+			       util.compareApplicants(app2, app1);
+			   }
 			   
 			   done();
 		       });
@@ -266,8 +276,8 @@ describe('Assignments tests', function() {
 		   0, util.courses, util.addApplicants(
 		       0, util.applicants, util.addApplications(
 			   0, util.applications, util.addAssignments(
-			       0, otherAssignments, serverCall))));
-	   });*/
+			       0, util.assignments, serverCall))));
+	   });
     });
 
     

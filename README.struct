@@ -49,13 +49,14 @@
 |   | 	|       └── courses.js					# course routes
 |   |	└── test					# backend testing
 |   |       ├── ApplicantTest.js				# applicant routes testing
-|   |       ├── CoursesTest.js					# courses routes testing
+|   |       ├── ApplicationTest.js				# application routes testing
+|   |       ├── AssignmentTest.js				# assignment routes testing
+|   |       ├── CourseTest.js					# courses routes testing
 |   |       ├── testData					# mock data used in testing
 |   |       |   ├── applicants.json					# mock applicants JSON data
 |   |       |   ├── applications.json					# mock applications JSON data
 |   |       |   ├── assignments.json					# mock assignments JSON data
 |   |       |   └── courses.json					# mock courses JSON data
-|   |       ├── test-server.js					# misc. backend API tests
 |   |       └── test-utils.js					# utilities for backend API testing
 |   └── TACoord						# code for TA coordinator view
 |       ├── app

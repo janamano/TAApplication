@@ -212,13 +212,18 @@ exports.compareApplicants = function(a, b){
 				    b.studentInformation.workStatus);
     expect(a).to.have.deep.property('studentInformation.studentStatus',
 				    b.studentInformation.studentStatus);
-    expect(a).to.have.deep.property('studentInformation.TAHistory');
 
-    var i;
+    expect(a).to.have.deep.property('studentInformation.TAHistory');
+    expect(a.studentInformation.TAHistory).to.have.length(b.studentInformation.TAHistory.length);
+    
+    var i, course;
     for (i = 0; i < b.studentInformation.TAHistory.length; i++){
-	expect(a).to.have.deep.property('studentInformation.TAHistory[' + i + '].courseCode',
-					b.studentInformation.TAHistory[i].courseCode);
-	expect(a).to.have.deep.property('studentInformation.TAHistory[' + i + '].timesTAd',
+	
+	course = a.studentInformation.TAHistory.find(
+	    (course) => (course.courseCode == b.studentInformation.TAHistory[i].courseCode));
+	expect(course).to.not.be.undefined;
+	    
+	expect(course).to.have.property('timesTAd',
 					parseInt(b.studentInformation.TAHistory[i].timesTAd));
     }
 };
@@ -227,6 +232,27 @@ exports.compareApplicants = function(a, b){
 exports.compareAssignments = function(a, b){
     expect(a).to.have.property('assignedApplicant', parseInt(b.assignedApplicant));
     expect(a).to.have.property('assignedHour', Number(b.assignedHour));
+};
+
+// expect application a to have same properties and values as application b
+exports.compareApplications = function(a, b){
+    expect(a).to.have.property('UTORid', b.UTORid);
+    expect(a).to.have.property('session', b.session);
+    expect(a).to.have.property('status', Boolean(b.status));
+    
+    expect(a).to.have.property('coursePref');
+    expect(a.coursePref).to.have.length(b.coursePref.length);
+    
+    var i, course;
+    for (i = 0; i < b.coursePref.length; i++){
+	
+	course = a.coursePref.find(
+	    (course) => (course.courseCode == b.coursePref[i].courseCode));
+	expect(course).to.not.be.undefined;
+	    
+	expect(course).to.have.property('rank',
+					parseInt(b.coursePref[i].rank));
+    }
 };
 
 

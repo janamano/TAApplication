@@ -92,7 +92,6 @@ describe('Applicants tests', function(){
     // NOTE: /getApplicant is not tested because it is identical in concept to this route
     describe('GET tests: /getApplicantByStudentNumber', function() {
 
-	// currently fails because there is no check of whether the applicant was found
 	it('should list no applicants for non-existent student number ' +
 	   'on /getApplicantByStudentNumber GET',
 	   function(done) {
@@ -142,7 +141,6 @@ describe('Applicants tests', function(){
 
     describe('GET tests: /getApplicantTAHist', function() {
 
-	// currently fails because there is no check of whether the applicant was found
 	it('should list no applicants for non-existent student number on /getApplicantTAHist GET',
 	   function(done) {
 	       

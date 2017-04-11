@@ -6,7 +6,7 @@ module.exports = function(app) {
         
         var utorId = req.query.utorid;
         applications.find({ UTORid: utorId }, function(err, application){
-        	if (err) {
+            if (err || application.length == 0) {
                 res.status(400)
                     .json({
                         status: 'error',
@@ -94,7 +94,7 @@ module.exports = function(app) {
     app.get('/submitApplication/', function(req, res) {
         var utorId = req.query.utorid;
         applications.findOne({UTORid: utorId}, function(err, application){
-            if(err){
+            if(err || application == null){
                 res.status(400)
                     .json({
                         status: 'error',
@@ -156,7 +156,7 @@ module.exports = function(app) {
         var course = req.query.course;
 
         applications.findOne({UTORid: student}, function(err, app) {
-            if (err) {
+            if (err || app == null) {
                 res.status(400)
                 .json({
                     status: 'error',

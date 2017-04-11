@@ -10,27 +10,6 @@ var util = require('./test-utils');
 
 chai.use(chaiHttp);
 
-var applicant = new util.Applicant({
-      studentNumber: 94132310751,
-	  UTORid: "job",
-	  lastName: 'Jobs',
-	  firstName: 'Steve',
-	  phoneNumber: '+16471119111',
-	  email: 'sj@stevejobs.com',
-
-	  studentInformation: {
-	    programLevel: 'PhD',   /* Undergraduate, Masters, PhD */
-	    year: 2,
-	    programName: 'Computer Science',    /* E.g Computer Science */
-	    workStatus: "Legally Entitled",    /* Options: "Legally Entitled" and "Student Visa"*/
-	    studentStatus: "Full-Time",  /* Options: "Full-Time", "Part-Time", and "Not Enrolled" */
-	    TAHistory: [{
-	      courseCode: 'CSC369',    /* Courses TA'd in the past*/
-	      timesTAd: 10
-	    }]
-    }
-});
-
 
 describe('Assignments tests', function() {
     // hook to clean DB before each test is run
@@ -38,25 +17,6 @@ describe('Assignments tests', function() {
 	util.cleanDB(done);
     });
     
-    /*beforeEach(function(onSetupComplete) {
-      applicant.save(function() {
-      var assignment = new util.Assignment({
-      assignedApplicant: applicant,
-      assignedCourse: 'CSC369',
-      assignedHour: 42
-      });
-      assignment.save(function() {
-      onSetupComplete();
-      });
-      });
-      });
-      
-      afterEach(function(onTearDownComplete){
-      util.Assignment.collection.remove({assignedApplicant: 94132310751});
-      util.Applicant.collection.remove({studentNumber: 94132310751});
-      onTearDownComplete();
-      });*/
-
     describe('GET tests: /getAssignments', function() {
 
 	it('should list no assignments on /getAssignments GET when DB is empty',
@@ -143,6 +103,9 @@ describe('Assignments tests', function() {
 
     describe('GET tests: /getAssignmentsByCourse', function() {
 
+	// NOTE: the /getAssignmentByCourse GET handler doesn't allow us to differentiate
+	//   between an existing course for which there are no assignments, and a non-existent
+	//   course
 	it('should list no assignments for one course on /getAssignmentsByCourse GET',
 	   function(done) {
 	       var course = util.randPick(util.courses).code; // random course selected
